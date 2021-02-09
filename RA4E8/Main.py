@@ -348,6 +348,21 @@ def step_macro(sim):
     sim.dT_regime = dT_regime = False
 
 
+def print_nu_del():
+    phi = sim.b0z['g'][0]
+    Prandtl = sim.Prandtl
+    Rayleigh = sim.Rayleigh
+    P = (Rayleigh * Prandtl)**(-1/2)
+    nu = -phi
+    logger.info('Nusselt number: ' + str(nu))
+    for i in range(Nz):
+        if (sim.b0z['g'][i] > 0):
+            logger.info('b0z < 0 found at index: ' + str(i))
+            z_bl = sim.z[i]
+            del_bl = z_bl + 0.5
+            logger.info('boundary layer thickness: ' + str(del_bl))
+            break
+
 ##################################################
 # Restart process or pick up where we left off
 ##################################################
@@ -386,6 +401,8 @@ else:
         sim.evs = sim.solve_EVP_spectrum(sim.b0z, save_spectrum=True, show_spectrum=False)
         sim.ev_dict = dict(sim.evs)
         pickle.dump(sim.evs, open(sim.iteration_path + '/evs.pick', 'wb'))
+
+print_nu_del()
 
 ##################################################
 # Survey eigenvalue spectrum for maginal modes
