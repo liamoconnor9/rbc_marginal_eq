@@ -28,10 +28,10 @@ if (not os.path.exists(path)):
     restart = True
     
 # Global parameters
-Nz = 512
+Nz = 1024
 pi_range = 20
 Prandtl = 1
-Rayleigh = 2e8
+Rayleigh = 1e9
 growth_tol = 1e-9
 end_sim_time = 1e12
 timestep_red_factor = 5
@@ -131,14 +131,20 @@ def step_multiple_modes(sim):
 
     # Solve EVP for diffused profile
     growth_d_vec = np.zeros((sim.kx_regime, 1))
+    kx_neg = -1
     for i in range(CW.rank, len(sim.kx_marginals), CW.size):
         kx_m = sim.kx_marginals[i]
         growth_d_vec[i, 0] = sim.solve_EVP_kx(bz_d, kx_m) - sim.ev_dict[kx_m]
+        if (growth_d_vec[i, 0] < 0):
+            kx_neg = i
+            logger.warning('Diffused EV remains stable (might yield negative amplitude) at index: ' + str(kx_neg))
     if CW.rank == 0:
         CW.Reduce(MPI.IN_PLACE, growth_d_vec, op=MPI.SUM, root=0)
     else:
         CW.Reduce(growth_d_vec, growth_d_vec, op=MPI.SUM, root=0)
     CW.Bcast(growth_d_vec, root=0)
+    kx_neg = CW.reduce(kx_neg, op=MPI.MAX)
+    sim.kx_neg = CW.bcast(kx_neg, root=0)
 
     for i in range(sim.kx_regime):
         logger.info('Diffusive growth rate = ' + str(growth_d_vec[i][0]) + ' at kx = ' + str(sim.kx_marginals[i]))
@@ -147,11 +153,24 @@ def step_multiple_modes(sim):
     wb_zz1 = wb_zz_ar[0]
     wb_zz1_mid = wb_zz1[len(wb_zz1) // 2]
     logger.info('Current wbzz1 midpoint: ' + str(wb_zz1_mid))
-    logger.info('Threshold wbzz1 midpoint: ' + str(1e-5))
-    if (abs(wb_zz1_mid) > 1e-5 and (len(sim.iters_new_ts) == 0 or (sim.iteration - sim.iters_new_ts[-1]) > 5)):
-        sim.del_t_broyden /= 1.1
+    logger.info('Threshold wbzz1 midpoint: ' + str(1e-6))
+    # for i, iterate in enumerate(sim.iters_new_ts):
+    #     logger.info('examining iteration of ts reduction: ' + str(iterate))
+    #     if (iterate > sim.iteration):
+    #         logger.info('removing iteration: ' + str(sim.iters_new_ts[i]))
+    #         del sim.iters_new_ts[i]
+    # sim.iters_new_ts = [0]
+    if (abs(wb_zz1_mid) > 1e-6):
+        logger.info('iterations new timestep: ' + str(sim.iters_new_ts))
+        if (len(sim.iters_new_ts) == 0 or (sim.iteration - sim.iters_new_ts[-1]) > 5):
+            sim.del_t_broyden /= 1.2
+            sim.iters_new_ts.append(sim.iteration)
+            logger.info('!!!!! Instability in advective flux. Reducing time step to ' + str(sim.del_t_broyden))
+    
+    if (abs(wb_zz1_mid) < 1e-8 and sim.iteration > 2000 and (sim.iteration - sim.iters_new_ts[-1]) > 30):
+        sim.del_t_broyden *= 1.2
         sim.iters_new_ts.append(sim.iteration)
-        logger.info('!!!!! Instability in advective flux. Reducing time step to ' + str(sim.del_t_broyden))
+        logger.info('Instability is not apparent. Increasing time step to ' + str(sim.del_t_broyden))
 
     sim.Rayleigh *= sim.ra_growth_coeff
     logger.info('Ra exponential growth factor = ' + str(sim.ra_growth_coeff))
@@ -197,7 +216,8 @@ def step_multiple_modes(sim):
             amp_vec1 = np.array([sim.amplitudes[-1]]).T
             logger.warning('Bad initial guess, recycling amplitudes from previous iteration...')
         else:
-            amp_vec1 = 100*np.ones_like(amp_vec1)
+            # amp_vec1 = 100*np.ones_like(amp_vec1)
+            amp_vec1 = np.abs(amp_vec1)
             for i, amps in enumerate(sim.amplitudes[::-1]):
                 if (len(amps) == sim.kx_regime):
                     amp_vec1 = np.array([amps]).T
@@ -236,7 +256,7 @@ def step_multiple_modes(sim):
     ev_lm_vec1 = np.array([evs_local_max]).T
 
     logger.info('Approximating Jacobian matrix with finite difference method...')
-    amp_del_vec = 1.00001 * amp_vec1
+    amp_del_vec = 1.1 * amp_vec1
     d_amp_vec = amp_del_vec - amp_vec1
     ev_del_mat = np.zeros((sim.kx_regime, sim.kx_regime))
     amp_del_partial = np.zeros_like(amp_vec1)
@@ -271,16 +291,25 @@ def step_multiple_modes(sim):
 
     if (min(amp_vec2)[0] < 0):
         CW.barrier()
-        if (amp_neg < -1e3):
-            EV_arg = sim.evs
-            kx_local_max = []
-            EV_arg.sort(key=lambda x:x[0])
-            for index in range(1, len(EV_arg) - 1):
-                if (EV_arg[index - 1][1] < EV_arg[index][1] and EV_arg[index][1] > EV_arg[index + 1][1] and EV_arg[index][1] > -sim.growth_tol):
-                    kx_local_max.append(EV_arg[index][0])
+        stable_mode = False
+        for i, kx in enumerate(sim.kx_marginals):
+            if (not kx in sim.kx_ev_zero):
+                kx_neg = i
+                stable_mode = True
+                logger.info('rejecting stable mode...')
+        if (not stable_mode):
             for i, kx in enumerate(sim.kx_marginals):
-                if (not kx in kx_local_max):
-                    kx_neg = i 
+                if (not kx in sim.kx_ev_max):
+                    kx_neg = i
+                    logger.info('rejecting mode which is not a local maximum...')
+        kx_neg = CW.bcast(kx_neg, root=0)
+        # if (amp_neg < -1e2):
+        #     EV_arg = sim.evs
+        #     kx_local_max = []
+        #     EV_arg.sort(key=lambda x:x[0])
+        #     for index in range(1, len(EV_arg) - 1):
+        #         if (EV_arg[index - 1][1] < EV_arg[index][1] and EV_arg[index][1] > EV_arg[index + 1][1] and EV_arg[index][1] > -sim.growth_tol):
+        #             kx_local_max.append(EV_arg[index][0])
 
             # for amps in sim.amplitudes[::-1]:
             #     if len(amps) == sim.kx_regime:
@@ -293,6 +322,9 @@ def step_multiple_modes(sim):
         #     if (kx in sim.ev_dict.keys() and sim.ev_dict[kx] < ev_marg_min):
         #         kx_neg = ind
         # logger.warning('Negative amplitude calculated on second guess.')
+        if (sim.kx_neg != -1):
+            kx_neg = sim.kx_neg
+            sim.kx_neg = -1
         raise ExpectedException('Negative amplitude calculated on second guess. Ignoring stable mode: kx' + str(kx_neg))
 
     evs_local_max, b0z_evolved, kx_local_max, evs = sim.solve_EVs_local_max(amp_vec2, kx_local_max, find_maxima=True)
