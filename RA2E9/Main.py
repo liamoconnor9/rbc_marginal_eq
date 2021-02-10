@@ -31,7 +31,7 @@ if (not os.path.exists(path)):
 Nz = 1024
 pi_range = 20
 Prandtl = 1
-Rayleigh = 1e9
+Rayleigh = 2e9
 growth_tol = 1e-9
 end_sim_time = 1e12
 timestep_red_factor = 5
