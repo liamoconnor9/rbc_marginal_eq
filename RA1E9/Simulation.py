@@ -1411,6 +1411,9 @@ class Simulation():
             plt.close()
 
     def plot_flux(self):
+        import publication_settings
+        matplotlib.rcParams.update(publication_settings.params)
+        plt.rcParams.update({'figure.autolayout': True})
         # if (not os.path.exists(self.iteration_path + '/figures')):
         #     os.mkdir(self.iteration_path + '/figures')
         try:
@@ -1422,7 +1425,54 @@ class Simulation():
         Prandtl = self.Prandtl
         Rayleigh = self.Rayleigh
         P = (Rayleigh * Prandtl)**(-1/2)
-        if ('kx4' in data.keys()):
+        if ('kx5' in data.keys()):
+            b0z = self.domain.new_field()
+            wb1 = self.domain.new_field()
+            wb2 = self.domain.new_field()
+            b0z = data['b0z']
+            wb1 = data['wb1']
+            wb2 = data['wb2']
+            wb3 = data['wb3']
+            wb4 = data['wb4']
+            wb5 = data['wb5']
+            kx1 = data['kx1']
+            kx2 = data['kx2']
+            kx3 = data['kx3']
+            kx4 = data['kx4']
+            kx5 = data['kx5']
+            amp1 = data['amp1']
+            amp2 = data['amp2']
+            amp3 = data['amp3']
+            amp4 = data['amp4']
+            amp5 = data['amp5']
+            diffusion = - P*b0z
+            advection1 = wb1*amp1
+            advection2 = wb2*amp2
+            advection3 = wb3*amp3
+            advection4 = wb4*amp4
+            advection5 = wb5*amp5
+            flux = diffusion + advection1 + advection2 + advection3 + advection4 + advection5
+            plt.plot(self.z, diffusion, label = 'Diffusion')
+            pi_mult1 = str(round(kx1/np.pi, 1))
+            pi_mult2 = str(round(kx2/np.pi, 1))
+            pi_mult3 = str(round(kx3/np.pi, 1))
+            pi_mult4 = str(round(kx4/np.pi, 1))
+            pi_mult5 = str(round(kx5/np.pi, 1))
+            plt.plot(self.z, advection1, label = 'Advection ($k_x  = $' + pi_mult1 + '$\pi$)')
+            plt.plot(self.z, advection2, label = 'Advection ($k_x  = $' + pi_mult2 + '$\pi$)')
+            plt.plot(self.z, advection3, label = 'Advection ($k_x  = $' + pi_mult3 + '$\pi$)')
+            plt.plot(self.z, advection4, label = 'Advection ($k_x  = $' + pi_mult4 + '$\pi$)')
+            plt.plot(self.z, advection5, label = 'Advection ($k_x  = $' + pi_mult5 + '$\pi$)')
+            plt.plot(self.z, flux, label = 'Total', color='black')
+            plt.xlim(-0.5, 0.5)
+            plt.legend(prop={'size': 8}, frameon=False)
+            # plt.title('Heat Flux (Iteration ' + str(self.iteration) + ')')
+            # plt.title('Heat Flux')
+            plt.xlabel(r'$z$')
+            plt.ylabel('Flux')
+            plt.savefig(self.iteration_path + '/figures' + '/Iteration' + str(self.iteration) + '_flux.png')
+            plt.close()
+        elif ('kx4' in data.keys()):
             b0z = self.domain.new_field()
             wb1 = self.domain.new_field()
             wb2 = self.domain.new_field()
