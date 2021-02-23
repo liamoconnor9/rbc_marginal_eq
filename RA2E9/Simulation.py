@@ -276,13 +276,14 @@ class Simulation():
 
     # Loads most recent profile from previous analysis
     def retrieve_state(self):
-        self.profiles = pickle.load(open(self.path + '/rbc_profiles_grid.pick', "rb"))
-        self.sim_times = pickle.load(open(self.path + '/sim_times.pick', 'rb'))
+        rollover = 10
+        self.profiles = pickle.load(open(self.path + '/rbc_profiles_grid.pick', "rb"))[-10:]
+        self.sim_times = pickle.load(open(self.path + '/sim_times.pick', 'rb'))[-10:]
         try:
-            self.amplitudes = pickle.load(open(self.path + '/amplitudes.pick', 'rb'))
+            self.amplitudes = pickle.load(open(self.path + '/amplitudes.pick', 'rb'))[-10:]
         except EOFError:
             self.amplitudes = []
-        self.kx_marginals_ar = pickle.load(open(self.path + '/kx_marginals.pick', 'rb'))
+        self.kx_marginals_ar = pickle.load(open(self.path + '/kx_marginals.pick', 'rb'))[-10:]
         self.rbc_data = pickle.load(open(self.path + '/rbc_data.pick', 'rb'))
         if ('pi_range' in self.rbc_data.keys()):
             self.update_pi_range(pi_range = self.rbc_data['pi_range'])
@@ -292,9 +293,11 @@ class Simulation():
             except:
                 pass
         self.iteration = len(self.profiles) - 1
+        if ('iteration' in self.rbc_data.keys()):
+            self.iteration = self.rbc_data['iteration']
         if ('del_t_broyden' in self.rbc_data.keys() and self.iteration > 100):
-            # self.del_t_broyden = self.rbc_data['del_t_broyden']
-            self.del_t_broyden = 2e-5
+            self.del_t_broyden = self.rbc_data['del_t_broyden']
+            # self.del_t_broyden = 2e-5
         # if ('del_t_newton' in self.rbc_data.keys() and self.iteration > 100):
         #     self.del_t_newton = self.rbc_data['del_t_newton']
         if ('iters_new_ts' in self.rbc_data.keys()):
@@ -1175,7 +1178,7 @@ class Simulation():
         self.kx_marginals_ar.append(self.kx_marginals)
         # self.update_dt_params()
         self.update_pi_range()
-        self.rbc_data['profiles'] = self.profiles
+        # self.rbc_data['profiles'] = self.profiles
         self.rbc_data['sim_times'] = self.sim_times
         self.rbc_data['kx_marginals_ar'] = self.kx_marginals_ar
         self.rbc_data['amplitudes'] = self.amplitudes
@@ -1184,6 +1187,7 @@ class Simulation():
         self.rbc_data['del_t_newton'] = self.del_t_newton
         self.rbc_data['del_t_broyden'] = self.del_t_broyden
         self.rbc_data['iters_new_ts'] = self.iters_new_ts
+        self.rbc_data['iteration'] = self.iteration
         # self.rbc_data['flux_const_dev'] = flux_const_dev
         try:
             self.rbc_data['Ra'].append(self.Rayleigh)

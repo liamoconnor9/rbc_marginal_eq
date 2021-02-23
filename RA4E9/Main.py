@@ -20,7 +20,7 @@ from Simulation import *     # pylint: disable=unused-wildcard-import
 # Settings/options
 restart = False
 load_profile = False
-subDir = '/results_new'
+subDir = '/results'
 profile_file_name = os.path.dirname(os.path.abspath(__file__)) + '/avg_profs/averaged_avg_profs_ra1e8.h5'
 path = os.path.dirname(os.path.abspath(__file__)) + subDir
 if (not os.path.exists(path)):
@@ -28,10 +28,10 @@ if (not os.path.exists(path)):
     restart = True
     
 # Global parameters
-Nz = 768
+Nz = 1024
 pi_range = 20
 Prandtl = 1
-Rayleigh = 1e9
+Rayleigh = 4e9
 growth_tol = 1e-9
 end_sim_time = 1e12
 timestep_red_factor = 5
@@ -137,7 +137,8 @@ def step_multiple_modes(sim):
         growth_d_vec[i, 0] = sim.solve_EVP_kx(bz_d, kx_m) - sim.ev_dict[kx_m]
         if (growth_d_vec[i, 0] < 0):
             kx_neg = i
-            logger.warning('Diffused EV remains stable (might yield negative amplitude) at index: ' + str(kx_neg))
+            raise ExpectedException('Diffused EV remains stable (imminent negative amplitude): kx' + str(kx_neg))
+            # logger.warning('Diffused EV remains stable (might yield negative amplitude) at index: ' + str(kx_neg))
     if CW.rank == 0:
         CW.Reduce(MPI.IN_PLACE, growth_d_vec, op=MPI.SUM, root=0)
     else:
@@ -153,17 +154,17 @@ def step_multiple_modes(sim):
     wb_zz1 = wb_zz_ar[0]
     wb_zz1_mid = wb_zz1[len(wb_zz1) // 2]
     logger.info('Current wbzz1 midpoint: ' + str(wb_zz1_mid))
-    logger.info('Threshold wbzz1 midpoint: ' + str(1e-6))
+    logger.info('Threshold wbzz1 midpoint: ' + str(1e-5))
     # for i, iterate in enumerate(sim.iters_new_ts):
     #     logger.info('examining iteration of ts reduction: ' + str(iterate))
     #     if (iterate > sim.iteration):
     #         logger.info('removing iteration: ' + str(sim.iters_new_ts[i]))
     #         del sim.iters_new_ts[i]
     # sim.iters_new_ts = [0]
-    if (abs(wb_zz1_mid) > 1e-6):
+    if (abs(wb_zz1_mid) > 1e-5):
         logger.info('iterations new timestep: ' + str(sim.iters_new_ts))
         if (len(sim.iters_new_ts) == 0 or (sim.iteration - sim.iters_new_ts[-1]) > 5):
-            sim.del_t_broyden /= 1.2
+            sim.del_t_broyden /= 1.5
             sim.iters_new_ts.append(sim.iteration)
             logger.info('!!!!! Instability in advective flux. Reducing time step to ' + str(sim.del_t_broyden))
     

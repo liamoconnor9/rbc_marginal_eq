@@ -11,6 +11,12 @@ amplitudes = pickle.load(open(path + '/amplitudes.pick', 'rb'))[:-rewind_iterati
 kx_marginals = pickle.load(open(path + '/kx_marginals.pick', 'rb'))[:-rewind_iterations]
 rbc_data = pickle.load(open(path + '/rbc_data.pick', 'rb'))
 try:
+    iteration = max(rbc_data['iteration'] - rewind_iterations, 0)
+    rbc_data['iteration'] = iteration
+except Exception as e:
+    print('Failed to rewind iteration count')
+    print(e)
+try:
     ra = rbc_data['Ra'][:-rewind_iterations]
     rbc_data['Ra'] = ra
 except Exception as e:

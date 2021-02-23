@@ -52,6 +52,8 @@ class Simulation():
         self.dT_regime = False
         self.attempt = 0
         self.iters_new_ts = []
+        self.kx_ev_zero = []
+        self.kx_ev_max = []
         self.v0_eig = np.random.RandomState(seed=42).rand(Nz*7)
         self.v0_eig_hires = np.random.RandomState(seed=42).rand(int(Nz*7*self.Nz_hires_coeff))
         self.kx_domain = list(map(lambda n: n*np.pi/2, range(1, pi_range*2)))
@@ -153,7 +155,7 @@ class Simulation():
         
         if (self.init_b0z_func == 'log-atan'):
             B_vals = {5e8 : 0.0004341752080607313}
-            B1 = 0.005
+            B1 = 0.00015
         else:
             B_vals = {1e8 : 194.64515, 2e8 : 246.01737783198408, 5e8 : 334.9652429555079}
             B1 = 10
@@ -274,13 +276,14 @@ class Simulation():
 
     # Loads most recent profile from previous analysis
     def retrieve_state(self):
-        self.profiles = pickle.load(open(self.path + '/rbc_profiles_grid.pick', "rb"))
-        self.sim_times = pickle.load(open(self.path + '/sim_times.pick', 'rb'))
+        rollover = 10
+        self.profiles = pickle.load(open(self.path + '/rbc_profiles_grid.pick', "rb"))[-50:]
+        self.sim_times = pickle.load(open(self.path + '/sim_times.pick', 'rb'))[-50:]
         try:
-            self.amplitudes = pickle.load(open(self.path + '/amplitudes.pick', 'rb'))
+            self.amplitudes = pickle.load(open(self.path + '/amplitudes.pick', 'rb'))[-50:]
         except EOFError:
             self.amplitudes = []
-        self.kx_marginals_ar = pickle.load(open(self.path + '/kx_marginals.pick', 'rb'))
+        self.kx_marginals_ar = pickle.load(open(self.path + '/kx_marginals.pick', 'rb'))[-50:]
         self.rbc_data = pickle.load(open(self.path + '/rbc_data.pick', 'rb'))
         if ('pi_range' in self.rbc_data.keys()):
             self.update_pi_range(pi_range = self.rbc_data['pi_range'])
@@ -290,8 +293,11 @@ class Simulation():
             except:
                 pass
         self.iteration = len(self.profiles) - 1
-        # if ('del_t_broyden' in self.rbc_data.keys() and self.iteration > 100):
-        #     self.del_t_broyden = self.rbc_data['del_t_broyden']
+        if ('iteration' in self.rbc_data.keys()):
+            self.iteration = self.rbc_data['iteration']
+        if ('del_t_broyden' in self.rbc_data.keys() and self.iteration > 100):
+            self.del_t_broyden = self.rbc_data['del_t_broyden']
+            # self.del_t_broyden = 2e-5
         # if ('del_t_newton' in self.rbc_data.keys() and self.iteration > 100):
         #     self.del_t_newton = self.rbc_data['del_t_newton']
         if ('iters_new_ts' in self.rbc_data.keys()):
@@ -524,19 +530,50 @@ class Simulation():
         # ev_sorted = EV_arg
         # ev_sorted.sort(key=lambda x:x[1])
         kx_local_max = []
+        EV_arg.sort(key=lambda x:x[0])
         if new_iteration:
-            EV_arg.sort(key=lambda x:x[0])
+            self.lm_count = 0
+            self.kx_ev_zero = []
+            self.kx_ev_max = []
             for index in range(1, len(EV_arg) - 1):
-                if (EV_arg[index - 1][1] < EV_arg[index][1] and EV_arg[index][1] > EV_arg[index + 1][1] and abs(EV_arg[index][1]) < 1e-2):
+                if (EV_arg[index - 1][1] < EV_arg[index][1] and EV_arg[index][1] > EV_arg[index + 1][1] and EV_arg[index][1] > -2e-5):
                     kx_local_max.append(EV_arg[index][0])
-                else:
-                    if (abs(EV_arg[index][1]) < 10000*self.growth_tol):
-                        kx_local_max.append(EV_arg[index][0])
+                    if (abs(EV_arg[index][1]) < self.growth_tol):
+                        self.lm_count += 1
+                        self.kx_ev_max.append(EV_arg[index][0])
+                elif(EV_arg[index][1] > -100*self.growth_tol):
+                    kx_local_max.append(EV_arg[index][0])
+                if (abs(EV_arg[index][1]) < self.growth_tol):
+                    self.kx_ev_zero.append(EV_arg[index][0])
+            logger.info('LOCAL MAX COUNT ITERATION: ' + str(self.lm_count))
         else:
-            EV_arg.sort(key=lambda x:x[1])
-            # logger.warning('EVARG: ' + str(EV_arg))
-            for i in range(self.kx_regime):
-                kx_local_max.append(EV_arg[-i-1][0])
+            for index in range(1, len(EV_arg) - 1):
+                if (EV_arg[index - 1][1] < EV_arg[index][1] and EV_arg[index][1] > EV_arg[index + 1][1]):
+                    kx_local_max.append(EV_arg[index][0])
+            if (len(kx_local_max) > self.lm_count and len(kx_local_max) != self.kx_regime):
+                EV_arg.sort(key=lambda x:x[1])
+                for i in range(len(EV_arg))[::-1]:
+                    if (EV_arg[-i-1][0] in kx_local_max):
+                        kx_local_max.remove(EV_arg[-i-1][0])
+                        logger.info('excluded local max: ' + str(EV_arg[-i-1][0]))
+                    if (len(kx_local_max) == self.lm_count):
+                        break
+            if (len(kx_local_max) < self.kx_regime):
+                EV_arg.sort(key=lambda x:x[1])
+                for i in range(self.kx_regime):
+                    if (not EV_arg[-i-1][0] in kx_local_max):
+                        logger.info('included mode: ' + str(EV_arg[-i-1][0]))
+                        kx_local_max.append(EV_arg[-i-1][0])
+                    if (len(kx_local_max) == self.kx_regime):
+                        break
+            elif (len(kx_local_max) > self.kx_regime):
+                EV_arg.sort(key=lambda x:x[1])
+                for i in range(len(EV_arg))[::-1]:
+                    if (EV_arg[-i-1][0] in kx_local_max):
+                        kx_local_max.remove(EV_arg[-i-1][0])
+                        logger.info('excluded mode: ' + str(EV_arg[-i-1][0]))
+                    if (len(kx_local_max) == self.kx_regime):
+                        break
             kx_local_max = sorted(kx_local_max)
         # kx_local_max.append(EV_arg[2][0])
         # kx_local_max.append(EV_arg[3][0])
@@ -546,78 +583,88 @@ class Simulation():
         if (new_iteration):
             self.ev_maxima_count = maxima_count
         logger.info('Quantity of local maxima EVs: ' + str(maxima_count))
-        if (maxima_count == 0):
-            raise Exception('Quantity of local maxima EVs is zero')
-        elif (maxima_count == 1):
-            if (new_iteration):
-                logger.info('Proceeding with single wavenumber regime.')
-                self.kx_regime = 1
-                return kx_local_max
-            else:
-                if (self.kx_regime == 1):
-                    return kx_local_max
-                else:
-                    raise ExpectedException('One local maximum in Broyden regime')
-        elif (maxima_count == 2):  
-            if (new_iteration):
-                if (evs_local_max[1][1] < -2e-4):
-                    logger.info('Two local maxima, one is stable. Proceeding with single wavenumber regime.')
-                    self.kx_regime = 1
-                    # self.del_t = self.del_t_nominal / 10.0
-                    kx_local_max.remove(evs_local_max[1][0])
-                    return kx_local_max
-                else:
-                    logger.info('Two marginalish local maxima. Proceeding with double wavenumber regime.')
-                    self.kx_regime = 2
-                    return kx_local_max
-            else:
-                if (self.kx_regime == 1):
-                    logger.warning('Ignoring the following kx: ' + str(evs_local_max[1][0]))
-                    kx_local_max.remove(evs_local_max[1][0])
-                    return kx_local_max
-                elif (self.kx_regime > 1):
-                    if (self.kx_regime > 2):
-                        raise ExpectedException('Two local maxima in triple wavenumber regime')
-                    return kx_local_max               
-        elif (maxima_count == 3):
-            if (new_iteration):
-                if (evs_local_max[2][1] < -5e-5):
-                    logger.info('Three local maxima, one is stable. Proceeding with double wavenumber regime.')
-                    self.kx_regime = 2
-                    kx_local_max.remove(evs_local_max[2][0])
-                    return kx_local_max
-                else:
-                    logger.info('Three marginalish local maxima. Proceeding with triple wavenumber regime.')
-                    self.kx_regime = 3
-                    return kx_local_max
-            else:
-                if (self.kx_regime == 1):
-                    logger.warning('Ignoring the following kx: ' + str([evs_local_max[1][0], evs_local_max[2][0]]))
-                    return [evs_local_max[0][0]]
-                elif (self.kx_regime == 2):
-                    logger.warning('Ignoring the following kx: ' + str(evs_local_max[2][0]))
-                    kx_local_max.remove(evs_local_max[2][0])
-                    return kx_local_max
-                else:
-                    return kx_local_max
-        else:
-            if (not new_iteration):
-                if (self.kx_regime == 1):
-                    logger.warning('Ignoring the following kx: ' + str([evs_local_max[1][0], evs_local_max[2][0]]))
-                    return [evs_local_max[0][0]]
-                else:
-                    # logger.warning('Ignoring the following kx: ' + str(evs_local_max[2][0]))
-                    for i in range(self.kx_regime, maxima_count):
-                    # for kx in evs_local_max[self.kx_regime:][0]:
-                        print('remove kx: ' + str(evs_local_max[i][0]))
-                        kx_local_max.remove(evs_local_max[i][0])
-                    if (len(kx_local_max) != self.kx_regime):
-                        logger.error('Incorrect quantity of local max kx')
-                    else:
-                        logger.info('It worked')
-                        return kx_local_max
-            else:
-                raise Exception('Local max count is greater than 3. Unexpected case...')
+        if (new_iteration):
+            self.kx_regime = maxima_count
+        return kx_local_max
+        # if (maxima_count == 0):
+        #     raise Exception('Quantity of local maxima EVs is zero')
+        # elif (maxima_count == 1):
+        #     if (new_iteration):
+        #         logger.info('Proceeding with single wavenumber regime.')
+        #         self.kx_regime = 1
+        #         return kx_local_max
+        #     else:
+        #         if (self.kx_regime == 1):
+        #             return kx_local_max
+        #         else:
+        #             raise ExpectedException('One local maximum in Broyden regime')
+        # elif (maxima_count == 2):  
+        #     if (new_iteration):
+        #         # if (evs_local_max[1][1] < -2e-4):
+        #         #     logger.info('Two local maxima, one is stable. Proceeding with single wavenumber regime.')
+        #         #     self.kx_regime = 1
+        #         #     # self.del_t = self.del_t_nominal / 10.0
+        #         #     kx_local_max.remove(evs_local_max[1][0])
+        #         #     return kx_local_max
+        #         # else:
+        #         logger.info('Two marginalish local maxima. Proceeding with double wavenumber regime.')
+        #         self.kx_regime = 2
+        #         return kx_local_max
+        #     else:
+        #         if (self.kx_regime == 1):
+        #             logger.warning('Ignoring the following kx: ' + str(evs_local_max[1][0]))
+        #             kx_local_max.remove(evs_local_max[1][0])
+        #             return kx_local_max
+        #         elif (self.kx_regime > 1):
+        #             if (self.kx_regime > 2):
+        #                 raise ExpectedException('Two local maxima in triple wavenumber regime')
+        #             return kx_local_max               
+        # elif (maxima_count == 3):
+        #     if (new_iteration):
+        #         if (evs_local_max[2][1] < -5e-5):
+        #             logger.info('Three local maxima, one is stable. Proceeding with double wavenumber regime.')
+        #             self.kx_regime = 2
+        #             kx_local_max.remove(evs_local_max[2][0])
+        #             return kx_local_max
+        #         else:
+        #             logger.info('Three marginalish local maxima. Proceeding with triple wavenumber regime.')
+        #             self.kx_regime = 3
+        #             return kx_local_max
+        #     else:
+        #         if (self.kx_regime == 1):
+        #             logger.warning('Ignoring the following kx: ' + str([evs_local_max[1][0], evs_local_max[2][0]]))
+        #             return [evs_local_max[0][0]]
+        #         elif (self.kx_regime == 2):
+        #             logger.warning('Ignoring the following kx: ' + str(evs_local_max[2][0]))
+        #             kx_local_max.remove(evs_local_max[2][0])
+        #             return kx_local_max
+        #         else:
+        #             return kx_local_max
+        # elif (maxima_count == 4):
+        #     if (new_iteration):
+        #         logger.info('Four marginal wavenumbers. Proceeding with quadrupel kx regime')
+        #         self.kx_regime = 4
+        #         return kx_local_max
+        #     else:
+        #         return kx_local_max
+        # else:
+        #     if (not new_iteration):
+        #         if (self.kx_regime == 1):
+        #             logger.warning('Ignoring the following kx: ' + str([evs_local_max[1][0], evs_local_max[2][0]]))
+        #             return [evs_local_max[0][0]]
+        #         else:
+        #             # logger.warning('Ignoring the following kx: ' + str(evs_local_max[2][0]))
+        #             for i in range(self.kx_regime, maxima_count):
+        #             # for kx in evs_local_max[self.kx_regime:][0]:
+        #                 print('remove kx: ' + str(evs_local_max[i][0]))
+        #                 kx_local_max.remove(evs_local_max[i][0])
+        #             if (len(kx_local_max) != self.kx_regime):
+        #                 logger.error('Incorrect quantity of local max kx')
+        #             else:
+        #                 logger.info('It worked')
+        #                 return kx_local_max
+        #     else:
+        #         raise Exception('Local max count is greater than 3. Unexpected case...')
 
     def solve_EVP_wb(self):
         # self.RBC_EVP.ncc_kw['cutoff'] = 1e-18'
@@ -900,12 +947,28 @@ class Simulation():
             logger.info('Beginning Broyden iteration ' + str(attempt))
             J = J + np.matmul((d_ev - np.matmul(J, d_amps)) / np.linalg.norm(d_amps)**2, d_amps.T)
             amp_vec2 = amp_vec1 - np.matmul(np.linalg.inv(J), ev_vec1)
-            kx_neg = -1
+            # amp_neg = 0
             for i, amp in enumerate(amp_vec2):
                 logger.info('Amp' + str(i+1) + ': ' + str(amp))
-                if amp < 0:
-                    kx_neg = i
+                # if amp < amp_neg:
+                #     amp_neg = amp
+                #     kx_neg = i
+            kx_neg = -1
+            ev_marg_min = 0.0
             if (min(amp_vec2)[0] < 0):
+                EV_arg = self.evs
+                kx_local_max = []
+                EV_arg.sort(key=lambda x:x[0])
+                for index in range(1, len(EV_arg) - 1):
+                    if (EV_arg[index - 1][1] < EV_arg[index][1] and EV_arg[index][1] > EV_arg[index + 1][1] and EV_arg[index][1] > -self.growth_tol):
+                        kx_local_max.append(EV_arg[index][0])
+                for i, kx in enumerate(self.kx_marginals):
+                    if (not kx in kx_local_max):
+                        kx_neg = i 
+                # for ind, kx in enumerate(self.kx_marginals):
+                #     if (kx in self.ev_dict.keys() and self.ev_dict[kx] < ev_marg_min):
+                #         kx_neg = ind
+                kx_neg = CW.bcast(kx_neg, root=0)
                 raise ExpectedException('Negative amplitude calculated in Broyden\'s method, kx: ' + str(kx_neg))
             evs_lm, b0z_e, kx_lm, evs = self.solve_EVs_local_max(amp_vec2, kx_lm, find_maxima=True)
             for i in range(self.kx_regime):
@@ -1076,15 +1139,11 @@ class Simulation():
         CW.Barrier()
         for i in range(CW.rank, 3, CW.size):
             if (i == 0):
-                # logger.warning('plotting grid')
                 self.plot_vars_grid()
             if (i == 1):
-                # logger.warning('plotting coeff')
                 self.plot_vars_coeff()
             if (i == 2):
-                # logger.warning('plotting flux')
                 self.plot_flux()
-
         # if (CW.rank == 0):
         #     logger.info('plotting eigenfunctions grid')
         #     logger.info('plotting eigenfunctions coeff')
@@ -1119,15 +1178,16 @@ class Simulation():
         self.kx_marginals_ar.append(self.kx_marginals)
         # self.update_dt_params()
         self.update_pi_range()
-        self.rbc_data['profiles'] = self.profiles
+        # self.rbc_data['profiles'] = self.profiles
         self.rbc_data['sim_times'] = self.sim_times
         self.rbc_data['kx_marginals_ar'] = self.kx_marginals_ar
         self.rbc_data['amplitudes'] = self.amplitudes
         self.rbc_data['iteration'] = self.iteration
         self.rbc_data['pi_range'] = self.pi_range
         self.rbc_data['del_t_newton'] = self.del_t_newton
-        # self.rbc_data['del_t_broyden'] = self.del_t_broyden
+        self.rbc_data['del_t_broyden'] = self.del_t_broyden
         self.rbc_data['iters_new_ts'] = self.iters_new_ts
+        self.rbc_data['iteration'] = self.iteration
         # self.rbc_data['flux_const_dev'] = flux_const_dev
         try:
             self.rbc_data['Ra'].append(self.Rayleigh)
@@ -1181,7 +1241,7 @@ class Simulation():
         if (save_spectrum):
             if (not debug):
                 plt.savefig(self.iteration_path + '/EV_spectrum_iteration' + str(self.iteration))
-                plt.ylim(-0.05, 0.0005)
+                plt.ylim(-0.001, 0.0001)
                 plt.xlim(0, self.pi_range*np.pi)
                 plt.savefig(self.iteration_path + '/EV_spectrum_zoomed_iteration' + str(self.iteration))
             else:
@@ -1355,9 +1415,6 @@ class Simulation():
             plt.close()
 
     def plot_flux(self):
-        import publication_settings
-        matplotlib.rcParams.update(publication_settings.params)
-        plt.rcParams.update({'figure.autolayout': True})
         # if (not os.path.exists(self.iteration_path + '/figures')):
         #     os.mkdir(self.iteration_path + '/figures')
         try:
@@ -1369,7 +1426,47 @@ class Simulation():
         Prandtl = self.Prandtl
         Rayleigh = self.Rayleigh
         P = (Rayleigh * Prandtl)**(-1/2)
-        if ('kx3' in data.keys()):
+        if ('kx4' in data.keys()):
+            b0z = self.domain.new_field()
+            wb1 = self.domain.new_field()
+            wb2 = self.domain.new_field()
+            b0z = data['b0z']
+            wb1 = data['wb1']
+            wb2 = data['wb2']
+            wb3 = data['wb3']
+            wb4 = data['wb4']
+            kx1 = data['kx1']
+            kx2 = data['kx2']
+            kx3 = data['kx3']
+            kx4 = data['kx4']
+            amp1 = data['amp1']
+            amp2 = data['amp2']
+            amp3 = data['amp3']
+            amp4 = data['amp4']
+            diffusion = - P*b0z
+            advection1 = wb1*amp1
+            advection2 = wb2*amp2
+            advection3 = wb3*amp3
+            advection4 = wb4*amp4
+            flux = diffusion + advection1 + advection2 + advection3 + advection4
+            plt.plot(self.z, diffusion, label = 'Diffusion')
+            pi_mult1 = str(round(kx1/np.pi, 1))
+            pi_mult2 = str(round(kx2/np.pi, 1))
+            pi_mult3 = str(round(kx3/np.pi, 1))
+            pi_mult4 = str(round(kx4/np.pi, 1))
+            plt.plot(self.z, advection1, label = 'Advection ($k_x  = $' + pi_mult1 + '$\pi$)')
+            plt.plot(self.z, advection2, label = 'Advection ($k_x  = $' + pi_mult2 + '$\pi$)')
+            plt.plot(self.z, advection3, label = 'Advection ($k_x  = $' + pi_mult3 + '$\pi$)')
+            plt.plot(self.z, advection4, label = 'Advection ($k_x  = $' + pi_mult4 + '$\pi$)')
+            plt.plot(self.z, flux, label = 'Total')
+            plt.xlim(-0.5, 0.5)
+            plt.legend()
+            plt.title('Heat Flux (Iteration ' + str(self.iteration) + ')')
+            plt.xlabel('z')
+            plt.savefig(self.iteration_path + '/figures' + '/Iteration' + str(self.iteration) + '_flux.png')
+            plt.close()
+
+        elif ('kx3' in data.keys()):
             b0z = self.domain.new_field()
             wb1 = self.domain.new_field()
             wb2 = self.domain.new_field()
@@ -1398,9 +1495,8 @@ class Simulation():
             plt.plot(self.z, flux, label = 'Total')
             plt.xlim(-0.5, 0.5)
             plt.legend()
-            # plt.title('Heat Flux (Iteration ' + str(self.iteration) + ')')
-            plt.xlabel(r'$z$')
-            plt.ylabel(r'Flux')
+            plt.title('Heat Flux (Iteration ' + str(self.iteration) + ')')
+            plt.xlabel('z')
             plt.savefig(self.iteration_path + '/figures' + '/Iteration' + str(self.iteration) + '_flux.png')
             plt.close()
         
@@ -1446,12 +1542,11 @@ class Simulation():
             plt.plot(self.z, diffusion, label = 'Diffusion')
             pi_mult = str(round(kx/np.pi, 1))
             plt.plot(self.z, advection, label = 'Advection ($k_x  = $' + pi_mult + '$\pi$)')
-            plt.plot(self.z, flux, color = 'black', label = 'Total')
+            plt.plot(self.z, flux, label = 'Total')
             plt.xlim(-0.5, 0.5)
-            plt.legend(frameon=False)
-            # plt.title('Heat Flux (Iteration ' + str(self.iteration) + ')')
-            plt.xlabel(r'$z$')
-            plt.ylabel('Flux')
+            plt.legend()
+            plt.title('Heat Flux (Iteration ' + str(self.iteration) + ')')
+            plt.xlabel('z')
             plt.savefig(self.iteration_path + '/figures' + '/Iteration' + str(self.iteration) + '_flux.png')
             plt.close()
         try:
