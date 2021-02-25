@@ -84,75 +84,22 @@ logger.info('Solver built')
 # Initial conditions or restart
 if not pathlib.Path('restart.h5').exists():
     
-    path = os.path.dirname(os.path.abspath(__file__)) + '/RA1E8/results_conv1'
-    iteration = 9228
-    iteration_path = path + '/Iteration'+str(iteration)
-    fields_dict = pickle.load(open(iteration_path + '/fields_dict.pick', 'rb'))
-    b0z_g = fields_dict[list(fields_dict.keys())[0]]['b0z']
-
-    # Accomodate differing resolutions in EVP and IVP processes
-    N_evp = len(b0z_g)
-    evp_scale = int(N_evp / Nz)
-    x_evp, z_evp = domain.all_grids(scales=evp_scale)
-    
-    # Random perturbations, initialized globally for same results in parallel
-    gshape = domain.dist.grid_layout.global_shape(scales=evp_scale)
-    slices = domain.dist.grid_layout.slices(scales=evp_scale)
-    rand = np.random.RandomState(seed=42)
-    noise = rand.standard_normal(gshape)[slices]
-    b0z = b0z_g.real[slices[1]]
-    fields_lst = list(fields_dict.values())
-
-    eikx_lst = [np.exp(1j*fields['kx']*x_evp) for fields in fields_lst]
-    exp_fields = list(zip(eikx_lst, fields_lst))
-
     # Initial conditions
     x, z = domain.all_grids()
-    w = solver.state['w']
-    wz = solver.state['wz']
     b = solver.state['b']
     bz = solver.state['bz']
-    p = solver.state['p']
-    u = solver.state['u']
-    uz = solver.state['uz']
-    
-    w.set_scales(evp_scale)
-    wz.set_scales(evp_scale)
-    b.set_scales(evp_scale)
-    bz.set_scales(evp_scale)
-    p.set_scales(evp_scale)
-    u.set_scales(evp_scale)
-    uz.set_scales(evp_scale)
+
+    # Random perturbations, initialized globally for same results in parallel
+    gshape = domain.dist.grid_layout.global_shape(scales=1)
+    slices = domain.dist.grid_layout.slices(scales=1)
+    rand = np.random.RandomState(seed=42)
+    noise = rand.standard_normal(gshape)[slices]
 
     # Linear background + perturbations damped at walls
     zb, zt = z_basis.interval
-    pert =  1e-1 * noise * (zt - z_evp) * (z_evp - zb)
-
-    b0z_f = domain.new_field()
-    b0z_f.set_scales(evp_scale)
-    
-    b0z_f['g'] = b0z + 1
-    b0z_f.set_scales(1)
-    b0 = b0z_f.antidifferentiate(z_basis, ('left', 0))
-    b0.set_scales(evp_scale)
-    b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real + F * pert
-    bz = b.differentiate('z')
-    # plot_bot_2d(b)
-    # plt.show()
-
-    w['g'] = np.sqrt(2)*(sum([exp*fields['w'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
-    p['g'] = np.sqrt(2)*(sum([exp*fields['p'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
-    u['g'] = np.sqrt(2)*(sum([exp*fields['u'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
-    wz = w.differentiate('z')
-    uz = u.differentiate('z')
-    
-    w.set_scales(1)
-    wz.set_scales(1)
-    b.set_scales(1)
-    bz.set_scales(1)
-    p.set_scales(1)
-    u.set_scales(1)
-    uz.set_scales(1)
+    pert =  1e-3 * noise * (zt - z) * (z - zb)
+    b['g'] = F * pert
+    b.differentiate('z', out=bz)
 
     # Timestepping and output
     dt = 5e-4
@@ -178,13 +125,13 @@ solver.stop_sim_time = stop_sim_time
 # snapshots.add_task('w')
 # snapshots.add_task('u')
 
-profiles = solver.evaluator.add_file_handler('profiles_eq', sim_dt=0.1, max_writes=100, mode=fh_mode)
+profiles = solver.evaluator.add_file_handler('profiles_nom', sim_dt=0.1, max_writes=100, mode=fh_mode)
 profiles.add_task("P*integ(dz(b) - 1, 'x') / Lx", name='diffusive_flux')
 profiles.add_task("integ(w*b, 'x') / Lx", name='adv_flux')
 profiles.add_task("integ(integ(w**2 + u**2, 'x'), 'z') / Lx", name='ke')
 profiles.add_task("integ(integ((dx(w) - uz)**2, 'x'), 'z') / Lx", name='enst')
 
-checkpoints = solver.evaluator.add_file_handler('checkpoints_eq', sim_dt=0.5, max_writes=50, mode=fh_mode)
+checkpoints = solver.evaluator.add_file_handler('checkpoints_nom', sim_dt=0.5, max_writes=50, mode=fh_mode)
 checkpoints.add_system(solver.state)
 # snapshots.add_task('b')
 

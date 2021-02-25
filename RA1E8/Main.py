@@ -20,7 +20,7 @@ from Simulation import *     # pylint: disable=unused-wildcard-import
 # Settings/options
 restart = False
 load_profile = False
-subDir = '/results'
+subDir = '/results_new'
 profile_file_name = os.path.dirname(os.path.abspath(__file__)) + '/avg_profs/averaged_avg_profs_ra1e8.h5'
 path = os.path.dirname(os.path.abspath(__file__)) + subDir
 if (not os.path.exists(path)):
@@ -376,6 +376,7 @@ else:
         sim.ev_dict = dict(sim.evs)
         pickle.dump(sim.evs, open(sim.iteration_path + '/evs.pick', 'wb'))
 
+# sim.store_avg_eigenfunctions(2)
 print_nu_del()
 
 ##################################################
