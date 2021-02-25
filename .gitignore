@@ -1,6 +1,5 @@
 *.pyc
 *.DS_Store
-*.png
 *.db
 *.c
 *.so
@@ -13,23 +12,16 @@
 /dedalus.egg-info/
 /dedalus/examples.tar.gz
 **/results
-**/results_lin
-**/results_ev
-**/results_interp
-**/results_main
-**/results_prog
-**/results_prog4
 *snapshots*
 *frames*
 *profiles*
 *checkpoint*
 *results*
 restart.h5
-*data*
-*.png*
 *avg_profs*
 *.h5*
 *examples*
 *profs*
 *.o*
+RA5E8/*
 
