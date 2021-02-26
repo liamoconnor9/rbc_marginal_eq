@@ -32,16 +32,27 @@ def format_func(value, tick_number):
 def plot_EVs(evs_mat, labels):
     fig, axs = plt.subplots(2, sharex=False)
     # fig.suptitle(r'$Ra 2e9$')
-    ylims = [(-2, 0.01), (-0.001, 0.00001)]
+    ylims = [(-2, 0.1), (-0.001, 0.0001)]
     xlims = [(0, 12*np.pi), (0, 30*np.pi)]
     maj_loc = [2*np.pi, 5*np.pi]
     for i, evs in enumerate(evs_mat):
         ax = axs[i]
         [kxs, EVs] = list(zip(*evs))
-        ax.plot(kxs, EVs, '.', linestyle='None')
+        kx_m, evs_m = [], []
+        kx_s, evs_s = [], []
+        for j in range(len(kxs)):
+            if (EVs[j] > -1e-9):
+                kx_m.append(kxs[j])
+                evs_m.append(EVs[j])
+            else:
+                kx_s.append(kxs[j])
+                evs_s.append(EVs[j])
+        ax.plot(kx_s, evs_s, '.', label='Stable', linestyle='None')
+        ax.plot(kx_m, evs_m, 'x', label='Marginal', markersize=3, linestyle='None')
         ax.set_title(labels[i])
         ax.set_xlim(xlims[i])
         ax.set_ylim(ylims[i])
+        ax.legend(loc='lower left')
         ax.xaxis.set_major_locator(tck.MultipleLocator(maj_loc[i]))
         ax.xaxis.set_minor_locator(tck.MultipleLocator(np.pi / 2))
         ax.xaxis.set_major_formatter(plt.FuncFormatter(format_func))
@@ -55,6 +66,7 @@ def plot_EVs(evs_mat, labels):
     # plt.legend(loc='lower right')
     # fig.text(0.00, 0.5, r'$\omega$', ha='center', va='center', rotation='vertical', fontsize=10)
     plt.savefig(path + '/pubfigs/EV_spectra_2ra', bbox_inches='tight')
+    plt.savefig(path + '/publication_materials/EV_spectra_2ra', bbox_inches='tight')
 
 # fig = plt.figure()
 path = os.path.dirname(os.path.abspath(__file__))
