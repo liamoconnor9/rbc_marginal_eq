@@ -60,13 +60,13 @@ if __name__ == "__main__":
     from dedalus.tools import post
     from dedalus.tools.parallel import Sync
 
-    args = docopt(__doc__)
-
-    output_path = pathlib.Path(args['--output']).absolute()
     global path 
     path = os.path.dirname(os.path.abspath(__file__))
     write_data = False
     if (write_data):
+        args = docopt(__doc__)
+
+        output_path = pathlib.Path(args['--output']).absolute()
         nu_data = {'nu_ar' : [], 'sim_times_ar' : [], 'diff_ar' : [], 'wb_ar' : []}
         pickle.dump(nu_data, open(path + '/nu_data_eq.pick', 'wb'))
 
@@ -115,4 +115,5 @@ if __name__ == "__main__":
         plt.xlabel(r'$t$')
         plt.ylabel(r'$Nu$')
         plt.title(r'$Ra \, = \, 10^8$')
-        plt.savefig(path + '/pubfigs/sim_eq_nu')
+        # plt.savefig(path + '/pubfigs/sim_eq_nu')
+        plt.savefig(path + '/publication_materials/sim_eq_nu')

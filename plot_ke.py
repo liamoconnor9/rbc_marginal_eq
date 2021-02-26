@@ -53,13 +53,12 @@ if __name__ == "__main__":
     from dedalus.tools import post
     from dedalus.tools.parallel import Sync
 
-    args = docopt(__doc__)
-
-    output_path = pathlib.Path(args['--output']).absolute()
     global path 
     path = os.path.dirname(os.path.abspath(__file__))
     write_data = False
     if (write_data):
+        args = docopt(__doc__)
+        output_path = pathlib.Path(args['--output']).absolute()
         ke_data = {'ke_ar' : [], 'sim_times_ar' : []}
         pickle.dump(ke_data, open(path + '/ke_data_nom.pick', 'wb'))
 
@@ -84,4 +83,5 @@ if __name__ == "__main__":
         plt.xlabel(r'$t$')
         plt.ylabel(r'$\overline{|\mathbf{u}|^2}$')
         plt.title(r'$Ra \, = \, 10^8$')
-        plt.savefig(path + '/pubfigs/sim_eq_ke')
+        # plt.savefig(path + '/pubfigs/sim_eq_ke')
+        plt.savefig(path + '/publication_materials/sim_eq_ke')
