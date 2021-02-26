@@ -79,7 +79,7 @@ if __name__ == "__main__":
         plt.plot(sim_times_ar, ke_ar, color='darkred', label = 'Conductive I.C.')
         plt.plot(sim_times_ar_eq, ke_ar_eq, color='darkblue', label = 'Equilibrated I.C.')
         plt.xlim(0, 400)
-        plt.legend()
+        plt.legend(frameon=False)
         plt.xlabel(r'$t$')
         plt.ylabel(r'$\overline{|\mathbf{u}|^2}$')
         plt.title(r'$Ra \, = \, 10^8$')
