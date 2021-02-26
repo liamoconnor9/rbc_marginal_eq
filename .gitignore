@@ -21,7 +21,7 @@ restart.h5
 *avg_profs*
 *.h5*
 *examples*
-*profs*
 *.o*
+profs/*
 RA5E8/*
 
