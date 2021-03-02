@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex ms_rbc"] 1614711082 "ms_rbc.aux" "ms_rbc.bbl" "ms_rbc" 1614711086
+["bibtex ms_rbc"] 1614720153 "ms_rbc.aux" "ms_rbc.bbl" "ms_rbc" 1614720158
   "/usr/share/texlive/texmf-dist/bibtex/bst/revtex/apsrev4-1.bst" 1547851249 71518 fec93f06df0c073f83d2330456bd19c2 ""
-  "ms_rbc.aux" 1614711085 9320 9ff594dc9fc7b0d6246d8b3d9d3980a2 "pdflatex"
-  "ms_rbcNotes.bib" 1614711082 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "ms_rbc.aux" 1614720157 9360 01ffd4560b429680e6e41439947e4ef3 "pdflatex"
+  "ms_rbcNotes.bib" 1614720153 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "ms_rbc.bbl"
   "ms_rbc.blg"
-["pdflatex"] 1614711082 "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.tex" "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.pdf" "ms_rbc" 1614711086
+["pdflatex"] 1614720153 "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.tex" "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.pdf" "ms_rbc" 1614720158
   "/etc/texmf/web2c/texmf.cnf" 1589514010 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.aux" 1614711085 9320 9ff594dc9fc7b0d6246d8b3d9d3980a2 ""
-  "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.tex" 1614711077 31820 89c038ab85362f14551f52945809340e ""
+  "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.aux" 1614720157 9360 01ffd4560b429680e6e41439947e4ef3 ""
+  "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.tex" 1614720142 32689 55c75a256e7a427c426b4a4aa5748856 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm" 1246382020 1120 7f9f170e8aa57527ad6c49feafd45d54 ""
@@ -119,9 +119,9 @@
   "del_ra.PNG" 1614348266 76582 82e92438f30011fd1ea97b1697d0d66b ""
   "flux_sup_n.png" 1614346579 310482 d902829c3c84aedbbfd56c1f8bfda7a1 ""
   "kx_m_ra1.png" 1614349251 52716 74d761cf080240d0e38de87119ad55e8 ""
-  "ms_rbc.aux" 1614711085 9320 9ff594dc9fc7b0d6246d8b3d9d3980a2 "pdflatex"
-  "ms_rbc.bbl" 1614711082 1984 b68c31deb1db589a77cf4936360c75bb "bibtex ms_rbc"
-  "ms_rbc.tex" 1614711077 31820 89c038ab85362f14551f52945809340e ""
+  "ms_rbc.aux" 1614720157 9360 01ffd4560b429680e6e41439947e4ef3 "pdflatex"
+  "ms_rbc.bbl" 1614720153 1984 b68c31deb1db589a77cf4936360c75bb "bibtex ms_rbc"
+  "ms_rbc.tex" 1614720142 32689 55c75a256e7a427c426b4a4aa5748856 ""
   "nu_ra.PNG" 1614352406 221127 e14cee09fbde5a54ee39c2b504e3e51c ""
   "revsymb4-1.sty" 1614339520 5191 68f8787861a9ba3c4a5a4959a687ef10 ""
   "revtex4-1.cls" 1614339520 199798 166dddb5ba2b6c918ce38d92ad67794f ""
@@ -131,6 +131,6 @@
   "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.pdf"
   "ms_rbcNotes.bib"
   "ms_rbc.pdf"
-  "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.log"
   "ms_rbc.log"
+  "/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.log"
   "ms_rbc.aux"
