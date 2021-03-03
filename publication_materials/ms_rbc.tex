@@ -216,7 +216,7 @@ In most cases, we eventually encounter eigenvalue spectra with multiple simultan
 where  $\langle w' b' \rangle_{n}$ is composed of perturbations associated with $k_x = \frac{n\pi}{2}$. There are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. In general, we expect a function $\mathbf{\omega} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots (should they exist). We employ Broyden's method for root-finding in multi-dimensional functions whose derivatives are not explicitly known. Difficulty arises when transitioning between different numbers of marginal modes. Here we rely on $A^2 > 0$ by asserting that a mode which is \textit{close enough} to marginal-stability can be included in the iteration provided that its respective amplitude is positive. Should we converge upon a negative amplitude, that mode is discarded and the iteration is repeated. In general we find that no other obvious course of action yields equilibria.
 
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
-Thermally equilibrated states of this kind are solutions to a particular quasilinear form of the Rayleigh-B\'enard convection equations. For this investigation, we calculate solutions for $Ra$ in the range $10^5 - 10^9$. Solutions are symmetric about $z = 0$ by design. This, combined with the fact that we did initialize a mean horizontal flow implies the absence of any nonconstant horizontal velocity perturbations. 
+Thermally equilibrated states of this kind are solutions to a particular quasilinear form of the Rayleigh-B\'enard convection equations. For this investigation, we calculate solutions for $Ra$ in the range $10^5 - 10^9$. Solutions are symmetric about $z = 0$ by design. This, combined with the fact that we did initialize a mean horizontal flow implies the absence of any nonconstant horizontal velocity perturbations, as is the case in \cite{Waleffe}. 
 \par Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the equilibrated profile corresponds to the thermally relaxed state; and the simulation profile is obtained by performing a nonlinear simulation of (\ref{EQ:motion1})-(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. The simulation curve is more diffuse than the equilibrated curve, which in turn, is more diffuse than the initial curve. Performing an eigenvalue solve by setting $\bar{T}$ equal to the simulation profile yields positive eigenvalues. Comprehensively, this suggests that thermally-equilibrated states might maximize boundary layer thickness, while subject to the marginal stability constraint.
 \par The most resilient and unexpected feature of thermally equilibrated mean temperature profiles are the pronounced dips adjacent to the boundary layers. These dips appear in every solution, regardless of $Ra$. Physically, they correspond to thin layers in which the temperature gradient reverses, contradicting a hypothesis of \cite{Malkus}. This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}. 
 \begin{figure}[h]
@@ -285,31 +285,45 @@ which will hereby be referred to as the conductive initial condition. $t$ in thi
 \end{align}
 Where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber at the $n$th marginal mode. The $\sqrt{2}$ factor is necessary for eigenfunction normalization. By construction, these initial conditions are thermally equilibrated. 
 Simulations launched with equilibrated initial conditions do not exhibit a convective-transient period, as the large-scale anatomy of plumes and convective winds which are characteristic of Rayleigh-B\'enard convection exist on initialization. This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $Nu$ is associated with a turbulent transitional period of upwelling until the distinctive jet-like structure is established. 
-\begin{figure}
-    \centering
-    \includegraphics[width=3.4in]{sim_eq_nu.png}
-    \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). Simulations launched with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. This is illustrated by the $Nu$ spike at $t \sim 15$ in the convectional simulation.}
-    \label{fig:nu_sim}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=3.4in]{sim_eq_nu.png}
+%     \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). Simulations launched with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. This is illustrated by the $Nu$ spike at $t \sim 15$ in the convectional simulation.}
+%     \label{fig:nu_sim}
+% \end{figure}
 \par The marginally-stable equilibria are associated with a combination of eigenfunctions whose average kinetic energy is significantly larger than the statistical steady state, as given by Figure \ref{fig:ke_sim}. This is postpones kinetic relaxation because the large horizontal flows decay on a viscous timescale
 \begin{equation}
     t_{\nu} \sim \sqrt{\frac{Ra}{Pr}}. \nonumber
 \end{equation}
 Consequently, marginally-stable thermally-equilibrated initial conditions do not reduce the simulation time required to achieve a statistically steady state, rather, they increase it considerably.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=3.4in]{sim_eq_ke.png}
-    \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim Pr Ra^{-1/2}$.}
-    \label{fig:ke_sim}
-\end{figure}
-
-\section{Conclusion}\label{sec:conclusion}
-
-\section*{Appendix}
-This is an appendix
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=3.4in]{sim_eq_ke.png}
+%     \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim Pr Ra^{-1/2}$.}
+%     \label{fig:ke_sim}
+% \end{figure}
+\begin{figure*}
+    \begin{minipage}[t]{3.4in}
+        \centering
+        \includegraphics[width=3.4in]{sim_eq_nu.png}
+        \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). Simulations launched with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. This is illustrated by the $Nu$ spike at $t \sim 15$ in the convectional simulation.}
+        \label{fig:nu_sim}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{3.4in}
+        \centering
+        \includegraphics[width=3.4in]{sim_eq_ke.png}
+        \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim Pr Ra^{-1/2}$.}
+        \label{fig:ke_sim}
+    \end{minipage}
+\end{figure*}
+\section{Discussion}\label{sec:Discussion}
+In general, the reduced form we derive and solve in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. Solutions to the quasilinear problem retain several key features that are ubiquitous in experiments and simulations: power-law $Nu$ scaling, plume-like structures, and minimum length-scale approximations \cite{Malkus}. They also exhibit unique and unexpected features: temperature profile geometries, thinner boundary layers, and greater $Nu$ than other time-invarient solutions. 
+% \section*{Appendix}
+% This is an appendix
 
 \section*{Acknowledgments}
-Jeff Vassil, Greg Chini, 
+The authors thank Jeff Vassil, Greg Chini, Emma Kaufman for feedback and suggestions. 
 
 % \bibliography{she}
 \begin{thebibliography}{99} 
