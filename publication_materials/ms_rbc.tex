@@ -8,8 +8,7 @@
 \usepackage{varwidth}
 \usepackage{float}
 \usepackage{nonfloat}
-\usepackage{afterpage}
-
+% \usepackage{afterpage}
 \usepackage[usenames, dvipsnames]{color}
 \newcommand{\note}[1]{\noindent \textbf{\textit{\textcolor{Red}{#1}}}}
 
@@ -112,9 +111,9 @@ they do not undergo a convective transient period but turn out to be kinetically
 \maketitle
 
 \section{Introduction}
-Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings. Our understanding of highly turbulent convective systems is generally limited by the prohibitive computational costs associated with direct numerical simulations \cite{Zhu}. There exists a substantial body of work concerning the asymptotic scaling laws of such systems with no general consensous. Reduced models are particularly useful in this context because they allow us to study the underlying behavior of turbulent convection with relatively low expense. 
+Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings. Our understanding of highly turbulent convective systems is generally limited by the prohibitive computational costs associated with direct numerical simulations \cite{Zhu}. There exists a substantial body of work concerning the asymptotic scaling laws of such systems with no general consensus. Reduced models are particularly useful in this context because they allow us to study the underlying behavior of turbulent convection with relatively low expense. 
 \par In this investigation, we derive and solve a quasilinear form of the Boussinesq Rayleigh–Bénard convection equations using a strategy similar to \cite{Chini_sw}. This is realized by solving the linearized equations and evolving a mean temperature profile according to the perturbation variables. In general, each set of perturbations has an arbitrary amplitude which we obtain by imposing marginal stability. The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
-\par Reduced models are often valuable when supplemented by direct simulation [source?]. Nonlinear simulations perfomed with quasilinear solutions as initial conditions do not undergo a convective transient period of turbulent upwelling. Instead, the characteristic jet-like structure is somewhat present on initialization. This is practical because the convective transient period generally involves high-Reynolds number flows whose resolution is prohibitive. 
+\par Reduced models are often valuable when supplemented by direct simulation [source?]. Nonlinear simulations performed with quasilinear solutions as initial conditions do not undergo a convective transient period of turbulent upwelling. Instead, the characteristic jet-like structure is somewhat present on initialization. This is practical because the convective transient period generally involves high-Reynolds number flows whose resolution is prohibitive. 
 \section{Conventional Boussinesq Linear Stability Analysis}\label{sec:boussinesq}
 We begin with the non-dimensionalized Boussinesq approximation for Rayleigh-Bénard Convection. The domain is 2-dimensional rectangular and horizontally periodic with spatial dimensions $0 < x < 4$ and $-1/2 < z < 1/2$. The fluid of interest is constrained between two planar boundaries at $z = -1/2$ and $z = 1/2$ with fixed temperatures $1$ and $0$ respectively. At both boundaries we specify impenetrable, no-slip conditions, such that the velocity $\mathbf{u} = u \hat{x} + w \hat{z} = \mathbf{0}$ at $z = \pm 1/2$. The equations of motion are then given by
 \begin{align}
@@ -268,7 +267,7 @@ Thermally equilibrated states with large $Ra$ tend to have a more diverse set of
 
 \par In general, marginally-stable thermal equilibria can be characterized by their boundary layer thicknesses, from which, the rest of their properties follow. Letting the interior boundary layer threshold be the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$, we find that $Ra \propto  \delta^{-3}$ as illustrated in Figure \ref{fig:bl_ra}. This is consistent with Malkus' marginal-stability theory, a scaling argument which perceives the boundary regions as subdomains which are themselves marginally-stable.
 
-Nusselt numbers $Nu$ of various solutions are given in Figure \ref{fig:nu_vs_ra}. The marginally-stable thermally-equilibrated states and numerical simulation data exhibit power-law relationships with $Ra$. More specifically, $Ra \sim Nu^3$ which agrees with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} and the scaling argument given by \cite{Malkus}. The nonlinear solutions, which maximize heat flux, are obtained \cite{Waleffe}. $Nu$ of both equilibria exceed that of simulations, which might be due to the transitional behaviors outlined by \cite{Yalniz} inhibitting heat flux.
+Nusselt numbers $Nu$ of various solutions are given in Figure \ref{fig:nu_vs_ra}. The marginally-stable thermally-equilibrated states and numerical simulation data exhibit power-law relationships with $Ra$. More specifically, $Ra \sim Nu^3$ which agrees with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} and the scaling argument given by \cite{Malkus}. The nonlinear solutions, which maximize heat flux, are obtained \cite{Waleffe}. $Nu$ of both equilibria exceed that of simulations, which might be due to the transitional behaviors outlined by \cite{Yalniz} inhibiting heat flux.
 
 \section{Simulations with Thermally Equilibrated Initial Conditions}
 This investigation is partially motivated by the prospect of decreasing nonlinear simulation relaxation times by employing thermally-equilibrated initial conditions. Conventionally, (\ref{EQ:motion1}) - (\ref{EQ:motion3}) are solved via direct numerical simulation (DNS) with initial conditions
@@ -302,7 +301,7 @@ Consequently, marginally-stable thermally-equilibrated initial conditions do not
 %     \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim Pr Ra^{-1/2}$.}
 %     \label{fig:ke_sim}
 % \end{figure}
-\begin{figure*}
+\begin{figure*}[t]
     \begin{minipage}[t]{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_nu.png}
@@ -313,17 +312,19 @@ Consequently, marginally-stable thermally-equilibrated initial conditions do not
     \begin{minipage}[t]{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_ke.png}
-        \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim Pr Ra^{-1/2}$.}
+        \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim \sqrt{Ra / Pr}$.}
         \label{fig:ke_sim}
     \end{minipage}
 \end{figure*}
 \section{Discussion}\label{sec:Discussion}
-In general, the reduced form we derive and solve in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. Solutions to the quasilinear problem retain several key features that are ubiquitous in experiments and simulations: power-law $Nu$ scaling, plume-like structures, and minimum length-scale approximations \cite{Malkus}. They also exhibit unique and unexpected features: temperature profile geometries, thinner boundary layers, and greater $Nu$ than other time-invarient solutions. 
+In general, the reduced model we study in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. Solutions to the quasilinear problem retain several key features that are ubiquitous in experiments and simulations: power-law $Nu$ scaling, plume-like structures, and minimum length-scale approximations \cite{Malkus}. They also exhibit unique and unexpected features: gradient-reversal/dips in temperature profiles, kinetic exaggeration, and greater $Nu$ than other time-invariant solutions. We also obtain indistinguishable solutions despite initializing with different mean temperature profiles $\bar{T}$. Thus solutions might be unique, but we cannot demonstrate this rigorously.
+\par The quasilinear problem can also be generalized to include an asymmetric mean horizontal-flow. Specifically, a second initial value problem, similar to (\ref{EQ:T0_IVP}), can be derived for $\bar{u}$. Doing so might yield solutions with greater resemblance to DNS results because we expect the Reynolds stress tensor to combat the kinetic exaggeration shown in Figure \ref{fig:ke_sim}. For this investigation, we require symmetry at each iteration, but the thermal evolution procedure appears unstable to asymmetry. This could be accommodated by requiring rotational symmetry about the midplane $\bar{u}(z, t) = -\bar{u}(z, t)$. It's unclear whether solutions with nontrivial $\bar{u}$ exist or whether our algorithm would converge under these different circumstances.
+
 % \section*{Appendix}
 % This is an appendix
 
 \section*{Acknowledgments}
-The authors thank Jeff Vassil, Greg Chini, Emma Kaufman for feedback and suggestions. 
+The authors thank Jeff Vassil, Greg Chini, Emma Kaufman for their valuable feedback and suggestions. We also thank the \texttt{Dedalus} and \texttt{Eigentools} developers. Computations were performed on the NASA Pleiades system.
 
 % \bibliography{she}
 \begin{thebibliography}{99} 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.6.5)  2 MAR 2021 18:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.6.5)  2 MAR 2021 20:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -196,12 +196,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@floatcapt=\box64
 ) (/usr/share/texlive/texmf-dist/tex/latex/nonfloat/nonfloat.sty (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-)) (/usr/share/texlive/texmf-dist/tex/latex/tools/afterpage.sty
-Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
-\AP@output=\toks26
-\AP@partial=\box65
-\AP@footins=\box66
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+)) (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2019/11/23 v1.2a Standard LaTeX Color (DPC)
  (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
@@ -210,48 +205,48 @@ Package color Info: Driver file: pdftex.def on input line 147.
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 ))
-Class revtex4-1 Info: Unrecognized LaTeX tabular. Please update this document class! (Proceeding with fingers crossed.) on input line 94.
+Class revtex4-1 Info: Unrecognized LaTeX tabular. Please update this document class! (Proceeding with fingers crossed.) on input line 93.
 
 
 Class revtex4-1 Warning: Repair the float package.
 
-Class revtex4-1 Info: cite was not loaded (OK!) on input line 94.
-Class revtex4-1 Info: mcite was not loaded (OK!) on input line 94.
-Class revtex4-1 Info: multicol was not loaded (OK!) on input line 94.
+Class revtex4-1 Info: cite was not loaded (OK!) on input line 93.
+Class revtex4-1 Info: mcite was not loaded (OK!) on input line 93.
+Class revtex4-1 Info: multicol was not loaded (OK!) on input line 93.
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count197
-\l__pdf_internal_box=\box67
+\l__pdf_internal_box=\box65
 ) (/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.aux)
 \openout1 = `ms_rbc.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
-LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 93.
+LaTeX Font Info:    ... okay on input line 93.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count198
 \scratchdimen=\dimen147
-\scratchbox=\box68
+\scratchbox=\box66
 \nofMPsegments=\count199
 \nofMParguments=\count266
-\everyMPshowfont=\toks27
+\everyMPshowfont=\toks26
 \MPscratchCnt=\count267
 \MPscratchDim=\dimen148
 \MPnumerator=\count268
 \makeMPintoPDFobject=\count269
-\everyMPtoPDFconversion=\toks28
+\everyMPtoPDFconversion=\toks27
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
  (/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
@@ -282,31 +277,31 @@ Package grfext Info: Graphics extension search list:
  (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Info: Redefining \celsius on input line 94.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 94.
+LaTeX Info: Redefining \celsius on input line 93.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 93.
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 94.
-Package gensymb Info: Using \Omega for \ohm on input line 94.
+LaTeX Info: Redefining \ohm on input line 93.
+Package gensymb Info: Using \Omega for \ohm on input line 93.
 
 Package gensymb Warning: Not defining \micro.
 
 \openout3 = `ms_rbcNotes.bib'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 107.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 106.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 107.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 106.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 <EV_spectrum_ol.png, id=24, 245.718pt x 151.767pt>
 File: EV_spectrum_ol.png Graphic file (type png)
 <use EV_spectrum_ol.png>
-Package pdftex.def Info: EV_spectrum_ol.png  used on input line 192.
+Package pdftex.def Info: EV_spectrum_ol.png  used on input line 191.
 (pdftex.def)             Requested size: 245.71754pt x 151.77356pt.
 
 
@@ -314,23 +309,23 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [2]
 
-LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix] on input line 202.
+LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix] on input line 201.
 
 <T_profs_na.png, id=33, 249.21104pt x 148.8762pt>
 File: T_profs_na.png Graphic file (type png)
 <use T_profs_na.png>
-Package pdftex.def Info: T_profs_na.png  used on input line 224.
+Package pdftex.def Info: T_profs_na.png  used on input line 223.
 (pdftex.def)             Requested size: 245.71754pt x 146.79271pt.
 [3 </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/EV_spectrum_ol.png>]
 <kx_m_ra1.png, id=39, 245.718pt x 151.767pt>
 File: kx_m_ra1.png Graphic file (type png)
 <use kx_m_ra1.png>
-Package pdftex.def Info: kx_m_ra1.png  used on input line 231.
+Package pdftex.def Info: kx_m_ra1.png  used on input line 230.
 (pdftex.def)             Requested size: 245.71754pt x 151.77356pt.
 <del_kx_inv.png, id=40, 245.718pt x 151.767pt>
 File: del_kx_inv.png Graphic file (type png)
 <use del_kx_inv.png>
-Package pdftex.def Info: del_kx_inv.png  used on input line 237.
+Package pdftex.def Info: del_kx_inv.png  used on input line 236.
 (pdftex.def)             Requested size: 245.71754pt x 151.77356pt.
 
 
@@ -342,7 +337,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <del_ra.PNG, id=41, 245.718pt x 151.767pt>
 File: del_ra.PNG Graphic file (type png)
 <use del_ra.PNG>
-Package pdftex.def Info: del_ra.PNG  used on input line 244.
+Package pdftex.def Info: del_ra.PNG  used on input line 243.
 (pdftex.def)             Requested size: 245.71754pt x 151.77356pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -350,63 +345,63 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <flux_sup_n.png, id=42, 242.8272pt x 300.76366pt>
 File: flux_sup_n.png Graphic file (type png)
 <use flux_sup_n.png>
-Package pdftex.def Info: flux_sup_n.png  used on input line 252.
+Package pdftex.def Info: flux_sup_n.png  used on input line 251.
 (pdftex.def)             Requested size: 245.71754pt x 304.3609pt.
 <EV_spectra_2ra.png, id=43, 242.8272pt x 300.76366pt>
 File: EV_spectra_2ra.png Graphic file (type png)
 <use EV_spectra_2ra.png>
-Package pdftex.def Info: EV_spectra_2ra.png  used on input line 255.
+Package pdftex.def Info: EV_spectra_2ra.png  used on input line 254.
 (pdftex.def)             Requested size: 245.71754pt x 304.3609pt.
 <nu_ra.PNG, id=44, 513.117pt x 216.81pt>
 File: nu_ra.PNG Graphic file (type png)
 <use nu_ra.PNG>
-Package pdftex.def Info: nu_ra.PNG  used on input line 260.
+Package pdftex.def Info: nu_ra.PNG  used on input line 259.
 (pdftex.def)             Requested size: 513.11743pt x 216.83261pt.
 
-Overfull \hbox (3.11743pt too wide) in paragraph at lines 260--261
+Overfull \hbox (3.11743pt too wide) in paragraph at lines 259--260
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 12.94102pt on input line 263.
+LaTeX Warning: Float too large for page by 12.94102pt on input line 262.
 
 [4 </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/T_profs_na.png> </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/kx_m_ra1.png>]
 
-LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix] on input line 272.
+LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix] on input line 271.
 
 
-Underfull \hbox (badness 2538) in paragraph at lines 274--275
+Underfull \hbox (badness 2538) in paragraph at lines 273--274
 []\OT1/cmr/m/n/10 This in-ves-ti-ga-tion is par-tially mo-ti-vated by the
  []
 
 <sim_eq_nu.png, id=51, 245.718pt x 151.767pt>
 File: sim_eq_nu.png Graphic file (type png)
 <use sim_eq_nu.png>
-Package pdftex.def Info: sim_eq_nu.png  used on input line 308.
+Package pdftex.def Info: sim_eq_nu.png  used on input line 307.
 (pdftex.def)             Requested size: 245.71754pt x 151.77356pt.
 <sim_eq_ke.png, id=52, 245.718pt x 151.767pt>
 File: sim_eq_ke.png Graphic file (type png)
 <use sim_eq_ke.png>
-Package pdftex.def Info: sim_eq_ke.png  used on input line 315.
+Package pdftex.def Info: sim_eq_ke.png  used on input line 314.
 (pdftex.def)             Requested size: 245.71754pt x 151.77356pt.
 [5 </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/del_kx_inv.png> </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/del_ra.PNG>] [6 </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/flux_sup_n.png> </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/EV_spectra_2ra.png> </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/nu_ra.PNG>]
 
-LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix] on input line 324.
+LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix] on input line 321.
 
 (/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.bbl) [7 </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/sim_eq_nu.png> </mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/sim_eq_ke.png>] (/mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.aux) ) 
 Here is how much of TeX's memory you used:
- 5365 strings out of 481239
- 72365 string characters out of 5920378
- 340747 words of memory out of 5000000
- 20519 multiletter control sequences out of 15000+600000
+ 5347 strings out of 481239
+ 72075 string characters out of 5920378
+ 340341 words of memory out of 5000000
+ 20504 multiletter control sequences out of 15000+600000
  542147 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,12n,35p,1340b,365s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on /mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.pdf (7 pages, 1372348 bytes).
+ 38i,12n,35p,1340b,370s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on /mnt/d/dev/dedalus/rbc_marginal_eq/publication_materials/ms_rbc.pdf (7 pages, 1380635 bytes).
 PDF statistics:
- 145 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
+ 149 PDF objects out of 1000 (max. 8388607)
+ 94 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
