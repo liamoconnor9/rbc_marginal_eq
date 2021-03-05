@@ -24,4 +24,13 @@ restart.h5
 *.o*
 profs/*
 RA5E8/*
+*.sty
+*.aux
+*.log
+*.fls
+*.cls
+*.fdb_latexmk
+*.gz
+*.bib
+
 
