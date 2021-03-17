@@ -12,16 +12,6 @@
 \usepackage[usenames, dvipsnames]{color}
 \newcommand{\note}[1]{\noindent \textbf{\textit{\textcolor{Red}{#1}}}}
 
-\newcommand\mnras{\rmfamily{Mon. Not. R. Astron. Soc.}}
-\newcommand\aap{\rmfamily{Astron. Astrophys.}}
-\newcommand\apjl{\rmfamily{Astrophys. J. Lett.}}
-
-\newcommand\Beq{\begin{eqnarray}} 
-\newcommand\Eeq{\end{eqnarray}}
-
-\newcommand\Bfig{\begin{figure}} 
-\newcommand\Efig{\end{figure}}
-
 \newcommand\Ra{\mathrm{Ra}}
 \newcommand\Pran{\mathrm{Pr}}
 \newcommand\Rac{\mathrm{Ra}_{\mathrm{c}}}
@@ -133,7 +123,7 @@ Then the mean profiles are given by
 \begin{align}
     \mathbf{\bar{u}} &= \mathbf{0} \\
     \bar{T}(z) &= 1 + \int_{-\frac{1}{2}}^{z} \frac{\partial \bar{T}}{\partial \zeta}\Big|_{t=t_0}(\zeta) d\zeta \\
-    \bar{p}(z) &= p_0 - \int_{-\frac{1}{2}}^z \bar{T}\Big|_{t=t_0}(\zeta) d\zeta.
+    \bar{p}(z) &= p_0 + \int_{-\frac{1}{2}}^z \bar{T}\Big|_{t=t_0}(\zeta) d\zeta.
 \end{align}
 Accordingly, the fields are defined as
 \begin{align}
@@ -199,14 +189,6 @@ An iteration is performed as follows: diffusing a marginally-stable temperature 
 \end{equation}
 where $\omega_{\rm{diff}}$ and $\omega_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode (corresponding to the blue and red points respectively at $k_x = \pi$ in Figure \ref{fig:iteration_spectra}). $\bar{T}_0$ is then evolved according to (\ref{EQ:T0_IVP}) and another eigenvalue solve is performed. Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\omega_{\rm{max}} (A^2)$ which is locally differentiable. Newton's method is used to find an amplitude which meets our marginal stability tolerance criterion $|\omega_{\rm{max}} (A^2)| \leq 10^{-9}$. The dominant mode is not fixed; an iteration can facilitate the transfer of marginal-stability from one mode to another. In section \ref{sec:multiple_modes} we specify procedures for the treatment of multiple simultaneously marginal modes.
 
-\subsection{Initial buoyancy profile} \label{sec:initial_profile}
-In an attempt to minimize the required number of iterations, we initialize with \cite{Shishkina}'s analytical thermal boundary layer equation for turbulent Rayleigh-B\'enard convection, given by 
-\begin{align}
-    \bar{T}_0(\xi) &= \frac{\sqrt{3}}{4\pi} \log \frac{(1 + a\xi)^3}{1 + (a\xi)^3} + \frac{3}{2\pi} \arctan \Big( \frac{4\pi}{9}\xi - \frac{1}{\sqrt{3}} \Big) + \frac{1}{4} \nonumber \\
-    \xi &= \frac{z}{\delta_0}, \qquad a = \frac{2\pi}{3\sqrt{3}}\label{EQ:T0}
-\end{align}
-where $\delta_0$ is the boundary layer thickness. We expect that each $\Ra$ is associated with a unique $\delta_0$ for which $\bar{T}_0(z)$ is marginally-stable. It should be noted that when experimenting with various initial profiles $(\tanh, \rm{erf}, \rm{etc.})$, we obtain indistinguishable equilibrated states, implying that solutions may be unique. An example of (\ref{EQ:T0}) is given by the blue curve in Figure \ref{fig:T0_profiles}.
-
 \subsection{Treatment of multiple marginally-stable modes} \label{sec:multiple_modes}
 In most cases, we eventually encounter eigenvalue spectra with multiple simultaneously marginal modes. If ignored, we are forced to reduce the timestep and allow the modes to alternate. Instead, we generalize the advective term in (\ref{EQ:T0_IVP}) to accommodate $N$ simultaneously marginal modes
 \begin{equation}
@@ -242,7 +224,7 @@ Thermally equilibrated states of this kind are solutions to a particular quasili
     \label{fig:flux}
     \vspace{0.4in}
     \includegraphics[width=7.1in]{nu_ra.PNG}
-    \caption{Nusselt numbers are shown for marginally-stable thermally-equilibrated states, statistically-steady direct numerical simulations performed with \texttt{Dedalus} \cite{Anders_cd}, and equilibrated nonlinear solutions, which maximize heat flux, given by \cite{Waleffe}. Both obey power-law relationships with $Ra$, with $Ra \sim Nu^3$ in agreement with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} as well as \cite{Malkus}. Marginally-stable states' Nusselt numbers exceed simulation Nusselt numbers. This can be well explained by the contrasting boundary region geometries shown in Figure \ref{fig:T0_profiles}.}%
+    \caption{Nusselt numbers are shown for marginally-stable thermally-equilibrated states, statistically-steady direct numerical simulations performed with \texttt{Dedalus} \cite{Anders_cd}, and equilibrated nonlinear solutions, which maximize heat flux, given by \cite{Waleffe}. Both obey power-law relationships with $Ra$, with $Ra \sim \Nu^3$ in agreement with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} as well as \cite{Malkus}. Marginally-stable states' Nusselt numbers exceed simulation Nusselt numbers. This can be well explained by the contrasting boundary region geometries shown in Figure \ref{fig:T0_profiles}.}%
     \label{fig:nu_vs_ra}%
 \end{figure*}
 
@@ -253,13 +235,20 @@ Thermally equilibrated states of this kind are solutions to a particular quasili
     \label{fig:del_inv}
 \end{figure}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=3.4in]{del_ra.PNG}
+    \caption{Boundary layer widths $\delta$ of marginally-stable thermal equilibria. We define the threshold of each boundary layer as the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$, corresponding to the local extrema of the equilibrated curve in Figure \ref{fig:T0_profiles}. Plotting on a log-log scale, we find $\delta$ and $Ra$ obey a power-law relationship. We also demonstrate that $Ra^{1/3}\delta$ is approximately constant with respect to $Ra$ implying $Ra \propto  \delta^{-3}$, as predicted by \cite{Malkus}}
+    \label{fig:bl_ra}
+\end{figure}
+
 Equilibrated states exhibit distinct behaviors for large and small $Ra$. This contrast is illustrated in Figure \ref{fig:flux}, where we give heat flux profiles and eigenvalue spectra for two cases: $Ra = 2 \times 10^5$ and $Ra = 10^9$. For lower $Ra$, there is a single presumed local maximum in the eigenvalue spectrum, whose adjacent modes' advection profiles occupy the bulk of the domain. These states have relaxed boundary layers which gradually subside as advection becomes the dominant component of the total flux. Such transitional regions do not appear in high $Ra$ cases, where the shift from diffusion to advection is sharp, requiring pronounced, small-scale advection profiles belonging to modes adjacent to the third presumed local maximum in the eigenvalue spectrum. Traversing towards the midplane of the domain, we see increasingly thicker advection profiles corresponding the wavenumbers adjacent to the second local maximum, eventually culminating in the dominant $k_x = 1.5\pi$ mode.
 
 Thermally equilibrated states with large $Ra$ tend to have a more diverse set of marginal modes as compared to small $Ra$ states. In every case, the $k_x = 1.5\pi$ mode is included and is often unaccompanied by adjacent modes. In Figure \ref{fig:kx_marginals} we give the wavenumbers $k_x$ of marginal modes, color coded accordingly to their respective adjacencies. Marginal modes often appear in neighboring pairs, in which case the larger mode is denoted with an x and the smaller mode is denoted with a +. In these cases we infer the existence of a local maximum eigenvalue between the two adjacent marginally-stable modes. For $Ra \geq 10^6$, a second branch of marginal modes is introduced as shown in green, increasing according to some power-law with respect to $Ra$. The introduction of this largest branch is likely required to oppose the diffusion of the thinning boundary layers. For $Ra \geq 10^8$, a third branch appears (shown in red), splitting the widening gap between the blue branch and the green branch. This development is associated with relatively thick advection profiles, filling a niche in the total flux by uniting the sharp profiles of the largest branch (green) and those of the bulk-domain-oriented smallest branch (blue).
 
 \par In general, marginally-stable thermal equilibria can be characterized by their boundary layer thicknesses, from which, the rest of their properties follow. Letting the interior boundary layer threshold be the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$, we find that $Ra \propto  \delta^{-3}$ as illustrated in Figure \ref{fig:bl_ra}. This is consistent with Malkus' marginal-stability theory, a scaling argument which perceives the boundary regions as subdomains which are themselves marginally-stable.
 
-Nusselt numbers $Nu$ of various solutions are given in Figure \ref{fig:nu_vs_ra}. The marginally-stable thermally-equilibrated states and numerical simulation data exhibit power-law relationships with $Ra$. More specifically, $Ra \sim Nu^3$ which agrees with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} and the scaling argument given by \cite{Malkus}. The nonlinear solutions, which maximize heat flux, are obtained \cite{Waleffe}. $Nu$ of both equilibria exceed that of simulations, which might be due to the transitional behaviors outlined by \cite{Yalniz} inhibiting heat flux.
+Nusselt numbers $\Nu$ of various solutions are given in Figure \ref{fig:nu_vs_ra}. The marginally-stable thermally-equilibrated states and numerical simulation data exhibit power-law relationships with $Ra$. More specifically, $Ra \sim \Nu^3$ which agrees with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} and the scaling argument given by \cite{Malkus}. The nonlinear solutions, which maximize heat flux, are obtained \cite{Waleffe}. $\Nu$ of both equilibria exceed that of simulations, which might be due to the transitional behaviors outlined by \cite{Yalniz} inhibiting heat flux.
 
 \section{Simulations with Thermally Equilibrated Initial Conditions}
 This investigation is partially motivated by the prospect of decreasing nonlinear simulation relaxation times by employing thermally-equilibrated initial conditions. Conventionally, (\ref{EQ:motion1}) - (\ref{EQ:motion3}) are solved via direct numerical simulation (DNS) with initial conditions
@@ -275,7 +264,7 @@ which will hereby be referred to as the conductive initial condition. $t$ in thi
     p(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[P_n (z) e^{ik_{x_n}x}\Big]
 \end{align}
 Where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber at the $n$th marginal mode. The $\sqrt{2}$ factor is necessary for eigenfunction normalization. By construction, these initial conditions are thermally equilibrated. 
-Simulations launched with equilibrated initial conditions do not exhibit a convective-transient period, as the large-scale anatomy of plumes and convective winds which are characteristic of Rayleigh-B\'enard convection exist on initialization. This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $Nu$ is associated with a turbulent transitional period of upwelling until the distinctive jet-like structure is established. 
+Simulations launched with equilibrated initial conditions do not exhibit a convective-transient period, as the large-scale anatomy of plumes and convective winds which are characteristic of Rayleigh-B\'enard convection exist on initialization. This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $\Nu$ is associated with a turbulent transitional period of upwelling until the distinctive jet-like structure is established. 
 % \begin{figure}
 %     \centering
 %     \includegraphics[width=3.4in]{sim_eq_nu.png}
@@ -297,7 +286,7 @@ Consequently, marginally-stable thermally-equilibrated initial conditions do not
     \begin{minipage}[t]{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_nu.png}
-        \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). Simulations launched with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. This is illustrated by the $Nu$ spike at $t \sim 15$ in the convectional simulation.}
+        \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). Simulations launched with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. This is illustrated by the $\Nu$ spike at $t \sim 15$ in the convectional simulation.}
         \label{fig:nu_sim}
     \end{minipage}
     \hfill
@@ -309,11 +298,17 @@ Consequently, marginally-stable thermally-equilibrated initial conditions do not
     \end{minipage}
 \end{figure*}
 \section{Discussion}\label{sec:Discussion}
-In general, the reduced model we study in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. Solutions to the quasilinear problem retain several key features that are ubiquitous in experiments and simulations: power-law $Nu$ scaling, plume-like structures, and minimum length-scale approximations \cite{Malkus}. They also exhibit unique and unexpected features: gradient-reversal/dips in temperature profiles, kinetic exaggeration, and greater $Nu$ than other time-invariant solutions. We also obtain indistinguishable solutions despite initializing with different mean temperature profiles $\bar{T}$. Thus solutions might be unique, but we cannot demonstrate this rigorously.
+In general, the reduced model we study in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. Solutions to the quasilinear problem retain several key features that are ubiquitous in experiments and simulations: power-law $\Nu$ scaling, plume-like structures, and minimum length-scale approximations \cite{Malkus}. They also exhibit unique and unexpected features: gradient-reversal/dips in temperature profiles, kinetic exaggeration, and greater $\Nu$ than other time-invariant solutions. We also obtain indistinguishable solutions despite initializing with different mean temperature profiles $\bar{T}$. Thus solutions might be unique, but we cannot demonstrate this rigorously.
 \par The quasilinear problem can also be generalized to include an asymmetric mean horizontal-flow. Specifically, a second initial value problem, similar to (\ref{EQ:T0_IVP}), can be derived for $\bar{u}$. Doing so might yield solutions with greater resemblance to DNS results because we expect the Reynolds stress tensor to combat the kinetic exaggeration shown in Figure \ref{fig:ke_sim}. For this investigation, we require symmetry at each iteration, but the thermal evolution procedure appears unstable to asymmetry. This could be accommodated by requiring rotational symmetry about the midplane $\bar{u}(z, t) = -\bar{u}(-z, t)$. It's unclear whether solutions with nontrivial $\bar{u}$ exist or whether our algorithm would converge under these different circumstances.
 
-% \section*{Appendix}
-% This is an appendix
+\section*{Appendix}
+\subsection{Initial buoyancy profile} \label{sec:initial_profile}
+In an attempt to minimize the required number of iterations, we initialize with \cite{Shishkina}'s analytical thermal boundary layer equation for turbulent Rayleigh-B\'enard convection, given by 
+\begin{align}
+    \bar{T}_0(\xi) &= \frac{\sqrt{3}}{4\pi} \log \frac{(1 + a\xi)^3}{1 + (a\xi)^3} + \frac{3}{2\pi} \arctan \Big( \frac{4\pi}{9}\xi - \frac{1}{\sqrt{3}} \Big) + \frac{1}{4} \nonumber \\
+    \xi &= \frac{z}{\delta_0}, \qquad a = \frac{2\pi}{3\sqrt{3}}\label{EQ:T0}
+\end{align}
+where $\delta_0$ is the boundary layer thickness. We expect that each $\Ra$ is associated with a unique $\delta_0$ for which $\bar{T}_0(z)$ is marginally-stable. It should be noted that when experimenting with various initial profiles $(\tanh, \rm{erf}, \rm{etc.})$, we obtain indistinguishable equilibrated states, implying that solutions may be unique. An example of (\ref{EQ:T0}) is given by the blue curve in Figure \ref{fig:T0_profiles}.
 
 \section*{Acknowledgments}
 The authors thank Jeff Vassil, Greg Chini, Emma Kaufman for their valuable feedback and suggestions. We also thank the \texttt{Dedalus} and \texttt{Eigentools} developers. Computations were performed on the NASA Pleiades system.
