@@ -29,6 +29,7 @@ RA5E8/*
 *.log
 *.fls
 *.cls
+*.blg
 *.fdb_latexmk
 *.gz
 *.bib
