@@ -31,7 +31,7 @@ def main(filename, start, count, output):
 
     # Plot writes
     with h5py.File(filename, mode='r') as file:
-        ke_data = pickle.load(open(path + '/ke_data_nom.pick', 'rb'))
+        ke_data = pickle.load(open(path + '/ke_data_eq2.pick', 'rb'))
         ke_ar = ke_data['ke_ar']
         # ke_max_ar = ke_data['ke_max_ar']
         sim_times_ar = ke_data['sim_times_ar']
@@ -41,7 +41,7 @@ def main(filename, start, count, output):
             sim_times_ar.append(file['scales/sim_time'][index])
         ke_data['ke_ar'] = ke_ar
         ke_data['sim_times_ar'] = sim_times_ar
-        pickle.dump(ke_data, open(path + '/ke_data_nom.pick', 'wb'))
+        pickle.dump(ke_data, open(path + '/ke_data_eq2.pick', 'wb'))
         
 
 
@@ -60,7 +60,7 @@ if __name__ == "__main__":
         args = docopt(__doc__)
         output_path = pathlib.Path(args['--output']).absolute()
         ke_data = {'ke_ar' : [], 'sim_times_ar' : []}
-        pickle.dump(ke_data, open(path + '/ke_data_nom.pick', 'wb'))
+        pickle.dump(ke_data, open(path + '/ke_data_eq2.pick', 'wb'))
 
         # Create output directory if needed
         with Sync() as sync:
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                     output_path.mkdir()
         post.visit_writes(args['<files>'], main, output=output_path)
     else:
-        ke_data_eq = pickle.load(open(path + '/ke_data_eq.pick', 'rb'))
+        ke_data_eq = pickle.load(open(path + '/ke_data_eq2.pick', 'rb'))
         ke_data = pickle.load(open(path + '/ke_data_nom.pick', 'rb'))
 
         ke_ar_eq = ke_data_eq['ke_ar']
@@ -84,4 +84,4 @@ if __name__ == "__main__":
         plt.ylabel(r'$\overline{|\mathbf{u}|^2}$')
         plt.title(r'$Ra \, = \, 10^8$')
         # plt.savefig(path + '/pubfigs/sim_eq_ke')
-        plt.savefig(path + '/publication_materials/sim_eq_ke')
+        plt.savefig(path + '/publication_materials/sim_eq_ke_p0')
