@@ -104,20 +104,21 @@ We initialize 2-dimensional simulations with solutions to the quasilinear proble
 \maketitle
 
 \section{Introduction}
-Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings. 
-Our understanding of turbulent convective systems is generally limited by the prohibitive computational costs associated with direct numerical simulations \cite{Zhu}. 
-There exists a substantial body of work concerning the asymptotic scaling laws of such systems with no general consensus. 
-Reduced models are particularly useful in this context because they allow us to study the underlying behavior of turbulent convection with relatively low expense. 
+Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings.
+Such systems regulate heat transfer and can be associated with violently turbulent flows.
+
+Aggressive convection is associated with large Rayleigh numbers $Ra$ and is difficult to simulate. State of the art convection simulations performed by \cite{Zhu} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
+The scaling behavior of the Nusselt number $\Nu$ (convective strength) in the highly turbulent ultimate regime is of particular interest.
+There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus}, \cite{Kraichnan} \cite{Spiegel}, \cite{Castaing}, \cite{Grossman}, \cite{Ahlers}. 
+
+Reduced models are particularly useful in this context because they allow us to study the system with relatively low expense. 
+Much of the published work on this topic relates to unstable time-invariant solutions \cite{Waleffe}, \cite{Sondak}, \cite{Wen}, \cite{chini_cells}. 
+Simulations and analysis performed by \cite{Yalniz} suggest that solution trajectories can be described by a Markov process, vacillating between these steady solutions.
 
 In this investigation, we derive and solve a quasilinear form of the Boussinesq Rayleigh–Bénard convection equations using a strategy similar to \cite{Chini_sw}. 
 This is realized by solving the linearized equations and evolving a mean temperature profile according to the perturbation variables. 
 In general, each set of perturbations has an arbitrary amplitude which we obtain by imposing marginal stability. 
 The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
-
-Reduced models are often valuable when supplemented by direct simulation [source?]. 
-Nonlinear simulations performed with quasilinear solutions as initial conditions do not undergo a convective transient period of turbulent upwelling. 
-Instead, the characteristic jet-like structure is somewhat present on initialization. 
-This is practical because the convective transient period generally involves high-Reynolds number flows whose resolution is prohibitive. 
 
 \section{Conventional Boussinesq Linear Stability Analysis}\label{sec:boussinesq}
 We begin with the non-dimensionalized Boussinesq approximation for Rayleigh-Bénard Convection. 
@@ -306,7 +307,9 @@ This counter-diffusion, which opposes overall heat transfer, is overcome by the 
     For large $Ra$, high-wavenumber modes contribute pronounced small-scale advection profiles which tightly hug the thin boundary layers. 
     A combination of of progressively wider advection profiles is necessary to transition to the $k_x = 1.5\pi$ mode.}
     \label{fig:flux}
-    \vspace{0.4in}
+\end{figure*}
+\begin{figure*}
+    \centering
     \includegraphics[width=7.1in]{nu_ra.PNG}
     \caption{Nusselt numbers are shown for marginally-stable thermally-equilibrated states, statistically-steady direct numerical simulations performed with \texttt{Dedalus} \cite{Anders_cd}, and equilibrated nonlinear solutions, which maximize heat flux, given by \cite{Waleffe}. 
     Both obey power-law relationships with $Ra$, with $Ra \sim \Nu^3$ in agreement with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} as well as \cite{Malkus}. 
@@ -472,7 +475,33 @@ Computations were performed on the NASA Pleiades system.
 
 \bibitem{Waleffe} Waleffe F., Boonkasame A., Smith L.M. Heat transport by coherent Rayleigh–Bénard convection Phys. Fluids, 27 (2015), Article 051702
 
-\bibitem{Yalniz} Coarse graining the state space of a turbulent flow using periodic orbits Yalnız, Gökhan; Hof, Björn; Burak Budanur, Nazmi
+\bibitem{Yalniz} Yalnız, Gökhan; Hof, Björn; Burak Budanur, Nazmi. Coarse graining the state space of a turbulent flow using periodic orbits 
+
+\bibitem{Ossendrijver} The solar dynamo. Ossendrijver, M. The Astron. Astrophys. Rev. 11, 287–367 (2003).
+
+\bibitem{Kraichnan} Kraichnan, R. Turbulent Thermal Convection at Arbitrary Prandtl Number (1962). https://doi.org/10.1063/1.1706533
+
+% \bibitem{Featherstone} The Spectral Amplitude of Stellar Convection and its Scaling in the High-Rayleigh-Number Regime. Featherstone, N. A., \& Hindman, B. W. (2016). The Astrophysical Journal, 818, 32–45.
+
+
+\bibitem{chini_cells} Large Rayleigh number thermal convection: heat flux predictions and strongly nonlinear solutions. Chini, G. P., \& Cox, S. M. (2009). Physics of Fluids, 21, doi:10.1063/1.3210777
+
+\bibitem{Sondak} Sondak, D., Smith, L., \& Waleffe, F. (2015). Optimal heat transport solutions for Rayleigh–Bénard convection. Journal of Fluid Mechanics, 784, 565-595. doi:10.1017/jfm.2015.615
+
+% scaling review
+\bibitem{Grossman} Grossman, S., \& Lohse, D. (2000). Scaling in thermal convection: A unifying theory. Journal of Fluid Mechanics, 407, 27-56. doi:10.1017/S0022112099007545
+
+% modal convection: scaling
+\bibitem{Spiegel} Thermal Turbulence at Very Small Prandtl Number. Spiegel, E. (1962) Journal of Geophysical Research, https://doi.org/10.1029/JZ067i008p03063
+
+\bibitem{Castaing} Castaing, B. et al. (1988) Scaling of hard Thermal Turbulence in Rayleigh-B\'enard Convection
+
+\bibitem{Ahlers} Ahlers, G. Heat transfer \& large-scale dynamics in turbulent Rayleigh-B´enard convection
+
+\bibitem{Shraiman} Shraiman BI, Siggia ED. Heat transport in high-Rayleigh-number convection. Phys Rev A. 1990 Sep 15;42(6):3650-3653. doi: 10.1103/physreva.42.3650. PMID: 9904456.
+
+\bibitem{Wen} Wen, B., Goluskin, D., Doering, C. (2020) Steady Rayleigh–B´enard convection between no-slip boundaries
+
 
 \end{thebibliography}
 
