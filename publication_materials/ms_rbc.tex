@@ -93,10 +93,10 @@ $^1$Department of Engineering Sciences and Applied Mathematics, Northwestern Uni
 $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, Northwestern University, Evanston, IL, 60201 USA}
 
 \begin{abstract}
-Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive -- particularly in the large Rayleigh number limit.
+Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive -- particularly in the large Rayleigh number regime.
 In this investigation, we derive and solve a quasilinear form of the Boussinesq Rayleigh-B\'enard equations. 
 Eigenfunction amplitudes are obtained by requiring marginal-stability. We obtain symmetric thermally-equilibrated solutions and analyze their properties. 
-We compare these solutions with statistically-steady 2-dimensional Rayleigh-Be\'nard convection simulations; marginally-stable thermally-equilibrated states have thinner boundary layers and larger Nusselt numbers $\Nu$ which scale like $\Nu \sim Ra^{1/3}$. 
+Solutions to the quasilinear problem differ from statistically-steady 2-dimensional Rayleigh-Be\'nard convection simulation data, having thinner boundary layers and larger Nusselt numbers $\Nu$ which scale like $\Nu \sim Ra^{1/3}$. 
 We initialize 2-dimensional simulations with solutions to the quasilinear problem; they do not undergo a convective transient period and are kinetically exaggerated.
 \end{abstract}
 
@@ -105,19 +105,19 @@ We initialize 2-dimensional simulations with solutions to the quasilinear proble
 
 \section{Introduction}
 Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings.
-Buoyancy-driven convection regulates heat transfer and often gives way to violently turbulent flows. 
+Buoyancy-driven convection regulates heat transfer and often gives way to violently turbulent flows, thereby dominating the large-scale behaviors and fueling small-scale processes \cite{Couston} in important systems.
 
-The simulation of aggressive convection, which is associated with large Rayleigh numbers $Ra$, is expensive. 
+Aggressive convection, which is associated with large Rayleigh numbers $Ra$, is difficult to simulate. 
 State of the art convection simulations performed by \cite{Zhu} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
-The scaling behavior of the Nusselt number $\Nu$ (convective strength) in the highly turbulent ultimate regime is of particular interest.
+The scaling behavior of the Nusselt number $\Nu$ (nondimensionalized heat transfer) in the highly turbulent ultimate regime is of particular interest.
 There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus}, \cite{Kraichnan} \cite{Spiegel}, \cite{Castaing}, \cite{Grossman}, \cite{Ahlers}. 
 
-Reduced models are particularly useful in this context because they allow us to study the system with relatively low expense. 
-Much of the published work on this topic relates to unstable time-invariant solutions \cite{Waleffe}, \cite{Sondak}, \cite{Wen}, \cite{chini_cells}. 
-Simulations and analysis performed by \cite{Yalniz} and \cite{Cvitanovic} suggest that chaotic solution trajectories can be modelled as a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of time-invariant unstable solutions. Should that be the case, it is crucial that we discover and classify such time-invariant solutions.
+Reduced models are particularly useful in this context because they allow us to study the problem with relatively low expense. 
+Much of the published work on this topic relates to unstable coherent solutions \cite{Waleffe}, \cite{Sondak}, \cite{Wen}, \cite{chini_cells}. 
+Simulations and analysis performed by \cite{Yalniz} and \cite{Cvitanovic} suggest that chaotic solution trajectories can be modelled as a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of unstable coherent solutions. Should that be the case, it is crucial that we discover and classify such states.
 
-In \cite{Chini_sw}, researchers develop and solve a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. This is realized by defining a mean state, which which is marginally stable, then analytically deriving an equation for then first-order perturbations' amplitude. 
-In this investigation, we seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
+In \cite{Chini_sw}, researchers develop and solve a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. This is realized by defining a mean state which hypothetically evolves on a slow time-scale. An analytic expression for the first-order perturbations' amplitude is found by deriving a solvability condition of the second-order perturbations and integrating over the domain spatially. 
+We seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
 The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
 
 \section{Model Setup}\label{sec:model}
@@ -501,6 +501,8 @@ Computations were performed on the NASA Pleiades system.
 \bibitem{Wen} Wen, B., Goluskin, D., Doering, C. (2020) Steady Rayleigh–B´enard convection between no-slip boundaries
 
 \bibitem{Cvitanovic} P Cvitanovic and J F Gibson (2010). Geometry of the turbulence in wall-bounded shear flows: periodic orbits. http://dx.doi.org/10.1088/0031-8949/2010/T142/014007
+
+\bibitem{Couston} Couston, L.A., Lacoanet, D., Favier, B., Bars, M. (2019). Shape and size of large-scale vortices: a universal fluid pattern in geophysical dynamics 
 
 
 \end{thebibliography}
