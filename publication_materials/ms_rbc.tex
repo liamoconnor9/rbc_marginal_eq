@@ -105,7 +105,7 @@ We initialize 2-dimensional simulations with solutions to the quasilinear proble
 
 \section{Introduction}
 Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings.
-Such systems regulate heat transfer and can be associated with violently turbulent flows.
+Buoyancy-driven convection regulates heat transfer and often gives way to violently turbulent flows. 
 
 Aggressive convection is associated with large Rayleigh numbers $Ra$ and is difficult to simulate. State of the art convection simulations performed by \cite{Zhu} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
 The scaling behavior of the Nusselt number $\Nu$ (convective strength) in the highly turbulent ultimate regime is of particular interest.
@@ -113,11 +113,10 @@ There exists a substantial body of work pertaining to this specific topic with n
 
 Reduced models are particularly useful in this context because they allow us to study the system with relatively low expense. 
 Much of the published work on this topic relates to unstable time-invariant solutions \cite{Waleffe}, \cite{Sondak}, \cite{Wen}, \cite{chini_cells}. 
-Simulations and analysis performed by \cite{Yalniz} suggest that solution trajectories can be described by a Markov process, vacillating between these steady solutions.
+Simulations and analysis performed by \cite{Yalniz} and \cite{Cvitanovic} suggest that chaotic solution trajectories can be modelled as a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of time-invariant unstable solutions. Should that be the case, it is crucial that we discover and classify such time-invariant solutions.
 
-In this investigation, we derive and solve a quasilinear form of the Boussinesq Rayleigh–Bénard convection equations using a strategy similar to \cite{Chini_sw}. 
-This is realized by solving the linearized equations and evolving a mean temperature profile according to the perturbation variables. 
-In general, each set of perturbations has an arbitrary amplitude which we obtain by imposing marginal stability. 
+In \cite{Chini_sw}, researchers develop and solve a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. This is realized by defining a mean state, which which is marginally stable, then analytically deriving an equation for then first-order perturbations' amplitude. 
+In this investigation, we seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
 The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
 
 \section{Conventional Boussinesq Linear Stability Analysis}\label{sec:boussinesq}
@@ -501,6 +500,8 @@ Computations were performed on the NASA Pleiades system.
 \bibitem{Shraiman} Shraiman BI, Siggia ED. Heat transport in high-Rayleigh-number convection. Phys Rev A. 1990 Sep 15;42(6):3650-3653. doi: 10.1103/physreva.42.3650. PMID: 9904456.
 
 \bibitem{Wen} Wen, B., Goluskin, D., Doering, C. (2020) Steady Rayleigh–B´enard convection between no-slip boundaries
+
+\bibitem{Cvitanovic} P Cvitanovic and J F Gibson (2010). Geometry of the turbulence in wall-bounded shear flows: periodic orbits. http://dx.doi.org/10.1088/0031-8949/2010/T142/014007
 
 
 \end{thebibliography}
