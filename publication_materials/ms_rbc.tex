@@ -107,7 +107,8 @@ We initialize 2-dimensional simulations with solutions to the quasilinear proble
 Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings.
 Buoyancy-driven convection regulates heat transfer and often gives way to violently turbulent flows. 
 
-Aggressive convection is associated with large Rayleigh numbers $Ra$ and is difficult to simulate. State of the art convection simulations performed by \cite{Zhu} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
+The simulation of aggressive convection, which is associated with large Rayleigh numbers $Ra$, is expensive. 
+State of the art convection simulations performed by \cite{Zhu} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
 The scaling behavior of the Nusselt number $\Nu$ (convective strength) in the highly turbulent ultimate regime is of particular interest.
 There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus}, \cite{Kraichnan} \cite{Spiegel}, \cite{Castaing}, \cite{Grossman}, \cite{Ahlers}. 
 
@@ -119,7 +120,7 @@ In \cite{Chini_sw}, researchers develop and solve a quasilinear formulation of t
 In this investigation, we seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
 The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
 
-\section{Conventional Boussinesq Linear Stability Analysis}\label{sec:boussinesq}
+\section{Model Setup}\label{sec:model}
 We begin with the non-dimensionalized Boussinesq approximation for Rayleigh-Bénard Convection. 
 The domain is 2-dimensional rectangular and horizontally periodic with spatial dimensions $0 < x < 4$ and $-1/2 < z < 1/2$. 
 The fluid of interest is constrained between two planar boundaries at $z = -1/2$ and $z = 1/2$ with fixed temperatures $1$ and $0$ respectively. 
@@ -127,29 +128,17 @@ At both boundaries we specify impenetrable, no-slip conditions, such that the ve
 The equations of motion are then given by
 \begin{align}
     \nabla \cdot \mathbf{u} &= 0 \label{EQ:motion1}\\
-    \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} &= - \nabla p + T \hat{z} + \sqrt{\frac{Pr}{Ra}} \nabla^2 \mathbf{u} \label{EQ:motion2}\\
-    \frac{\partial T}{\partial t} + \mathbf{u} \cdot \nabla T &= \frac{1}{\sqrt{RaPr}} \nabla^2 T \label{EQ:motion3}
+    \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} &= - \nabla p + T \hat{z} + \mathcal{R} \nabla^2 \mathbf{u} \label{EQ:motion2}\\
+    \frac{\partial T}{\partial t} + \mathbf{u} \cdot \nabla T &= \mathcal{P} \nabla^2 T \label{EQ:motion3}
 \end{align}
 where $p$ is pressure and $T$ is temperature. 
 For completeness, we specify a final boundary condition $p = p_0$ at $z = \pm 1/2$. 
-Any system of this form can be characterized by its Rayleigh number $Ra$ and Prandtl number $Pr$, where $Ra$ is the timescale ratio of thermal diffusion to convection and $Pr$ is the ratio of momentum diffusivity to thermal diffusivity.  
-For convenience, we define 
+Any system of this form can be characterized by its dimensionless Rayleigh number $Ra = \frac{g\alpha L^3 \Delta T}{\nu \kappa}$ and Prandtl number $Pr = \frac{\nu}{\kappa}$, where $g, \, \alpha, \, L, \, \Delta T, \nu, \kappa$ are the gravitational acceleration, coefficient of thermal expansion, domain height, boundary temperature difference, kinematic viscosity, and thermal diffusivity respectively. 
 \begin{equation}
 \mathcal{R} = \sqrt{\frac{Pr}{Ra}}, \qquad \mathcal{P} = \frac{1}{\sqrt{Pr Ra}}.
 \end{equation}
 
-To derive the linearized system, we posit that each field can be represented as the sum of a mean profile (denoted by $\bar{\cdot } \;$) and a perturbation function (denoted by $\cdot'$). 
-At an arbitrary time $t_0$, suppose $\frac{\partial \bar{T}}{\partial z} (z)$ is some given function which satisfies
-\begin{equation}
-    \int_{-\frac{1}{2}}^{\frac{1}{2}} \frac{\partial \bar{T}}{\partial z}\Big|_{t=t_0} dz = -1.
-\end{equation}
-Then the mean profiles are given by
-\begin{align}
-    \mathbf{\bar{u}} &= \mathbf{0} \\
-    \bar{T}(z) &= 1 + \int_{-\frac{1}{2}}^{z} \frac{\partial \bar{T}}{\partial \zeta}\Big|_{t=t_0}(\zeta) d\zeta \\
-    \bar{p}(z) &= p_0 + \int_{-\frac{1}{2}}^z \bar{T}\Big|_{t=t_0}(\zeta) d\zeta.
-\end{align}
-Accordingly, the fields are defined as
+To derive the linearized system, we posit that each field can be represented as the sum of a mean profile (denoted by $\bar{\cdot } \;$) and a perturbation function (denoted by $\cdot'$).
 \begin{align}
     \mathbf{u}(x, z, t) &= \mathbf{u'}(x, z, t) \label{EQ:reynolds_dc_u}\\
     &= u'(x, z, t)\hat{x} + w'(x, z, t)\hat{z} \\
@@ -183,8 +172,7 @@ Positive eigenvalues indicate that the system is unstable to small disturbances 
 A complete linear stability analysis requires solution over the full spectrum of wavenumbers. 
 The prototypical case is used to demonstrate that the critical Rayleigh number $Ra_c = 1708$ when $\frac{\partial \bar{T}}{\partial z} = -1$.
 
-\section{Temperature profile evolution}\label{sec:evolution}
-For this investigation, we allow $ \bar{T}$ to vary in $z$ and $t$. Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) yields
+For this investigation, we allow $\bar{T}$ to vary in $z$ and $t$. Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) yields
 \begin{align}
     \frac{\partial \bar{T}}{\partial t} + \mathbf{u}' \cdot \nabla T' + \frac{\partial T'}{\partial t} + \frac{\partial \bar{T}}{\partial z} w' = \mathcal{P} \nabla^2 T' + \mathcal{P} \nabla^2 \bar{T}.
     \label{EQ:T't_xz}
@@ -197,7 +185,7 @@ Taking the horizontal average of (\ref{EQ:T't_xz}), this advective term can be r
 \end{align}
 where $\langle \cdot \rangle$ denotes the horizontal average. 
 The remaining terms in (\ref{EQ:T't_xz}) are unaffected as they are independent of $x$. 
-The eigenfunctions $W(z),\, U(z),\, \theta(z),$ and $P(z)$ do not admit any natural normalization, as (\ref{EQ:linear1}) - (\ref{EQ:linear3}) and their subsequent forms are linear with respect to the perturbations. 
+The eigenfunctions $W(z),\, U(z),\, \theta(z),$ and $P(z)$ do not admit any natural normalization, as (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) and their subsequent forms are linear with respect to the perturbations. 
 For completeness, we provide the normalization 
 \begin{equation}
     \int_{-\frac{1}{2}}^{\frac{1}{2}} \big| \theta (z) \big| dz = 1
@@ -209,8 +197,18 @@ and assign each perturbation a yet-unknown amplitude $A \in \mathbb{R}$, thereby
 upon which the remainder of this investigation is centered. 
 It is important to keep in mind that the forcing term $\langle w'T' \rangle$ is obtained by solving an eigenvalue problem (EVP) which itself involves $\frac{\partial \bar{T}}{\partial z}$. 
 We also assume this term is composed of eigenfunctions belonging to the dominant mode. 
-\par For various $Ra$ and fixed $Pr = 1$, we seek symmetric, marginally-stable temperature profiles $\bar{T}_{eq}(z)$ which are thermally equilibrated, thereby satisfying $\frac{\partial \bar{T}_{eq}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
-We employ the \texttt{Dedalus} pseudo-spectral python framework to solve the EVP outlined in Section \ref{sec:boussinesq} as well as the IVP (\ref{EQ:T0_IVP}) by representing each field with a dealiased Chebyshev polynomial basis. 
+
+\section{Perturbation Evolution}
+Solving the linearized system (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) does not yield $A^2$. 
+To evolve $\bar{T}$ numerically, we assume the perturbations and mean quantities depend on different time-scales, as in \cite{Chini_sw}. On the fast time-scale, stable modes will decay and unstable modes will act according to (\ref{EQ:T0_IVP}). 
+We make the ansatz that only marginally stable modes will affect $\bar{T}$ on long time-scales
+\begin{equation}
+    \max_{k_x} \{ \omega \} = 0
+\end{equation}
+thereby constraining $A^2$ at each timestep.
+
+For various $Ra$ and fixed $Pr = 1$, we seek symmetric, marginally-stable temperature profiles $\bar{T}_{eq}(z)$ which are thermally equilibrated, thereby satisfying $\frac{\partial \bar{T}_{eq}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
+We employ the \texttt{Dedalus} pseudo-spectral python framework to solve the EVP outlined in Section \ref{sec:model} as well as the IVP (\ref{EQ:T0_IVP}) by representing each field with a dealiased Chebyshev polynomial basis. 
 The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large Rayleigh numbers admit increasingly small-scale features. 
 We supplement \texttt{Dedalus} with the \texttt{Eigentools} package to obtain the eigenfunctions in (\ref{EQ:T0_IVP}).
 
@@ -360,8 +358,9 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
 Nusselt numbers $\Nu$ of various solutions are given in Figure \ref{fig:nu_vs_ra}. 
 The marginally-stable thermally-equilibrated states and numerical simulation data exhibit power-law relationships with $Ra$. 
 More specifically, $Ra \sim \Nu^3$ which agrees with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} and the scaling argument given by \cite{Malkus}. 
-The nonlinear solutions, which maximize heat flux, are obtained \cite{Waleffe}. 
-$\Nu$ of both equilibria exceed that of simulations, which might be due to the transitional behaviors outlined by \cite{Yalniz} inhibiting heat flux.
+The nonlinear solutions, which maximize heat flux, are obtained by \cite{Waleffe}. 
+$\Nu$ of both equilibria exceed that of simulations, which might be due to the transitional behaviors outlined by \cite{Yalniz} and \cite{Cvitanovic} inhibiting heat flux. 
+Alternatively, we might anticipate the existence of exact coherent states with smaller $\Nu$, forming another node in the Markov chain whose long-term behavior agrees with the simulation data.
 
 \section{Simulations with Thermally Equilibrated Initial Conditions}
 This investigation is partially motivated by the prospect of decreasing nonlinear simulation relaxation times by employing thermally-equilibrated initial conditions. 
@@ -390,7 +389,7 @@ This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $\Nu$ i
 %     \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). Simulations launched with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. This is illustrated by the $Nu$ spike at $t \sim 15$ in the convectional simulation.}
 %     \label{fig:nu_sim}
 % \end{figure}
-\par The marginally-stable equilibria are associated with a combination of eigenfunctions whose average kinetic energy is significantly larger than the statistical steady state, as given by Figure \ref{fig:ke_sim}. 
+The marginally-stable equilibria are associated with a combination of eigenfunctions whose average kinetic energy is significantly larger than the statistical steady state, as given by Figure \ref{fig:ke_sim}. 
 This is postpones kinetic relaxation because the large horizontal flows decay on a viscous timescale
 \begin{equation}
     t_{\nu} \sim \sqrt{\frac{Ra}{Pr}}. \nonumber
