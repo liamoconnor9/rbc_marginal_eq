@@ -110,11 +110,11 @@ Buoyancy-driven convection regulates heat transfer and often gives way to violen
 Aggressive convection, which is associated with large Rayleigh numbers $Ra$, is difficult to simulate. 
 State of the art convection simulations performed by \cite{Zhu_2018} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
 The scaling behavior of the Nusselt number $\Nu$ (nondimensionalized heat transfer) in the highly turbulent ultimate regime is of particular interest.
-There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus_1954}, \cite{Howard_1966}, \cite{Kraichnan} \cite{Spiegel}, \cite{Castaing}, \cite{Grossman}, \cite{Ahlers}. 
+There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus_1954, Howard_1966, Kraichnan, Spiegel, Castaing, Grossman, Ahlers}. 
 
 Reduced models are particularly useful in this context because they allow us to study the problem with relatively low expense. 
-Much of the published work on this topic relates to unstable exact coherent states (ECS) \cite{Waleffe}, \cite{Sondak}, \cite{Wen}, \cite{chini_cells}. 
-Simulations and analysis performed by \cite{Yalniz} and \cite{Cvitanovic} suggest that chaotic simulation trajectories can be represented by a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of ECS. Should that be the case, it is crucial that we discover and classify such states.
+Much of the published work on this topic relates to unstable exact coherent states (ECS) \cite{Waleffe, Sondak, Wen,chini_cells}. 
+Simulations and analysis performed by \cite{Yalniz, Cvitanovic} suggest that chaotic simulation trajectories can be represented by a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of ECS. Should that be the case, it is crucial that we discover and classify such states.
 
 In \cite{michel_chini_2019}, researchers develop and solve a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. This is realized by defining a mean state which, hypothetically, evolves on a slow time-scale. An analytic expression for the first-order perturbations' amplitude is found by deriving a solvability condition of the second-order perturbations and integrating over the domain spatially. 
 We seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
@@ -142,22 +142,26 @@ To derive the quasilinear form, we posit that each field can be represented as t
 \begin{align}
     \mathbf{u}(x, z, t) &= A(t) \mathbf{u'}(x, z, t) \label{EQ:reynolds_dc_u}\\
     &= A(t) u'(x, z, t)\hat{x} + A(t) w'(x, z, t)\hat{z} \\
-    T(x, z, t) &= \bar{T}(z) + A(t) T'(x, z, t) \label{EQ:reynolds_dc_T}\\
-    p(x, z, t) &= \bar{p}(z) + A(t) p'(x, z, t).
+    T(x, z, t) &= \bar{T}(z, t) + A(t) T'(x, z, t) \label{EQ:reynolds_dc_T}\\
+    p(x, z, t) &= \bar{p}(z, t) + A(t) p'(x, z, t) \label{EQ:reynolds_dc_p}.
 \end{align}
-where $A(t)$ is some unknown real amplitude and the mean-velocity components vanish due to incompressibility and symmetry. We require that perturbations have no horizontal-average, i.e. an arbitrary perturbation $f'$ obeys
+where $A(t)$ is some unknown real amplitude and the mean-velocity components vanish due to incompressibility and symmetry. Perturbations must admit no horizontal-average; an arbitrary perturbation $f'$ obeys
 \begin{equation}
     \langle f'(x, z, t) \rangle_x \equiv \int_{0}^4 f'(x, z, t) dx = 0.
 \end{equation}
-Assuming the existance of nontrivial solutions, we also fix the volume-average
+Assuming the existance of nontrivial solutions, we also fix the volume-average 
 \begin{equation}
   \langle \langle T'^2 \rangle_x \rangle_z = 1
 \end{equation}
-thereby constraining $A(t)$. 
-Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) yields 
+thereby alleviating any ambiguity in $A(t)$. 
+Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) and taking the horizontal average reduces the system to a simple initial value problem (IVP) for $\bar{T}$
+\begin{equation}
+  \frac{\partial \bar{T}}{\partial t} + A^2 \langle w'T' \rangle = \mathcal{P}  \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
+\end{equation}
+with associated boundary conditions $\bar{T}(-1/2, t) = 1$ and $\bar{T}(1/2, t) = 0$. It should be noted that we could obtain a similar IVP for $u$ by breaking symmetry and considering some nontrivial mean horizontal flow $\bar{u}(z, t)$. However we must have $\bar{w}(z, t) = 0$ due to incompressibility.
 
-
-Upon substitution, we equate terms which scale linearly with the perturbations, yielding the linearized stability equations
+To solve (\ref{EQ:T0_IVP}) numerically, we need the perturbations and their associated amplitude function $A(t)$. 
+The former is obtained by solving the linearized system. Substituting (\ref{EQ:reynolds_dc_u})--(\ref{EQ:reynolds_dc_p}) into (\ref{EQ:motion1})--(\ref{EQ:motion3}) and subtracting (\ref{EQ:T0_IVP}) from the resulting temperature equation gives
 \begin{align}
     \nabla \cdot \mathbf{u'} &= 0 \label{EQ:linear1}\\
     \frac{\partial\mathbf{u'}}{\partial t} &= - \nabla p' + T'\hat{z} + \mathcal{R} \nabla^2 \mathbf{u'} \label{EQ:linear2}\\
@@ -167,6 +171,7 @@ with Dirichlet boundary conditions
 \begin{equation}
     T'|_{z = \pm \frac{1}{2}} = 0, \quad u'|_{z = \pm \frac{1}{2}} = 0, \quad p'|_{z = \pm \frac{1}{2}} = 0.
 \end{equation}
+
 In 1916, Lord Rayleigh observed that (\ref{EQ:linear1}) and (\ref{EQ:linear3}) can be manipulated into a separable form with generalized solutions
 \begin{align}
     w'(x, z, t) &= W(z) \, e^{i(k_xx-st)} \label{EQ:normal_modes1}\\ 
@@ -183,25 +188,9 @@ Solution yields a finite set of eigenvalues, among which, that with maximum $\om
 Positive eigenvalues indicate that the system is unstable to small disturbances of wavenumber $k_x$, while negative eigenvalues indicate stability. 
 A complete linear stability analysis requires solution over the full spectrum of wavenumbers. 
 The prototypical case is used to demonstrate that the critical Rayleigh number $Ra_c = 1708$ when $\frac{\partial \bar{T}}{\partial z} = -1$.
-
-For this investigation, we allow $\bar{T}$ to vary in $z$ and $t$. Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) yields
-\begin{align}
-    \frac{\partial \bar{T}}{\partial t} + \mathbf{u}' \cdot \nabla T' + \frac{\partial T'}{\partial t} + \frac{\partial \bar{T}}{\partial z} w' = \mathcal{P} \nabla^2 T' + \mathcal{P} \nabla^2 \bar{T}.
-    \label{EQ:T't_xz}
-\end{align}
-Subtracting (\ref{EQ:linear3}) from (\ref{EQ:T't_xz}) eliminates several terms. 
-We can replace the advective term $\mathbf{u}' \cdot \nabla T'$ with $\grad \cdot (\mathbf{u}'T')$ due to (\ref{EQ:linear1}). 
-Taking the horizontal average of (\ref{EQ:T't_xz}), this advective term can be reduced to
-\begin{align}
-    \frac{1}{4}\int_0^4 \grad \cdot (\mathbf{u}'T') dx &= \frac{\partial }{\partial z}  \langle w'T' \rangle.
-\end{align}
-The remaining terms in (\ref{EQ:T't_xz}) are unaffected as they are independent of $x$, thereby allowing us to reduce (\ref{EQ:T't_xz}) to the initial value problem (IVP)
-\begin{equation}
-    \frac{\partial \bar{T}}{\partial t} + A^2 \langle w'T' \rangle = \mathcal{P}  \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
-\end{equation}
-upon which the remainder of this investigation is centered. 
-It is important to keep in mind that the forcing term $\langle w'T' \rangle$ is obtained by solving an eigenvalue problem (EVP) which itself involves $\frac{\partial \bar{T}}{\partial z}$. 
-We also assume this term is composed of eigenfunctions belonging to the dominant mode. 
+ 
+At some arbitrary time $t_0$, the forcing term $\langle w'T' \rangle$ can be found by solving an eigenvalue problem (EVP) which itself involves $\frac{\partial \bar{T}}{\partial z}$. 
+We also assume this term is composed of eigenfunctions belonging to the dominant mode(s). 
 
 \section{Perturbation Evolution}
 Solving the linearized system (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) does not yield $A^2$. 
@@ -212,34 +201,34 @@ We make the ansatz that only marginally stable modes will affect $\bar{T}$ on lo
 \end{equation}
 thereby constraining $A^2$ at each timestep.
 
-For various $Ra$ and fixed $Pr = 1$, we seek symmetric, marginally-stable temperature profiles $\bar{T}_{eq}(z)$ which are thermally equilibrated, thereby satisfying $\frac{\partial \bar{T}_{eq}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
+For various $Ra$ and fixed $Pr = 1$, we seek symmetric marginally-stable thermal equilibria (MSTE), thereby satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
 We employ the \texttt{Dedalus} pseudo-spectral python framework to solve the EVP outlined in Section \ref{sec:model} as well as the IVP (\ref{EQ:T0_IVP}) by representing each field with a dealiased Chebyshev polynomial basis. 
-The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large Rayleigh numbers admit increasingly small-scale features. 
-We supplement \texttt{Dedalus} with the \texttt{Eigentools} package to obtain the eigenfunctions in (\ref{EQ:T0_IVP}).
+The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large $Ra$ admit increasingly small-scale features. 
+We supplement \texttt{Dedalus} with the \texttt{Eigentools} package to compute $\langle w' T' \rangle$.
 
-To find an equilibrated profile, we begin with a marginally-stable initial profile $\bar{T}_0(z)$ whose construction is outlined in \ref{sec:initial_profile}. 
-We seek to evolve $\bar{T}_0(z)$ into a new marginally-stable profile $\bar{T}_1(z)$ according to (\ref{EQ:T0_IVP}) using forward-Euler. 
-This generally involves a unique and unknown value $A^2 > 0$. 
-Our method of finding $A^2$ is best illustrated through example.
+At $t = 0$, we begin with a marginally-stable initial profile $\bar{T}(z, 0)$ whose construction is outlined in \ref{sec:initial_profile}. 
+At some time $t = t_0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to (\ref{EQ:T0_IVP}) using forward-Euler. 
+This generally involves a unique and unknown value $A^2(t_0) > 0$. 
+Our method of finding $A^2(t_0)$ is best illustrated through example.
 
 \begin{figure}
     \includegraphics[width=3.4in]{EV_spectrum_ol.png}
-    \caption{Eigenvalue spectra for $Ra = 10^5$. The spectrum of a marginally-stable mean temperature profile $\bar{T}_0$ (shown in black) has a maximum eigenvalue of 0. 
+    \caption{Eigenvalue spectra for $Ra = 10^5$. The spectrum of a marginally-stable mean temperature profile $\bar{T}(z, t_0)$ (shown in black) has a maximum eigenvalue of 0. 
     Given a small fixed timestep $\Delta t$, diffusion destabilizes the system, increasing its eigenvalues (shown in blue). 
     Advection tends to stabilize the system, decreasing its eigenvalues (shown in red). 
-    It follows that there exists some proportion ($A^2$) of these two terms which yields a new marginally-stable mean temperature profile $\bar{T}_1$, whose spectrum is shown in green.}
+    It follows that there exists some proportion ($A^2(t_0)$) of these two terms which yields a new marginally-stable mean temperature profile $\bar{T}(z, t_0 + \Delta t)$, whose spectrum is shown in green.}
     \label{fig:iteration_spectra} 
 \end{figure}
 
-An iteration is performed as follows: diffusing a marginally-stable temperature profile $\bar{T}_0$ tends to increase its eigenvalues. 
-Ignoring the diffusive term and evolving according to advection tends the stabilize the system. The appropriate amplitude $A^2$ can then be approximated by
+An iteration is performed as follows: diffusing a marginally-stable temperature profile $\bar{T}(z, t_0)$ tends to increase its eigenvalues. 
+Ignoring the diffusive term and evolving according to advection tends the stabilize the system. The appropriate amplitude $A^2(t_0)$ can then be approximated by
 \begin{equation}
-    A^2 \sim -\frac{\omega_{\rm{diff}}}{\omega_{\rm{adv}}}
+    A^2(t_0) \sim -\frac{\omega_{\rm{diff}}}{\omega_{\rm{adv}}}
 \end{equation}
 where $\omega_{\rm{diff}}$ and $\omega_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode (corresponding to the blue and red points respectively at $k_x = \pi$ in Figure \ref{fig:iteration_spectra}). 
-$\bar{T}_0$ is then evolved according to (\ref{EQ:T0_IVP}) and another eigenvalue solve is performed. 
+$\bar{T}(z, t)$ is then evolved according to (\ref{EQ:T0_IVP}) and another eigenvalue solve is performed. 
 Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\omega_{\rm{max}} (A^2)$ which is locally differentiable. 
-Newton's method is used to find an amplitude which meets our marginal stability tolerance criterion $|\omega_{\rm{max}} (A^2)| \leq 10^{-9}$. 
+We use Newton's method to find an amplitude which satisfies our marginal stability tolerance criterion $|\omega_{\rm{max}} (A^2)| \leq 10^{-9}$. 
 The dominant mode is not fixed; an iteration can facilitate the transfer of marginal-stability from one mode to another. 
 In section \ref{sec:multiple_modes} we specify procedures for the treatment of multiple simultaneously marginal modes.
 
@@ -258,12 +247,11 @@ Should we converge upon a negative amplitude, that mode is discarded and the ite
 In general we find that no other obvious course of action yields equilibria.
 
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
-Thermally equilibrated states of this kind are solutions to a particular quasilinear form of the Rayleigh-B\'enard convection equations. 
+MSTE are solutions to the quasilinear form of the Rayleigh-B\'enard convection equations derived in section \ref{sec:model}. 
 For this investigation, we calculate solutions for $Ra$ in the range $10^5 - 10^9$. 
 Solutions are symmetric about $z = 0$ by construction. 
-This, combined with the fact that we did initialize a mean horizontal flow implies the absence of any nonzero horizontal velocity perturbations, as is the case in \cite{Waleffe}. 
 
-Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the equilibrated profile corresponds to the thermally relaxed state; and the simulation profile is obtained by performing a nonlinear simulation of (\ref{EQ:motion1})-(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. 
+Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the equilibrated profile corresponds to the thermally relaxed state; and the simulation profile is obtained by performing a nonlinear simulation of (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. 
 The simulation curve is more diffuse than the equilibrated curve, which in turn, is more diffuse than the initial curve. 
 Performing an eigenvalue solve by setting $\bar{T}$ equal to the simulation profile yields positive eigenvalues. 
 Comprehensively, this suggests that thermally-equilibrated states might maximize boundary layer thickness, while subject to the marginal stability constraint.
