@@ -105,18 +105,18 @@ We initialize 2-dimensional simulations with solutions to the quasilinear proble
 
 \section{Introduction}
 Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings.
-Buoyancy-driven convection regulates heat transfer and often gives way to violently turbulent flows, thereby dominating the large-scale behaviors and fueling small-scale processes \cite{Couston} in important systems.
+% Buoyancy-driven convection regulates heat transfer and often gives way to violently turbulent flows, thereby dominating large-scale behaviors and fueling small-scale processes in important systems \cite{Couston}.
 
 Aggressive convection, which is associated with large Rayleigh numbers $Ra$, is difficult to simulate. 
-State of the art convection simulations performed by \cite{Zhu} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
+% State of the art convection simulations performed by \cite{Zhu_2018} have reached $Ra = 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
 The scaling behavior of the Nusselt number $\Nu$ (nondimensionalized heat transfer) in the highly turbulent ultimate regime is of particular interest.
-There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus}, \cite{Kraichnan} \cite{Spiegel}, \cite{Castaing}, \cite{Grossman}, \cite{Ahlers}. 
+There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus}, \cite{Kraichnan} \cite{Spiegel}, \cite{Castaing}, \cite{Grossman}, \cite{Ahlers}, \cite{Malkus}. 
 
 Reduced models are particularly useful in this context because they allow us to study the problem with relatively low expense. 
-Much of the published work on this topic relates to unstable coherent solutions \cite{Waleffe}, \cite{Sondak}, \cite{Wen}, \cite{chini_cells}. 
-Simulations and analysis performed by \cite{Yalniz} and \cite{Cvitanovic} suggest that chaotic solution trajectories can be modelled as a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of unstable coherent solutions. Should that be the case, it is crucial that we discover and classify such states.
+Much of the published work on this topic relates to unstable exact coherent states (ECS) \cite{Waleffe}, \cite{Sondak}, \cite{Wen}, \cite{chini_cells}. 
+Simulations and analysis performed by \cite{Yalniz} and \cite{Cvitanovic} suggest that chaotic simulation trajectories can be represented by a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of ECS. Should that be the case, it is crucial that we discover and classify such states.
 
-In \cite{Chini_sw}, researchers develop and solve a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. This is realized by defining a mean state which hypothetically evolves on a slow time-scale. An analytic expression for the first-order perturbations' amplitude is found by deriving a solvability condition of the second-order perturbations and integrating over the domain spatially. 
+In \cite{Chini_sw}, researchers develop and solve a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. This is realized by defining a mean state which, hypothetically, evolves on a slow time-scale. An analytic expression for the first-order perturbations' amplitude is found by deriving a solvability condition of the second-order perturbations and integrating over the domain spatially. 
 We seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
 The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
 
@@ -133,18 +133,23 @@ The equations of motion are then given by
 \end{align}
 where $p$ is pressure and $T$ is temperature. 
 For completeness, we specify a final boundary condition $p = p_0$ at $z = \pm 1/2$. 
-Any system of this form can be characterized by its dimensionless Rayleigh number $Ra = \frac{g\alpha L^3 \Delta T}{\nu \kappa}$ and Prandtl number $Pr = \frac{\nu}{\kappa}$, where $g, \, \alpha, \, L, \, \Delta T, \nu, \kappa$ are the gravitational acceleration, coefficient of thermal expansion, domain height, boundary temperature difference, kinematic viscosity, and thermal diffusivity respectively. 
+Any system of this form can be characterized by its dimensionless Rayleigh number $Ra = \frac{g\alpha L^3 \Delta T}{\nu \kappa}$ and Prandtl number $Pr = \frac{\nu}{\kappa}$, where $g, \, \alpha, \, L, \, \Delta T, \nu, \kappa$ are the gravitational acceleration, coefficient of thermal expansion, domain height, boundary temperature difference, kinematic viscosity, and thermal diffusivity respectively. For convenience, we define
 \begin{equation}
 \mathcal{R} = \sqrt{\frac{Pr}{Ra}}, \qquad \mathcal{P} = \frac{1}{\sqrt{Pr Ra}}.
 \end{equation}
 
 To derive the linearized system, we posit that each field can be represented as the sum of a mean profile (denoted by $\bar{\cdot } \;$) and a perturbation function (denoted by $\cdot'$).
 \begin{align}
-    \mathbf{u}(x, z, t) &= \mathbf{u'}(x, z, t) \label{EQ:reynolds_dc_u}\\
-    &= u'(x, z, t)\hat{x} + w'(x, z, t)\hat{z} \\
-    T(x, z, t) &= \bar{T}(z) + T'(x, z, t) \label{EQ:reynolds_dc_T}\\
-    p(x, z, t) &= \bar{p}(z) + p'(x, z, t).
+    \mathbf{u}(x, z, t) &= A\mathbf{u'}(x, z, t) \label{EQ:reynolds_dc_u}\\
+    &= Au'(x, z, t)\hat{x} + Aw'(x, z, t)\hat{z} \\
+    T(x, z, t) &= \bar{T}(z) + AT'(x, z, t) \label{EQ:reynolds_dc_T}\\
+    p(x, z, t) &= \bar{p}(z) + Ap'(x, z, t).
 \end{align}
+where $A$ is some unknown real amplitude and the normalization
+\begin{equation}
+    \int_{-\frac{1}{2}}^{\frac{1}{2}} \big| \theta (z) \big| dz = 1
+\end{equation}
+is specified for completion.
 Upon substitution, we equate terms which scale linearly with the perturbations, yielding the linearized stability equations
 \begin{align}
     \nabla \cdot \mathbf{u'} &= 0 \label{EQ:linear1}\\
@@ -181,16 +186,9 @@ Subtracting (\ref{EQ:linear3}) from (\ref{EQ:T't_xz}) eliminates several terms.
 We can replace the advective term $\mathbf{u}' \cdot \nabla T'$ with $\grad \cdot (\mathbf{u}'T')$ due to (\ref{EQ:linear1}). 
 Taking the horizontal average of (\ref{EQ:T't_xz}), this advective term can be reduced to
 \begin{align}
-    \frac{1}{4}\int_0^4 \grad \cdot (\mathbf{u}'T') dx &= \frac{\partial }{\partial z}  \langle w'T' \rangle
+    \frac{1}{4}\int_0^4 \grad \cdot (\mathbf{u}'T') dx &= \frac{\partial }{\partial z}  \langle w'T' \rangle.
 \end{align}
-where $\langle \cdot \rangle$ denotes the horizontal average. 
-The remaining terms in (\ref{EQ:T't_xz}) are unaffected as they are independent of $x$. 
-The eigenfunctions $W(z),\, U(z),\, \theta(z),$ and $P(z)$ do not admit any natural normalization, as (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) and their subsequent forms are linear with respect to the perturbations. 
-For completeness, we provide the normalization 
-\begin{equation}
-    \int_{-\frac{1}{2}}^{\frac{1}{2}} \big| \theta (z) \big| dz = 1
-\end{equation}
-and assign each perturbation a yet-unknown amplitude $A \in \mathbb{R}$, thereby allowing us to reduce (\ref{EQ:T't_xz}) to the initial value problem (IVP)
+The remaining terms in (\ref{EQ:T't_xz}) are unaffected as they are independent of $x$, thereby allowing us to reduce (\ref{EQ:T't_xz}) to the initial value problem (IVP)
 \begin{equation}
     \frac{\partial \bar{T}}{\partial t} + A^2 \langle w'T' \rangle = \mathcal{P}  \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
 \end{equation}
@@ -265,8 +263,8 @@ Comprehensively, this suggests that thermally-equilibrated states might maximize
 
 The most resilient and unexpected feature of thermally equilibrated mean temperature profiles are the pronounced dips adjacent to the boundary layers. 
 These dips appear in every solution, regardless of $Ra$. 
-Physically, they correspond to thin layers in which the temperature gradient reverses, contradicting a hypothesis of \cite{Malkus}. 
-This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}. 
+Physically, they correspond to thin layers in which the temperature gradient reverses, contradicting a hypothesis of \cite{Malkus_1954}. 
+This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}.  
 \begin{figure}
     \centering
     \includegraphics[width=3.4in]{T_profs_na.png}
@@ -407,7 +405,7 @@ Consequently, marginally-stable thermally-equilibrated initial conditions do not
         \includegraphics[width=3.4in]{sim_eq_nu.png}
         \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). 
         Simulations run with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. 
-        This is illustrated by the $\Nu$ spike at $t \sim 15$ in the convectional simulation.}
+        % This is illustrated by the $\Nu$ spike at $t \sim 15$ in the convectional simulation.}
         \label{fig:nu_sim}
     \end{minipage}
 \end{figure}
@@ -454,7 +452,7 @@ The authors thank Jeff Vassil, Greg Chini, Emma Kaufman for their valuable feedb
 We also thank the \texttt{Dedalus} and \texttt{Eigentools} development teams. 
 Computations were performed on the NASA Pleiades system.
 
-% \bibliography{she}
+
 \begin{thebibliography}{99} 
 
 \bibitem{Zhu} Xiaojue Zhu, Varghese Mathai, Richard J. A. M. Stevens, Roberto Verzicco, and Detlef Lohse (2018). Transition to the Ultimate Regime in Two-Dimensional Rayleigh-Bénard Convection. Phys. Rev. Lett. 120, 144502
@@ -502,10 +500,12 @@ Computations were performed on the NASA Pleiades system.
 
 \bibitem{Cvitanovic} P Cvitanovic and J F Gibson (2010). Geometry of the turbulence in wall-bounded shear flows: periodic orbits. http://dx.doi.org/10.1088/0031-8949/2010/T142/014007
 
-\bibitem{Couston} Couston, L.A., Lacoanet, D., Favier, B., Bars, M. (2019). Shape and size of large-scale vortices: a universal fluid pattern in geophysical dynamics 
-
+\bibitem{Couston} Couston, L.A., Lacoanet, D., Favier, B., Bars, M. (2019). Shape and size of large-scale vortices: a universal fluid pattern in geophysical dynamics   
 
 \end{thebibliography}
+
+% \bibliographystyle{plain}
+% \bibliography{he}
 
 \end{document}
 
