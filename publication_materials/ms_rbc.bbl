@@ -1,0 +1,231 @@
+%merlin.mbs apsrev4-1.bst 2010-07-25 4.21a (PWD, AO, DPC) hacked
+%Control: key (0)
+%Control: author (72) initials jnrlst
+%Control: editor formatted (1) identically to author
+%Control: production of article title (-1) disabled
+%Control: page (0) single
+%Control: year (1) truncated
+%Control: production of eprint (0) enabled
+\begin{thebibliography}{19}%
+\makeatletter
+\providecommand \@ifxundefined [1]{%
+ \@ifx{#1\undefined}
+}%
+\providecommand \@ifnum [1]{%
+ \ifnum #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \@ifx [1]{%
+ \ifx #1\expandafter \@firstoftwo
+ \else \expandafter \@secondoftwo
+ \fi
+}%
+\providecommand \natexlab [1]{#1}%
+\providecommand \enquote  [1]{``#1''}%
+\providecommand \bibnamefont  [1]{#1}%
+\providecommand \bibfnamefont [1]{#1}%
+\providecommand \citenamefont [1]{#1}%
+\providecommand \href@noop [0]{\@secondoftwo}%
+\providecommand \href [0]{\begingroup \@sanitize@url \@href}%
+\providecommand \@href[1]{\@@startlink{#1}\@@href}%
+\providecommand \@@href[1]{\endgroup#1\@@endlink}%
+\providecommand \@sanitize@url [0]{\catcode `\\12\catcode `\$12\catcode
+  `\&12\catcode `\#12\catcode `\^12\catcode `\_12\catcode `\%12\relax}%
+\providecommand \@@startlink[1]{}%
+\providecommand \@@endlink[0]{}%
+\providecommand \url  [0]{\begingroup\@sanitize@url \@url }%
+\providecommand \@url [1]{\endgroup\@href {#1}{\urlprefix }}%
+\providecommand \urlprefix  [0]{URL }%
+\providecommand \Eprint [0]{\href }%
+\providecommand \doibase [0]{http://dx.doi.org/}%
+\providecommand \selectlanguage [0]{\@gobble}%
+\providecommand \bibinfo  [0]{\@secondoftwo}%
+\providecommand \bibfield  [0]{\@secondoftwo}%
+\providecommand \translation [1]{[#1]}%
+\providecommand \BibitemOpen [0]{}%
+\providecommand \bibitemStop [0]{}%
+\providecommand \bibitemNoStop [0]{.\EOS\space}%
+\providecommand \EOS [0]{\spacefactor3000\relax}%
+\providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
+\let\auto@bib@innerbib\@empty
+%</preamble>
+\bibitem [{\citenamefont {Couston}\ \emph {et~al.}(2020)\citenamefont
+  {Couston}, \citenamefont {Lecoanet}, \citenamefont {Favier},\ and\
+  \citenamefont {Le~Bars}}]{Couston}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.-A.}\ \bibnamefont
+  {Couston}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Lecoanet}},
+  \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Favier}}, \ and\ \bibinfo
+  {author} {\bibfnamefont {M.}~\bibnamefont {Le~Bars}},\ }\href {\doibase
+  10.1103/PhysRevResearch.2.023143} {\bibfield  {journal} {\bibinfo  {journal}
+  {Phys. Rev. Research}\ }\textbf {\bibinfo {volume} {2}},\ \bibinfo {pages}
+  {023143} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Zhu}\ \emph {et~al.}(2018)\citenamefont {Zhu},
+  \citenamefont {Mathai}, \citenamefont {Stevens}, \citenamefont {Verzicco},\
+  and\ \citenamefont {Lohse}}]{Zhu_2018}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {X.}~\bibnamefont
+  {Zhu}}, \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Mathai}},
+  \bibinfo {author} {\bibfnamefont {R.~J.}\ \bibnamefont {Stevens}}, \bibinfo
+  {author} {\bibfnamefont {R.}~\bibnamefont {Verzicco}}, \ and\ \bibinfo
+  {author} {\bibfnamefont {D.}~\bibnamefont {Lohse}},\ }\href {\doibase
+  10.1103/physrevlett.120.144502} {\bibfield  {journal} {\bibinfo  {journal}
+  {Physical Review Letters}\ }\textbf {\bibinfo {volume} {120}} (\bibinfo
+  {year} {2018}),\ 10.1103/physrevlett.120.144502}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Ossendrijver}}(2003)}]{Ossendrijver}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
+  {{Ossendrijver}}},\ }\href {\doibase 10.1007/s00159-003-0019-3} {\bibfield
+  {journal} {\bibinfo  {journal} {Astronomy \& Astrophysics Reviews}\ }\textbf
+  {\bibinfo {volume} {11}},\ \bibinfo {pages} {287} (\bibinfo {year}
+  {2003})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Malkus}(1954)}]{Malkus_1954}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {W.~V.~R.}\
+  \bibnamefont {Malkus}},\ }\href {http://www.jstor.org/stable/99409}
+  {\bibfield  {journal} {\bibinfo  {journal} {Proceedings of the Royal Society
+  of London. Series A, Mathematical and Physical Sciences}\ }\textbf {\bibinfo
+  {volume} {225}},\ \bibinfo {pages} {196} (\bibinfo {year}
+  {1954})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Howard}(1966)}]{Howard_1966}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.~N.}\ \bibnamefont
+  {Howard}},\ }in\ \href@noop {} {\emph {\bibinfo {booktitle} {Applied
+  Mechanics}}},\ \bibinfo {editor} {edited by\ \bibinfo {editor} {\bibfnamefont
+  {H.}~\bibnamefont {G{\"o}rtler}}}\ (\bibinfo  {publisher} {Springer Berlin
+  Heidelberg},\ \bibinfo {address} {Berlin, Heidelberg},\ \bibinfo {year}
+  {1966})\ pp.\ \bibinfo {pages} {1109--1115}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Kraichnan}}(1962)}]{Kraichnan}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.~H.}\ \bibnamefont
+  {{Kraichnan}}},\ }\href {\doibase 10.1063/1.1706533} {\bibfield  {journal}
+  {\bibinfo  {journal} {Physics of Fluids}\ }\textbf {\bibinfo {volume} {5}},\
+  \bibinfo {pages} {1374} (\bibinfo {year} {1962})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Spiegel}}(1962)}]{Spiegel}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~A.}\ \bibnamefont
+  {{Spiegel}}},\ }\href {\doibase 10.1029/JZ067i008p03063} {\bibfield
+  {journal} {\bibinfo  {journal} {Journal of Geophysical Research}\ }\textbf
+  {\bibinfo {volume} {67}},\ \bibinfo {pages} {3063} (\bibinfo {year}
+  {1962})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Castaing}}\ \emph {et~al.}(1989)\citenamefont
+  {{Castaing}}, \citenamefont {{Gunaratne}}, \citenamefont {{Kadanoff}},
+  \citenamefont {{Libchaber}},\ and\ \citenamefont {{Heslot}}}]{Castaing}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
+  {{Castaing}}}, \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {{Gunaratne}}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
+  {{Kadanoff}}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
+  {{Libchaber}}}, \ and\ \bibinfo {author} {\bibfnamefont {F.}~\bibnamefont
+  {{Heslot}}},\ }\href {\doibase 10.1017/S0022112089001643} {\bibfield
+  {journal} {\bibinfo  {journal} {Journal of Fluid Mechanics}\ }\textbf
+  {\bibinfo {volume} {204}},\ \bibinfo {pages} {1} (\bibinfo {year}
+  {1989})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {GROSSMANN}\ and\ \citenamefont
+  {LOHSE}(2000)}]{Grossman}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {GROSSMANN}}\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {LOHSE}},\ }\href {\doibase 10.1017/S0022112099007545} {\bibfield  {journal}
+  {\bibinfo  {journal} {Journal of Fluid Mechanics}\ }\textbf {\bibinfo
+  {volume} {407}},\ \bibinfo {pages} {27–56} (\bibinfo {year}
+  {2000})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Ahlers}\ \emph {et~al.}(2009)\citenamefont {Ahlers},
+  \citenamefont {Grossmann},\ and\ \citenamefont {Lohse}}]{Ahlers}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {Ahlers}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Grossmann}}, \
+  and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Lohse}},\ }\href
+  {\doibase 10.1103/RevModPhys.81.503} {\bibfield  {journal} {\bibinfo
+  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {81}},\ \bibinfo
+  {pages} {503} (\bibinfo {year} {2009})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Waleffe}\ \emph {et~al.}(2015)\citenamefont
+  {Waleffe}, \citenamefont {Boonkasame},\ and\ \citenamefont
+  {Smith}}]{Waleffe}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {F.}~\bibnamefont
+  {Waleffe}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Boonkasame}},
+  \ and\ \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Smith}},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physics of
+  Fluids}\ }\textbf {\bibinfo {volume} {27}},\ \bibinfo {pages} {051702}
+  (\bibinfo {year} {2015})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Sondak}}\ \emph {et~al.}(2015)\citenamefont
+  {{Sondak}}, \citenamefont {{Smith}},\ and\ \citenamefont
+  {{Waleffe}}}]{Sondak}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {{Sondak}}}, \bibinfo {author} {\bibfnamefont {L.~M.}\ \bibnamefont
+  {{Smith}}}, \ and\ \bibinfo {author} {\bibfnamefont {F.}~\bibnamefont
+  {{Waleffe}}},\ }\href {\doibase 10.1017/jfm.2015.615} {\bibfield  {journal}
+  {\bibinfo  {journal} {Journal of Fluid Mechanics}\ }\textbf {\bibinfo
+  {volume} {784}},\ \bibinfo {pages} {565} (\bibinfo {year} {2015})},\ \Eprint
+  {http://arxiv.org/abs/1507.03151} {arXiv:1507.03151 [physics.flu-dyn]}
+  \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Wen}\ \emph {et~al.}(2020)\citenamefont {Wen},
+  \citenamefont {Goluskin},\ and\ \citenamefont {Doering}}]{Wen}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
+  {Wen}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Goluskin}}, \
+  and\ \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Doering}},\
+  }\href@noop {} {\  (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Chini}\ and\ \citenamefont
+  {Cox}(2009)}]{chini_cells}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.~P.}\ \bibnamefont
+  {Chini}}\ and\ \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Cox}},\
+  }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {Physics of
+  Fluids}\ }\textbf {\bibinfo {volume} {21}},\ \bibinfo {pages} {083603}
+  (\bibinfo {year} {2009})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Yaln{\i}z}}\ \emph {et~al.}(2020)\citenamefont
+  {{Yaln{\i}z}}, \citenamefont {{Hof}},\ and\ \citenamefont {{Burak
+  Budanur}}}]{Yalniz}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {{Yaln{\i}z}}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {{Hof}}},
+  \ and\ \bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {{Burak
+  Budanur}}},\ }\href@noop {} {\bibfield  {journal} {\bibinfo  {journal} {arXiv
+  e-prints}\ ,\ \bibinfo {eid} {arXiv:2007.02584}} (\bibinfo {year} {2020})},\
+  \Eprint {http://arxiv.org/abs/2007.02584} {arXiv:2007.02584
+  [physics.flu-dyn]} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Cvitanović}\ and\ \citenamefont
+  {Gibson}(2010)}]{Cvitanovic}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
+  {Cvitanović}}\ and\ \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Gibson}},\ }\href {\doibase 10.1088/0031-8949/2010/T142/014007} {\bibfield
+  {journal} {\bibinfo  {journal} {Physica Scripta}\ }\textbf {\bibinfo {volume}
+  {2010}},\ \bibinfo {pages} {014007} (\bibinfo {year} {2010})}\BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Michel}\ and\ \citenamefont
+  {Chini}(2019)}]{michel_chini_2019}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
+  {Michel}}\ and\ \bibinfo {author} {\bibfnamefont {G.~P.}\ \bibnamefont
+  {Chini}},\ }\href {\doibase 10.1017/jfm.2018.785} {\bibfield  {journal}
+  {\bibinfo  {journal} {Journal of Fluid Mechanics}\ }\textbf {\bibinfo
+  {volume} {858}},\ \bibinfo {pages} {536–564} (\bibinfo {year}
+  {2019})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Anders}\ \emph {et~al.}(2020)\citenamefont {Anders},
+  \citenamefont {Vasil}, \citenamefont {Brown},\ and\ \citenamefont
+  {Korre}}]{Anders_cd}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~H.}\ \bibnamefont
+  {Anders}}, \bibinfo {author} {\bibfnamefont {G.~M.}\ \bibnamefont {Vasil}},
+  \bibinfo {author} {\bibfnamefont {B.~P.}\ \bibnamefont {Brown}}, \ and\
+  \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Korre}},\ }\href
+  {\doibase 10.1103/PhysRevFluids.5.083501} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. Fluids}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo
+  {pages} {083501} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Shishkina}\ \emph {et~al.}(2015)\citenamefont
+  {Shishkina}, \citenamefont {Horn}, \citenamefont {Wagner},\ and\
+  \citenamefont {Ching}}]{Shishkina}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {O.}~\bibnamefont
+  {Shishkina}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Horn}},
+  \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Wagner}}, \ and\ \bibinfo
+  {author} {\bibfnamefont {E.~S.~C.}\ \bibnamefont {Ching}},\ }\href {\doibase
+  10.1103/PhysRevLett.114.114302} {\bibfield  {journal} {\bibinfo  {journal}
+  {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {114}},\ \bibinfo {pages}
+  {114302} (\bibinfo {year} {2015})}\BibitemShut {NoStop}%
+\end{thebibliography}%
