@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{22}%
+\begin{thebibliography}{27}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -217,6 +217,15 @@
   {\doibase 10.1103/PhysRevFluids.5.083501} {\bibfield  {journal} {\bibinfo
   {journal} {Phys. Rev. Fluids}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo
   {pages} {083501} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Anders}\ \emph {et~al.}(2018)\citenamefont {Anders},
+  \citenamefont {Brown},\ and\ \citenamefont {Oishi}}]{Anders_AE}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~H.}\ \bibnamefont
+  {Anders}}, \bibinfo {author} {\bibfnamefont {B.~P.}\ \bibnamefont {Brown}}, \
+  and\ \bibinfo {author} {\bibfnamefont {J.~S.}\ \bibnamefont {Oishi}},\ }\href
+  {\doibase 10.1103/PhysRevFluids.3.083502} {\bibfield  {journal} {\bibinfo
+  {journal} {Phys. Rev. Fluids}\ }\textbf {\bibinfo {volume} {3}},\ \bibinfo
+  {pages} {083502} (\bibinfo {year} {2018})}\BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Verzicco}\ and\ \citenamefont
   {Camussi}(1997)}]{Verzicco}%
   \BibitemOpen
@@ -236,15 +245,44 @@
   {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
   {volume} {102}},\ \bibinfo {pages} {064501} (\bibinfo {year}
   {2009})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Anders}\ \emph {et~al.}(2018)\citenamefont {Anders},
-  \citenamefont {Brown},\ and\ \citenamefont {Oishi}}]{Anders_AE}%
+\bibitem [{\citenamefont {Boussinesq}(1877)}]{boussinesq_1877}%
   \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~H.}\ \bibnamefont
-  {Anders}}, \bibinfo {author} {\bibfnamefont {B.~P.}\ \bibnamefont {Brown}}, \
-  and\ \bibinfo {author} {\bibfnamefont {J.~S.}\ \bibnamefont {Oishi}},\ }\href
-  {\doibase 10.1103/PhysRevFluids.3.083502} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. Fluids}\ }\textbf {\bibinfo {volume} {3}},\ \bibinfo
-  {pages} {083502} (\bibinfo {year} {2018})}\BibitemShut {NoStop}%
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Boussinesq}},\ }\href@noop {} {\  (\bibinfo {year} {1877})}\BibitemShut
+  {NoStop}%
+\bibitem [{\citenamefont {Lecoanet}\ \emph {et~al.}(2016)\citenamefont
+  {Lecoanet}, \citenamefont {McCourt}, \citenamefont {Quataert}, \citenamefont
+  {Burns}, \citenamefont {Vasil}, \citenamefont {Oishi}, \citenamefont {Brown},
+  \citenamefont {Stone},\ and\ \citenamefont {O'Leary}}]{Lecoanet_KH}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
+  {Lecoanet}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {McCourt}},
+  \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Quataert}}, \bibinfo
+  {author} {\bibfnamefont {K.}~\bibnamefont {Burns}}, \bibinfo {author}
+  {\bibfnamefont {G.}~\bibnamefont {Vasil}}, \bibinfo {author} {\bibfnamefont
+  {J.}~\bibnamefont {Oishi}}, \bibinfo {author} {\bibfnamefont
+  {B.}~\bibnamefont {Brown}}, \bibinfo {author} {\bibfnamefont
+  {J.}~\bibnamefont {Stone}}, \ and\ \bibinfo {author} {\bibfnamefont
+  {R.}~\bibnamefont {O'Leary}},\ }\href {\doibase 10.1093/mnras/stv2564}
+  {\bibfield  {journal} {\bibinfo  {journal} {Monthly Notices of the Royal
+  Astronomical Society}\ }\textbf {\bibinfo {volume} {455}},\ \bibinfo {pages}
+  {4274} (\bibinfo {year} {2016})},\ \bibinfo {note} {publisher Copyright:
+  {\textcopyright} 2015 The Authors.}\BibitemShut {Stop}%
+\bibitem [{\citenamefont {Drazin}\ and\ \citenamefont
+  {Reid}(2004)}]{drazin_reid_2004}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~G.}\ \bibnamefont
+  {Drazin}}\ and\ \bibinfo {author} {\bibfnamefont {W.~H.}\ \bibnamefont
+  {Reid}},\ }\href {\doibase 10.1017/CBO9780511616938} {\emph {\bibinfo {title}
+  {Hydrodynamic Stability}}},\ \bibinfo {edition} {2nd}\ ed.,\ Cambridge
+  Mathematical Library\ (\bibinfo  {publisher} {Cambridge University Press},\
+  \bibinfo {year} {2004})\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Pope}(2000)}]{pope_2000}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.~B.}\ \bibnamefont
+  {Pope}},\ }\href {\doibase 10.1017/CBO9780511840531} {\emph {\bibinfo {title}
+  {Turbulent Flows}}}\ (\bibinfo  {publisher} {Cambridge University Press},\
+  \bibinfo {year} {2000})\BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Shishkina}\ \emph {et~al.}(2015)\citenamefont
   {Shishkina}, \citenamefont {Horn}, \citenamefont {Wagner},\ and\
   \citenamefont {Ching}}]{Shishkina}%
@@ -256,4 +294,22 @@
   10.1103/PhysRevLett.114.114302} {\bibfield  {journal} {\bibinfo  {journal}
   {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {114}},\ \bibinfo {pages}
   {114302} (\bibinfo {year} {2015})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Zhang}\ \emph {et~al.}(2020)\citenamefont {Zhang},
+  \citenamefont {van Gils}, \citenamefont {Horn}, \citenamefont {Wedi},
+  \citenamefont {Zwirner}, \citenamefont {Ahlers}, \citenamefont {Ecke},
+  \citenamefont {Weiss}, \citenamefont {Bodenschatz},\ and\ \citenamefont
+  {Shishkina}}]{Zhang_20}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {X.}~\bibnamefont
+  {Zhang}}, \bibinfo {author} {\bibfnamefont {D.~P.~M.}\ \bibnamefont {van
+  Gils}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Horn}}, \bibinfo
+  {author} {\bibfnamefont {M.}~\bibnamefont {Wedi}}, \bibinfo {author}
+  {\bibfnamefont {L.}~\bibnamefont {Zwirner}}, \bibinfo {author} {\bibfnamefont
+  {G.}~\bibnamefont {Ahlers}}, \bibinfo {author} {\bibfnamefont {R.~E.}\
+  \bibnamefont {Ecke}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
+  {Weiss}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Bodenschatz}},
+  \ and\ \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Shishkina}},\
+  }\href {\doibase 10.1103/PhysRevLett.124.084505} {\bibfield  {journal}
+  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {124}},\
+  \bibinfo {pages} {084505} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
 \end{thebibliography}%
