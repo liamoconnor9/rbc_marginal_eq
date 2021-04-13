@@ -7,15 +7,12 @@ fig_width = 3.4 # in column width
 # fig_width = 7.1 # in page width
 fig_height = fig_width * golden_mean
 fig_size =  [fig_width,fig_height]
-colors = [
-    "darkblue",
-    "darkred",
-    "darkgreen",
-    "darkorange",
-    "indigo",
-    "darkslategrey",
-    "darkgoldenrod"
-]
+colors = ['#ccebc5',
+  '#a8ddb5',
+  '#7bccc4',
+  '#4eb3d3',
+  '#2b8cbe',
+  '#08589e']
 
 params = {#'backend': 'eps',
           'axes.prop_cycle' : matplotlib.cycler(color=colors),

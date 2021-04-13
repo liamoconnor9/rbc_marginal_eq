@@ -43,7 +43,8 @@ def plot_EVs(evs_mat, labels):
         ax.xaxis.set_major_locator(tck.MultipleLocator(5*np.pi))
         ax.xaxis.set_minor_locator(tck.MultipleLocator(np.pi / 2))
         ax.xaxis.set_major_formatter(plt.FuncFormatter(format_func))
-        ax.grid(True)
+        ax.grid(False)
+        ax.axhline(y=0.0, color='black', alpha=0.2)
         if (i == 1):
             ax.set_ylabel(r'$\omega$')
 

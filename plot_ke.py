@@ -76,12 +76,12 @@ if __name__ == "__main__":
         ke_ar = ke_data['ke_ar']
         sim_times_ar_eq = ke_data_eq['sim_times_ar']
         sim_times_ar = ke_data['sim_times_ar']
-        plt.plot(sim_times_ar, ke_ar, color='darkred', label = 'Conductive I.C.')
-        plt.plot(sim_times_ar_eq, ke_ar_eq, color='darkblue', label = 'Equilibrated I.C.')
+        plt.plot(sim_times_ar, ke_ar, color='black', label = 'Conductive I.C.')
+        plt.plot(sim_times_ar_eq, ke_ar_eq, color='#08589e', label = 'Equilibrated I.C.')
         plt.xlim(0, 400)
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')
         plt.ylabel(r'$\overline{|\mathbf{u}|^2}$')
         plt.title(r'$Ra \, = \, 10^8$')
-        # plt.savefig(path + '/pubfigs/sim_eq_ke')
-        plt.savefig(path + '/publication_materials/sim_eq_ke_p0_2')
+        plt.savefig(path + '/publication_materials/sim_eq_ke')
+        # plt.savefig(path + '/publication_materials/sim_eq_ke_p0_2')

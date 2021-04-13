@@ -59,7 +59,7 @@ def plot_flux(Rayleigh, ax, path, iteration):
         advection4 = wb4*amp4
         advection5 = wb5*amp5
         flux = diffusion + advection1 + advection2 + advection3 + advection4 + advection5
-        plt.plot(z, diffusion, label = 'Diffusion')
+        ax.plot(z, diffusion, label = 'Diffusion', color='black', linestyle=(0, (5, 1)), zorder=10)
         pi_mult1 = str(round(kx1/np.pi, 1))
         pi_mult2 = str(round(kx2/np.pi, 1))
         pi_mult3 = str(round(kx3/np.pi, 1))
@@ -91,9 +91,9 @@ def plot_flux(Rayleigh, ax, path, iteration):
         diffusion = - P*b0z
         advection = wb*amp
         flux = diffusion + advection
-        ax.plot(z, diffusion, label = 'Diffusion')
         pi_mult = str(round(kx/np.pi, 1))
-        ax.plot(z, advection, label = 'Advection ($k_x  = $' + pi_mult + '$\pi$)')
+        ax.plot(z, diffusion, label = 'Diffusion', color='black', linestyle=(0, (5, 1)), zorder=10)
+        ax.plot(z, advection, label = 'Advection ($k_x  = $' + pi_mult + '$\pi$)', color='#08589e')
         ax.plot(z, flux, label = 'Total', color='black')
         ax.set_xlim(-0.5, 0.0)
         ax.legend(frameon=False, loc='center right')

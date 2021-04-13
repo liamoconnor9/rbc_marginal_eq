@@ -108,12 +108,12 @@ if __name__ == "__main__":
         nu_ar = nu_data['nu_ar']
         sim_times_ar_eq = nu_data_eq['sim_times_ar']
         sim_times_ar = nu_data['sim_times_ar']
-        plt.plot(sim_times_ar, nu_ar, color='darkred', label = 'Conductive I.C.')
-        plt.plot(sim_times_ar_eq, nu_ar_eq, color='darkblue', label = 'Equilibrated I.C.')
+        plt.plot(sim_times_ar, nu_ar, color='black', label = 'Conductive I.C.')
+        plt.plot(sim_times_ar_eq, nu_ar_eq, color='#08589e', label = 'Equilibrated I.C.')
         plt.xlim(0, 100)
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')
-        plt.ylabel(r'$Nu$')
+        plt.ylabel(r'$\mathrm{Nu}$')
         plt.title(r'$Ra \, = \, 10^8$')
         # plt.savefig(path + '/pubfigs/sim_eq_nu')
         plt.savefig(path + '/publication_materials/sim_eq_nu')
