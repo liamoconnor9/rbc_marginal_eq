@@ -32,6 +32,5 @@ RA5E8/*
 *.blg
 *.fdb_latexmk
 *.gz
-*.bib
-
+*.synctex
 
