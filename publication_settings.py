@@ -11,8 +11,7 @@ colors = ['#a8ddb5',
   '#7bccc4',
   '#4eb3d3',
   '#2b8cbe',
-  '#08589e',
-  '#0324fc']
+  '#08589e']
 
 params = {#'backend': 'eps',
           'axes.prop_cycle' : matplotlib.cycler(color=colors),

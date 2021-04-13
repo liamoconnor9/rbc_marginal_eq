@@ -93,7 +93,8 @@ def plot_flux(Rayleigh, ax, path, iteration):
         flux = diffusion + advection
         pi_mult = str(round(kx/np.pi, 1))
         ax.plot(z, diffusion, label = 'Diffusion', color='black', linestyle=(0, (5, 1)), zorder=10)
-        ax.plot(z, advection, label = 'Advection ($k_x  = $' + pi_mult + '$\pi$)', color='#08589e')
+        colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        ax.plot(z, advection, label = 'Advection ($k_x  = $' + pi_mult + '$\pi$)', color=colors[-1])
         ax.plot(z, flux, label = 'Total', color='black')
         ax.set_xlim(-0.5, 0.0)
         ax.legend(frameon=False, loc='center right')
