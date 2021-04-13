@@ -47,7 +47,8 @@ def plot_EVs(evs_mat, labels):
             else:
                 kx_s.append(kxs[j])
                 evs_s.append(EVs[j])
-        ax.plot(kx_s, evs_s, '.', label='Stable', linestyle='None', color='#08589e')
+        colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        ax.plot(kx_s, evs_s, '.', label='Stable', linestyle='None', color=colors[-1])
         ax.plot(kx_m, evs_m, 'x', label='Marginal', markersize=3, linestyle='None', color='black')
         ax.set_title(labels[i])
         ax.set_xlim(xlims[i])

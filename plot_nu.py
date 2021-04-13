@@ -108,8 +108,9 @@ if __name__ == "__main__":
         nu_ar = nu_data['nu_ar']
         sim_times_ar_eq = nu_data_eq['sim_times_ar']
         sim_times_ar = nu_data['sim_times_ar']
+        colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
         plt.plot(sim_times_ar, nu_ar, color='black', label = 'Conductive I.C.')
-        plt.plot(sim_times_ar_eq, nu_ar_eq, color='#08589e', label = 'Equilibrated I.C.')
+        plt.plot(sim_times_ar_eq, nu_ar_eq, color=colors[-1], label = 'Equilibrated I.C.')
         plt.xlim(0, 100)
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')

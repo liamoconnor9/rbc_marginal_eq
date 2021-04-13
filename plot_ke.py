@@ -76,8 +76,9 @@ if __name__ == "__main__":
         ke_ar = ke_data['ke_ar']
         sim_times_ar_eq = ke_data_eq['sim_times_ar']
         sim_times_ar = ke_data['sim_times_ar']
+        colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
         plt.plot(sim_times_ar, ke_ar, color='black', label = 'Conductive I.C.')
-        plt.plot(sim_times_ar_eq, ke_ar_eq, color='#08589e', label = 'Equilibrated I.C.')
+        plt.plot(sim_times_ar_eq, ke_ar_eq, color=colors[-1], label = 'Equilibrated I.C.')
         plt.xlim(0, 400)
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')
