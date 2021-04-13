@@ -193,13 +193,13 @@ At some arbitrary time $t_0$, the forcing term $\langle w'T' \rangle$ can be fou
 We also assume this term is composed of eigenfunctions belonging to the dominant mode(s). 
 
 \section{Perturbation Evolution}
-Solving the linearized system (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) does not yield $A^2$. 
-To evolve $\bar{T}$ numerically, we assume the perturbations and mean quantities depend on different time-scales, as in \cite{michel_chini_2019}. On the fast time-scale, stable modes will decay and unstable modes will act according to (\ref{EQ:T0_IVP}). 
-We make the ansatz that only marginally stable modes will affect $\bar{T}$ on long time-scales
+Solving the linearized system (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) does not yield $A(t)$. 
+To evolve $\bar{T}$, we assume the perturbations and mean quantities evolve according to different time-scales, as in \cite{michel_chini_2019}.
+Stable modes decay away rapidly. 
+Unstable modes will not persist on the slow time-scale because the advective term $\langle w'T' \rangle$ tends to tends to stabilize $\bar{T}$, thereby creating a negative feedback loop. Only marginally stable modes can traverse this hypothetical time-scale separation. Therefore the amplitude function $A(t)$ must satisfy
 \begin{equation}
-    \max_{k_x} \{ \omega \} = 0
+    \max_{k_x} \{ \omega \} = 0.
 \end{equation}
-thereby constraining $A^2$ at each timestep.
 
 For various $Ra$ and fixed $Pr = 1$, we seek symmetric marginally-stable thermal equilibria (MSTE), thereby satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
 We employ the \texttt{Dedalus} pseudo-spectral python framework to solve the EVP outlined in Section \ref{sec:model} as well as the IVP (\ref{EQ:T0_IVP}) by representing each field with a dealiased Chebyshev polynomial basis. 
@@ -207,16 +207,16 @@ The necessary number of basis functions varies, as eigenfunctions and temperatur
 We supplement \texttt{Dedalus} with the \texttt{Eigentools} package to compute $\langle w' T' \rangle$.
 
 At $t = 0$, we begin with a marginally-stable initial profile $\bar{T}(z, 0)$ whose construction is outlined in \ref{sec:initial_profile}. 
-At some time $t = t_0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to (\ref{EQ:T0_IVP}) using forward-Euler. 
+At some arbitrary time $t = t_0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to (\ref{EQ:T0_IVP}) using forward-Euler. 
 This generally involves a unique and unknown value $A^2(t_0) > 0$. 
 Our method of finding $A^2(t_0)$ is best illustrated through example.
 
 \begin{figure}
     \includegraphics[width=3.4in]{EV_spectrum_ol.png}
-    \caption{Eigenvalue spectra for $Ra = 10^5$. The spectrum of a marginally-stable mean temperature profile $\bar{T}(z, t_0)$ (shown in black) has a maximum eigenvalue of 0. 
-    Given a small fixed timestep $\Delta t$, diffusion destabilizes the system, increasing its eigenvalues (shown in blue). 
-    Advection tends to stabilize the system, decreasing its eigenvalues (shown in red). 
-    It follows that there exists some proportion ($A^2(t_0)$) of these two terms which yields a new marginally-stable mean temperature profile $\bar{T}(z, t_0 + \Delta t)$, whose spectrum is shown in green.}
+    \caption{Eigenvalue spectra for $Ra = 10^5$. The spectrum of an ``initial" marginally-stable mean temperature profile $\bar{T}(z, t_0)$ has a maximum eigenvalue of 0. 
+    Given a small fixed timestep $\Delta t$, diffusion destabilizes the system, increasing its eigenvalues. 
+    Advection tends to stabilize the system, decreasing its eigenvalues. 
+    It follows that there exists some proportion ($A^2(t_0)$) of these two terms which yields a new marginally-stable mean temperature profile $\bar{T}(z, t_0 + \Delta t)$, whose spectrum is ``evolved".}
     \label{fig:iteration_spectra} 
 \end{figure}
 
@@ -225,7 +225,7 @@ Ignoring the diffusive term and evolving according to advection tends the stabil
 \begin{equation}
     A^2(t_0) \sim -\frac{\omega_{\rm{diff}}}{\omega_{\rm{adv}}}
 \end{equation}
-where $\omega_{\rm{diff}}$ and $\omega_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode (corresponding to the blue and red points respectively at $k_x = \pi$ in Figure \ref{fig:iteration_spectra}). 
+where $\omega_{\rm{diff}}$ and $\omega_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode (corresponding to the light blue and green points respectively at $k_x = \pi$ in Figure \ref{fig:iteration_spectra}). 
 $\bar{T}(z, t)$ is then evolved according to (\ref{EQ:T0_IVP}) and another eigenvalue solve is performed. 
 Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\omega_{\rm{max}} (A^2)$ which is locally differentiable. 
 We use Newton's method to find an amplitude which satisfies our marginal stability tolerance criterion $|\omega_{\rm{max}} (A^2)| \leq 10^{-9}$. 
@@ -254,7 +254,7 @@ Solutions are symmetric about $z = 0$ by construction.
 Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the equilibrated profile corresponds to the thermally relaxed state; and the simulation profile is obtained by performing a nonlinear simulation of (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. 
 The simulation curve is more diffuse than the equilibrated curve, which in turn, is more diffuse than the initial curve. 
 Performing an eigenvalue solve by setting $\bar{T}$ equal to the simulation profile yields positive eigenvalues. 
-Comprehensively, this suggests that thermally-equilibrated states might maximize boundary layer thickness, while subject to the marginal stability constraint.
+Comprehensively, this suggests that MSTE might maximize boundary layer thickness, while subject to the marginal stability constraint.
 
 The most resilient and unexpected feature of thermally equilibrated mean temperature profiles are the pronounced dips adjacent to the boundary layers. 
 These dips appear in every solution, regardless of $Ra$. 
@@ -278,8 +278,8 @@ This counter-diffusion, which opposes overall heat transfer, is overcome by the 
     \includegraphics[width=3.4in]{kx_m_ra1.png}
     \caption{Wavenumbers of marginally-stable modes of thermally equilibrated states. 
     Markers are color-coded according to their adjacent local maxima index in the eigenvalue spectrum. 
-    For example, the spectrum corresponding to $Ra = 10^5$ has marginal wavenumbers $k_x = \pi, \, 1.5\pi$ adjacent to a presumed local maximum between these two allowed values. 
-    The $Ra = 10^9$ spectrum, shown in lower right corner of Figure \ref{fig:flux}, has three presumed local maxima, with a single marginal mode adjacent to the first maximum ($k_x = 1.5\pi$), two marginal modes adjacent to the second maximum ($k_x = 6\pi, \, 6.5\pi$), and two marginal modes adjacent to the third maximum ($k_x = 23.5\pi, \, 24\pi$). 
+    For example, the spectrum corresponding to $Ra = 10^5$ has adjacent marginal wavenumbers $k_x = \pi, \, 1.5\pi$. 
+    The $Ra = 10^9$ spectrum, shown in lower right corner of Figure \ref{fig:flux}, has three groups of maxima, with a single marginal mode in the first group ($k_x = 1.5\pi$), two adjacent marginal modes in the second group ($k_x = 6\pi, \, 6.5\pi$), and two adjacent marginal modes in the third group ($k_x = 23.5\pi, \, 24\pi$). 
     The largest wavenumbers of the green branch obey a power-law relationship with $Ra$}
     \label{fig:kx_marginals}
 \end{figure}
@@ -302,9 +302,9 @@ This counter-diffusion, which opposes overall heat transfer, is overcome by the 
     \centering
     \includegraphics[width=7.1in]{nu_ra.PNG}
     \caption{Nusselt numbers are shown for marginally-stable thermally-equilibrated states, statistically-steady direct numerical simulations performed with \texttt{Dedalus} \cite{Anders_cd}, and equilibrated nonlinear solutions, which maximize heat flux, given by \cite{Waleffe}. 
-    Both obey power-law relationships with $Ra$, with $Ra \sim \Nu^3$ in agreement with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} as well as \cite{Malkus_1954}. 
+    Both obey power-law relationships with $Ra$, with $\Nu \sim Ra^{1/3}$ in agreement with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} as well as \cite{Malkus_1954}. 
     Marginally-stable states' Nusselt numbers exceed simulation Nusselt numbers. 
-    This can be well explained by the contrasting boundary region geometries shown in Figure \ref{fig:T0_profiles}.}%
+    This can be explained by the contrasting boundary region geometries shown in Figure \ref{fig:T0_profiles}.}%
     \label{fig:nu_vs_ra}%
 \end{figure*}
 
@@ -398,9 +398,8 @@ Consequently, marginally-stable thermally-equilibrated initial conditions do not
     \begin{minipage}{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_nu.png}
-        \caption{Nusselt numbers of simulations performed at $Ra = 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). 
-        Simulations run with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization.}
-        % This is illustrated by the $\Nu$ spike at $t \sim 15$ in the convectional simulation.}
+        \caption{Nusselt numbers of simulations performed at $Ra = 10^8$ with the conventional initial conditions (black) and MSTE initial conditions (blue). 
+        MSTE simulations do not undergo a convective-transient period because the characteristic large-scale convective cell structure exists on initialization. For high $Ra$ simulations, researchers often choose to recycle the results of similar $Ra$ runs \cite{Verzicco, Johnston} because the high-Reynolds number flows associated with the convective transient period are computationally prohibitive \cite{Anders_AE}.}
         \label{fig:nu_sim}
     \end{minipage}
 \end{figure}
@@ -423,12 +422,13 @@ They also exhibit unique and unexpected features: gradient-reversal/dips in temp
 We also obtain indistinguishable solutions despite initializing with different mean temperature profiles $\bar{T}$. 
 Thus solutions might be unique, but we cannot demonstrate this rigorously.
 
-The quasilinear problem can also be generalized to include an asymmetric mean horizontal-flow. 
-Specifically, a second initial value problem, similar to (\ref{EQ:T0_IVP}), can be derived for $\bar{u}$. 
-Doing so might yield solutions with greater resemblance to DNS results because we expect the Reynolds stress tensor to combat the kinetic exaggeration shown in Figure \ref{fig:ke_sim}. 
-For this investigation, we require symmetry at each iteration, but the thermal evolution procedure appears unstable to asymmetry. 
-This could be accommodated by requiring rotational symmetry about the midplane $\bar{u}(z, t) = -\bar{u}(-z, t)$. 
-It's unclear whether solutions with nontrivial $\bar{u}$ exist or whether our algorithm would converge under these different circumstances.
+As previously noted, solving the EVP for statistically steady DNS data yields positive eigenvalues; the system is in a perpetual state of instability. 
+Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
+We might curtail the disagreement between MSTE and DNS by loosening our marginal-stability criterion. 
+Should the time-scales not be entirely separate, we might anticipate the long-term persistance of nearly-marginal unstable modes. 
+This perpetual linear instability cannot be described by our model independently (we do not know, a priori, how unstable such modes are) but it might prove fruitful to investigate moderately unstable quasilinear thermal equilibria. 
+More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\omega_{\rm{max}}$ agree with simulation data. 
+Doing so would almost certainly yield more diffuse equilibria $\bar{T}$ whose scaling behavior would likely differ from that of MSTE. 
 
 \section*{Appendix}
 \subsection{Initial buoyancy profile} \label{sec:initial_profile}
