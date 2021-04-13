@@ -142,7 +142,7 @@ if not pathlib.Path('restart.h5').exists():
 
     p0 = b0.antidifferentiate(z_basis, ('left', 0))
     p0.set_scales(evp_scale)
-    p['g'] = -p0['g'] + np.sqrt(2)*(sum([exp*fields['p'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
+    p['g'] = p0['g'] + np.sqrt(2)*(sum([exp*fields['p'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
     w['g'] = np.sqrt(2)*(sum([exp*fields['w'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
     u['g'] = np.sqrt(2)*(sum([exp*fields['u'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
     wz = w.differentiate('z')

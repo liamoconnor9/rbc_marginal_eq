@@ -2,7 +2,7 @@
 Plot planes from joint analysis files.
 
 Usage:
-    plot_slices.py <files>... [--output=<dir>]
+    plot_slices.py <files>... [--output=<dir>] 
 
 Options:
     --output=<dir>  Output directory [default: ./frames]
@@ -84,4 +84,4 @@ if __name__ == "__main__":
         plt.ylabel(r'$\overline{|\mathbf{u}|^2}$')
         plt.title(r'$Ra \, = \, 10^8$')
         # plt.savefig(path + '/pubfigs/sim_eq_ke')
-        plt.savefig(path + '/publication_materials/sim_eq_ke_p0')
+        plt.savefig(path + '/publication_materials/sim_eq_ke_p0_2')
