@@ -109,20 +109,23 @@ Buoyancy-driven convection regulates heat transfer and often gives way to violen
 
 Aggressive convection, which is associated with large Rayleigh numbers $Ra$, is difficult to simulate. 
 State of the art convection simulations performed by \cite{Zhu_2018} have reached $Ra \sim 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
-The scaling behavior of the Nusselt number $\Nu$ (nondimensionalized heat transfer) in the highly turbulent ultimate regime is of particular interest.
+The scaling behavior of the Nusselt number $\Nu \sim Ra^{\beta}$ in the asymptotic ultimate regime is of particular interest.
 There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus_1954, Howard_1966, Kraichnan, Spiegel, Castaing, Grossman, Ahlers}. 
 
 Reduced models are particularly useful in this context because they allow us to study the problem with relatively low expense. 
-Much of the published work on this topic relates to unstable exact coherent states (ECS) \cite{Waleffe, Sondak, Wen,chini_cells}. 
+Much of the published work on this topic relates to unstable exact coherent states (ECS) \cite{Waleffe, Sondak, Wen, chini_cells}. 
 Simulations and analysis performed by \cite{Yalniz, Cvitanovic} suggest that chaotic simulation trajectories can be represented by a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of ECS. Should that be the case, it is crucial that we discover and classify such states.
 
-In \cite{michel_chini_2019}, researchers develop and solve a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. This is realized by defining a mean state which, hypothetically, evolves on a slow time-scale. An analytic expression for the first-order perturbations' amplitude is found by deriving a solvability condition of the second-order perturbations and integrating over the domain spatially. 
+In \cite{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
+This is realized by defining a mean state which, hypothetically, evolves on a slow time-scale. 
+Marginal stability is required at each successive timestep to constrain the perturbation amplitudes. 
+A similar strategy is employed by \cite{michel_chini_2019}, where an analytic expression for the first-order perturbations' amplitude is found by deriving a solvability condition of the second-order perturbations and integrating over the domain spatially. 
 We seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
 The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
 
 \section{Model Setup}\label{sec:model}
 We begin with the non-dimensionalized Boussinesq approximation for Rayleigh-Bénard Convection. 
-The domain is 2-dimensional rectangular and horizontally periodic with spatial dimensions $0 < x < 4$ and $-1/2 < z < 1/2$. 
+The domain $\mathcal{D}$ is 2-dimensional rectangular and horizontally periodic with spatial dimensions $0 < x < 4$ and $-1/2 < z < 1/2$. 
 The fluid of interest is constrained between two planar boundaries at $z = -1/2$ and $z = 1/2$ with fixed temperatures $1$ and $0$ respectively. 
 At both boundaries we specify impenetrable, no-slip conditions, such that the velocity $\mathbf{u} = u \hat{x} + w \hat{z} = \mathbf{0}$ at $z = \pm 1/2$. 
 The equations of motion are then given by
@@ -138,7 +141,7 @@ Any system of this form can be characterized by its dimensionless Rayleigh numbe
 \mathcal{R} = \sqrt{\frac{Pr}{Ra}}, \qquad \mathcal{P} = \frac{1}{\sqrt{Pr Ra}}.
 \end{equation}
 
-To derive the quasilinear form, we posit that each field can be represented as the sum of a mean profile (denoted by $\bar{\cdot } \;$) and a perturbation function (denoted by $\cdot'$).
+To derive the quasilinear form, we posit that an arbitrary field $f$ can be represented as the sum of a mean profile (denoted by $\bar{f}$) and a perturbation function (denoted by $f'$).
 \begin{align}
     \mathbf{u}(x, z, t) &= A(t) \mathbf{u'}(x, z, t) \label{EQ:reynolds_dc_u}\\
     &= A(t) u'(x, z, t)\hat{x} + A(t) w'(x, z, t)\hat{z} \\
@@ -149,14 +152,14 @@ where $A(t)$ is some unknown real amplitude and the mean-velocity components van
 \begin{equation}
     \langle f'(x, z, t) \rangle_x \equiv \int_{0}^4 f'(x, z, t) dx = 0.
 \end{equation}
-Assuming the existance of nontrivial solutions, we also fix the volume-average 
+Assuming the existance of nontrivial solutions, we also fix the volume-average over the entire domain
 \begin{equation}
-  \langle \langle T'^2 \rangle_x \rangle_z = 1
+  \langle T'^2 \rangle_{\mathcal{D}} = 1
 \end{equation}
 thereby alleviating any ambiguity in $A(t)$. 
 Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) and taking the horizontal average reduces the system to a simple initial value problem (IVP) for $\bar{T}$
 \begin{equation}
-  \frac{\partial \bar{T}}{\partial t} + A^2 \langle w'T' \rangle = \mathcal{P}  \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
+  \frac{\partial \bar{T}}{\partial t} + A^2 \langle w'T' \rangle_x = \mathcal{P}  \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
 \end{equation}
 with associated boundary conditions $\bar{T}(-1/2, t) = 1$ and $\bar{T}(1/2, t) = 0$. It should be noted that we could obtain a similar IVP for $u$ by breaking symmetry and considering some nontrivial mean horizontal flow $\bar{u}(z, t)$. However we must have $\bar{w}(z, t) = 0$ due to incompressibility.
 
@@ -189,22 +192,22 @@ Positive eigenvalues indicate that the system is unstable to small disturbances 
 A complete linear stability analysis requires solution over the full spectrum of wavenumbers. 
 The prototypical case is used to demonstrate that the critical Rayleigh number $Ra_c = 1708$ when $\frac{\partial \bar{T}}{\partial z} = -1$.
  
-At some arbitrary time $t_0$, the forcing term $\langle w'T' \rangle$ can be found by solving an eigenvalue problem (EVP) which itself involves $\frac{\partial \bar{T}}{\partial z}$. 
+At some arbitrary time $t_0$, the forcing term $\langle w'T' \rangle_x$ can be found by solving an eigenvalue problem (EVP) which itself involves $\frac{\partial \bar{T}}{\partial z}$. 
 We also assume this term is composed of eigenfunctions belonging to the dominant mode(s). 
 
 \section{Perturbation Evolution}
 Solving the linearized system (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) does not yield $A(t)$. 
 To evolve $\bar{T}$, we assume the perturbations and mean quantities evolve according to different time-scales, as in \cite{michel_chini_2019}.
 Stable modes decay away rapidly. 
-Unstable modes will not persist on the slow time-scale because the advective term $\langle w'T' \rangle$ tends to tends to stabilize $\bar{T}$, thereby creating a negative feedback loop. Only marginally stable modes can traverse this hypothetical time-scale separation. Therefore the amplitude function $A(t)$ must satisfy
+Unstable modes will not persist on the slow time-scale because the advective term $\langle w'T' \rangle_x$ tends to tends to stabilize $\bar{T}$, thereby creating a negative feedback loop. Only marginally stable modes can traverse this hypothetical time-scale separation. Therefore the amplitude function $A(t)$ must satisfy
 \begin{equation}
     \max_{k_x} \{ \omega \} = 0.
 \end{equation}
 
-For various $Ra$ and fixed $Pr = 1$, we seek symmetric marginally-stable thermal equilibria (MSTE), thereby satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
+For various $Ra$ and fixed $Pr = 1$, we seek symmetric marginally-stable thermal equilibria (MSTE) $\bar{T}_{\rm{MSTE}}$, thereby satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
 We employ the \texttt{Dedalus} pseudo-spectral python framework to solve the EVP outlined in Section \ref{sec:model} as well as the IVP (\ref{EQ:T0_IVP}) by representing each field with a dealiased Chebyshev polynomial basis. 
 The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large $Ra$ admit increasingly small-scale features. 
-We supplement \texttt{Dedalus} with the \texttt{Eigentools} package to compute $\langle w' T' \rangle$.
+We supplement \texttt{Dedalus} with the \texttt{Eigentools} package to compute $\langle w' T' \rangle_x$.
 
 At $t = 0$, we begin with a marginally-stable initial profile $\bar{T}(z, 0)$ whose construction is outlined in \ref{sec:initial_profile}. 
 At some arbitrary time $t = t_0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to (\ref{EQ:T0_IVP}) using forward-Euler. 
@@ -235,9 +238,9 @@ In section \ref{sec:multiple_modes} we specify procedures for the treatment of m
 \subsection{Treatment of multiple marginally-stable modes} \label{sec:multiple_modes}
 In most cases, we eventually encounter eigenvalue spectra with multiple simultaneously marginal modes. If ignored, we are forced to reduce the timestep and allow the modes to alternate. Instead, we generalize the advective term in (\ref{EQ:T0_IVP}) to accommodate $N$ simultaneously marginal modes
 \begin{equation}
-    A^2 \langle w' b' \rangle = \sum_{n = 1}^{N} A^2_{n} \langle w' b' \rangle_{n}
+    A^2 \langle w' b' \rangle_x = \sum_{n = 1}^{N} A^2_{n} \langle w' b' \rangle_{x, \, n}
 \end{equation}
-where  $\langle w' b' \rangle_{n}$ is composed of perturbations associated with $k_x = \frac{n\pi}{2}$. 
+where  $\langle w' b' \rangle_{x, \, n}$ is composed of perturbations associated with $k_x = \frac{n\pi}{2}$. 
 There are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. 
 In general, we expect a function $\mathbf{\omega} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots (should they exist). 
 We employ Broyden's method for root-finding in multi-dimensional functions whose derivatives are not explicitly known. 
@@ -249,7 +252,7 @@ In general we find that no other obvious course of action yields equilibria.
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
 MSTE are solutions to the quasilinear form of the Rayleigh-B\'enard convection equations derived in section \ref{sec:model}. 
 For this investigation, we calculate solutions for $Ra$ in the range $10^5 - 10^9$. 
-Solutions are symmetric about $z = 0$ by construction. 
+Their mean temperatures $\bar{T}_{\rm{MSTE}}$ are symmetric about $z = 0$ by construction. 
 
 Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the MSTE profile corresponds to the thermally relaxed state; and the DNS (direct numerical simulations) profile is obtained by solving (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. 
 The DNS curve is more diffuse than the MSTE curve, which in turn, is more diffuse than the initial curve. 
@@ -263,7 +266,7 @@ This counter-diffusion, which opposes overall heat transfer, is overcome by the 
 \begin{figure}
     \centering
     \includegraphics[width=3.4in]{T_profs_na.png}
-    \caption{mean temperature profiles $\bar{T}$ for $Ra = 10^8$. 
+    \caption{Mean temperature profiles $\bar{T}$ for $Ra = 10^8$. 
     The initial profile is given by (\ref{EQ:T0}). 
     The MSTE curve refers to the mean temperature profile of the marginally-stable thermally-equilibrated state. 
     The DNS profile is obtained by performing a 2-dimensional nonlinear simulation of (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus} until thermal and kinetic relaxation. 
@@ -342,15 +345,19 @@ Marginal modes often appear in neighboring pairs, in which case the larger mode 
 In these cases we infer the existence of a local maximum eigenvalue between the two adjacent marginally-stable modes. 
 For $Ra \geq 10^6$, a second branch of marginal modes is introduced as shown in green, increasing according to some power-law with respect to $Ra$. 
 The introduction of this largest branch is likely required to oppose the diffusion of the thinning boundary layers. 
-For $Ra \geq 10^8$, a third branch appears (shown in red), splitting the widening gap between the blue branch and the green branch. 
+For $Ra \geq 10^8$, a third branch appears (shown in blue), splitting the widening gap between the blue branch and the green branch. 
 This development is associated with relatively thick advection profiles, filling a niche in the total flux by uniting the sharp profiles of the largest branch (green) and those of the bulk-domain-oriented smallest branch (blue).
 
 In general, marginally-stable thermal equilibria can be characterized by their boundary layer thicknesses, from which, the rest of their properties follow. Letting the interior boundary layer threshold be the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$, we find that $Ra \propto  \delta^{-3}$ as illustrated in Figure \ref{fig:bl_ra}. 
 This is consistent with Malkus' classical marginal-stability theory, a scaling argument which perceives the boundary regions as subdomains which are themselves marginally-stable.
 
-Nusselt numbers $\Nu$ of various solutions are given in Figure \ref{fig:nu_vs_ra}. 
+The Nusselt number, which describes convective performance, is given by
+\begin{equation}
+  \Nu = \frac{\langle A^2 \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}.
+\end{equation}
+There is no general consensus surrounding the scaling behavior $\Nu \sim Ra^{\beta}$ for high $Ra$ systems. The asymptotic value of $\beta$ is of particular importance in astrophysical systems. In Figure \ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, DNS, along with several ECS. 
 The marginally-stable thermally-equilibrated states and numerical simulation data exhibit power-law relationships with $Ra$. 
-More specifically, $Ra \sim \Nu^3$ which agrees with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} and the scaling argument given by \cite{Malkus_1954}. 
+More specifically, $\beta = 1/3$ which agrees with Figures \ref{fig:bl_ra}, \ref{fig:kx_marginals}, and \ref{fig:del_inv} and the scaling argument given by \cite{Malkus_1954}. 
 The nonlinear solutions, which maximize heat flux, are obtained by \cite{Waleffe}. 
 $\Nu$ of both equilibria exceed that of simulations, which might be due to the transitional behaviors outlined by \cite{Yalniz} and \cite{Cvitanovic} inhibiting heat flux. 
 Alternatively, we might anticipate the existence of exact coherent states with smaller $\Nu$, forming another node in the Markov chain whose long-term behavior agrees with the simulation data.
@@ -366,7 +373,7 @@ Conventionally, (\ref{EQ:motion1}) - (\ref{EQ:motion3}) are solved via direct nu
 $t$ in this section now refers to the simulation time as opposed to the thermal equilibration time parameter used previously. 
 We define the MSTE initial conditions
 \begin{align}
-    T(x, z)\big|_{t=0} &= \bar{T}(z) + \sqrt{2} \sum_{n=1}^N  A_n \text{ Re} \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] \nonumber \\
+    T(x, z)\big|_{t=0} &= \bar{T}_{\rm{MSTE}}(z) + \sqrt{2} \sum_{n=1}^N  A_n \text{ Re} \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] \nonumber \\
     \mathbf{u}(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[\Big( U_n (z) \hat{x} + W_n(z) \hat{z} \Big) e^{ik_{x_n}x} \Big] \nonumber\\
     p(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[P_n (z) e^{ik_{x_n}x}\Big]
 \end{align}
@@ -392,7 +399,7 @@ This is postpones kinetic relaxation because the large horizontal flows decay on
 \begin{equation}
     t_{\nu} \sim \sqrt{\frac{Ra}{Pr}}. \nonumber
 \end{equation}
-Consequently, marginally-stable thermally-equilibrated initial conditions do not reduce the simulation time required to achieve a statistically steady state, rather, they increase it considerably. Further, this suggests that the MSTE background state perspective is, at least partially, flawed as an appropriate background state would approximate $\langle \langle |\mathbf{u}|^2 \rangle_x \rangle_z$
+Consequently, marginally-stable thermally-equilibrated initial conditions do not reduce the simulation time required to achieve a statistically steady state, rather, they increase it considerably. Further, this suggests that the MSTE background state perspective is, at least partially, flawed as an appropriate background state would approximate $\langle|\mathbf{u}|^2 \rangle_{\mathcal{D}}$
 % \begin{figure}
 %     \centering
 %     \includegraphics[width=3.4in]{sim_eq_ke.png}
@@ -424,7 +431,7 @@ Consequently, marginally-stable thermally-equilibrated initial conditions do not
 In general, the reduced model we study in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. 
 Solutions to the quasilinear problem retain several key features that are ubiquitous in experiments and simulations: power-law $\Nu$ scaling, plume-like structures, and minimum length-scale approximations \cite{Malkus_1954}. 
 They also exhibit unique and unexpected features: gradient-reversal/dips in temperature profiles, kinetic exaggeration, and greater $\Nu$ than other time-invariant solutions. 
-We also obtain indistinguishable solutions despite initializing with different mean temperature profiles $\bar{T}$. 
+We also obtain indistinguishable solutions despite initializing with various mean temperature profiles $\bar{T}(z, 0)$. 
 Thus solutions might be unique, but we cannot demonstrate this rigorously.
 
 As previously noted, solving the EVP for statistically steady DNS data yields positive eigenvalues; the system is in a perpetual state of instability. 
