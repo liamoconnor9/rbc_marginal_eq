@@ -251,26 +251,26 @@ MSTE are solutions to the quasilinear form of the Rayleigh-B\'enard convection e
 For this investigation, we calculate solutions for $Ra$ in the range $10^5 - 10^9$. 
 Solutions are symmetric about $z = 0$ by construction. 
 
-Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the equilibrated profile corresponds to the thermally relaxed state; and the simulation profile is obtained by performing a nonlinear simulation of (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. 
-The simulation curve is more diffuse than the equilibrated curve, which in turn, is more diffuse than the initial curve. 
-Performing an eigenvalue solve by setting $\bar{T}$ equal to the simulation profile yields positive eigenvalues. 
+Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the MSTE profile corresponds to the thermally relaxed state; and the DNS (direct numerical simulations) profile is obtained by solving (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. 
+The DNS curve is more diffuse than the MSTE curve, which in turn, is more diffuse than the initial curve. 
+Performing an eigenvalue solve by setting $\bar{T}$ equal to the DNS profile yields positive eigenvalues. 
 Comprehensively, this suggests that MSTE might maximize boundary layer thickness, while subject to the marginal stability constraint.
 
 The most resilient and unexpected feature of thermally equilibrated mean temperature profiles are the pronounced dips adjacent to the boundary layers. 
 These dips appear in every solution, regardless of $Ra$. 
-Physically, they correspond to thin layers in which the temperature gradient reverses, contradicting a hypothesis of \cite{Malkus_1954}. 
+Physically, they correspond to thin layers in which the temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954}. 
 This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}.  
 \begin{figure}
     \centering
     \includegraphics[width=3.4in]{T_profs_na.png}
     \caption{mean temperature profiles $\bar{T}$ for $Ra = 10^8$. 
     The initial profile is given by (\ref{EQ:T0}). 
-    The equilibrated curve refers to the mean temperature profile of the marginally-stable thermally-equilibrated state. 
-    The simulation profile is obtained by performing a 2-dimensional nonlinear simulation with \texttt{Dedalus} until thermal and kinetic relaxation. 
-    The simulation temperature data are horizontally- and time-averaged. 
-    The initial, equilibrated, and simulation profiles have increasingly relaxed boundary regions (respectively). 
-    The equilibrated profile exhibits prominent dips, nested alongside the boundary regions. 
-    The purpose of this feature is not well understood.}
+    The MSTE curve refers to the mean temperature profile of the marginally-stable thermally-equilibrated state. 
+    The DNS profile is obtained by performing a 2-dimensional nonlinear simulation of (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus} until thermal and kinetic relaxation. 
+    The DNS temperature data are horizontally- and time-averaged. 
+    The initial, MSTE, and DNS profiles have increasingly relaxed boundary regions (respectively). 
+    The MSTE profile exhibits prominent dips, nested alongside the boundary regions. 
+    The source of this feature is not well understood, but similar temperature gradient reversal regions were found by \cite{chini_cells} along the midplanes of 2-dimensional convective cellular solutions at $Ra \sim 10^6$.}
     \label{fig:T0_profiles}
 \end{figure}
 \begin{figure}
@@ -357,15 +357,14 @@ Alternatively, we might anticipate the existence of exact coherent states with s
 
 \section{Simulations with Thermally Equilibrated Initial Conditions}
 This investigation is partially motivated by the prospect of decreasing nonlinear simulation relaxation times by employing thermally-equilibrated initial conditions. 
-Conventionally, (\ref{EQ:motion1}) - (\ref{EQ:motion3}) are solved via direct numerical simulation (DNS) with initial conditions
+Conventionally, (\ref{EQ:motion1}) - (\ref{EQ:motion3}) are solved via direct numerical simulation (DNS) with the linear initial conditions
 \begin{align}
     T(x, z)\big|_{t=0} &= 0.5 - z \\
     \mathbf{u}(x, z)\big|_{t=0} &= \mathbf{0} \\
-    p(x, z)\big|_{t=0} &= 0
+    p(x, z)\big|_{t=0} &= 0.
 \end{align}
-which will hereby be referred to as the conductive initial condition. 
 $t$ in this section now refers to the simulation time as opposed to the thermal equilibration time parameter used previously. 
-We define the equilibrated initial conditions
+We define the MSTE initial conditions
 \begin{align}
     T(x, z)\big|_{t=0} &= \bar{T}(z) + \sqrt{2} \sum_{n=1}^N  A_n \text{ Re} \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] \nonumber \\
     \mathbf{u}(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[\Big( U_n (z) \hat{x} + W_n(z) \hat{z} \Big) e^{ik_{x_n}x} \Big] \nonumber\\
@@ -373,9 +372,15 @@ We define the equilibrated initial conditions
 \end{align}
 Where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber at the $n$th marginal mode respectively. 
 The $\sqrt{2}$ factor is necessary for eigenfunction normalization. 
-By construction, these initial conditions are thermally equilibrated. 
-Simulations launched with equilibrated initial conditions do not exhibit a convective-transient period, as the large-scale anatomy of plumes and convective winds which are characteristic of Rayleigh-B\'enard convection exist on initialization. 
-This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $\Nu$ is associated with a turbulent transitional period of upwelling until the distinctive jet-like structure is established. 
+
+Simulations launched with MSTE initial conditions do not exhibit a convective-transient period, as the large-scale anatomy of convective cells, which are characteristic of Rayleigh-B\'enard convection, exist on initialization. 
+This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $\Nu$ is associated with a turbulent transitional period of upwelling until the distinctive plume-like structure is established. 
+Simulation of this transitional period is prohibitive \cite{Anders_AE}. 
+For high $Ra$ experiments, researchers often  ``bootstrap" data by initializing simulations with the results of similar $Ra$ runs \cite{Verzicco, Johnston}. 
+MSTE can be perceived as a set of initial conditions, designed for avoiding the simulation of transitional high Reynolds number flows.
+
+MSTE are laminar, lacking the small-scale structures associated with moderate to high $Ra$ experiments. The absence of chaotic dynamics is an apparent consequence of the quasilinear assumptions. If we treat MSTE as background states, DNS suggest that plumes, vortex sheets, and other unstable turbulent features inhibit total heat transfer. This perspective agrees with convectional models of transitions to turbulent flows, such as Boussinesq's turbulent-viscosity hypothesis \cite{boussinesq_1877}, where the emergence of small-scale velocity structures tends to increase total shear \cite{Lecoanet_KH, drazin_reid_2004, pope_2000}, thereby impeding buoyancy-driven flows and decreasing advection in the bulk of the domain. We could also atribute the diffuse DNS temperature profile in Figure \ref{fig:T0_profiles} with unsteady boundary-layer penetration and mixing that MSTE do not exhibit.
+
 % \begin{figure}
 %     \centering
 %     \includegraphics[width=3.4in]{sim_eq_nu.png}
@@ -387,7 +392,7 @@ This is postpones kinetic relaxation because the large horizontal flows decay on
 \begin{equation}
     t_{\nu} \sim \sqrt{\frac{Ra}{Pr}}. \nonumber
 \end{equation}
-Consequently, marginally-stable thermally-equilibrated initial conditions do not reduce the simulation time required to achieve a statistically steady state, rather, they increase it considerably.
+Consequently, marginally-stable thermally-equilibrated initial conditions do not reduce the simulation time required to achieve a statistically steady state, rather, they increase it considerably. Further, this suggests that the MSTE background state perspective is, at least partially, flawed as an appropriate background state would approximate $\langle \langle |\mathbf{u}|^2 \rangle_x \rangle_z$
 % \begin{figure}
 %     \centering
 %     \includegraphics[width=3.4in]{sim_eq_ke.png}
@@ -426,13 +431,22 @@ As previously noted, solving the EVP for statistically steady DNS data yields po
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
 We might curtail the disagreement between MSTE and DNS by loosening our marginal-stability criterion. 
 Should the time-scales not be entirely separate, we might anticipate the long-term persistance of nearly-marginal unstable modes. 
-This perpetual linear instability cannot be described by our model independently (we do not know, a priori, how unstable such modes are) but it might prove fruitful to investigate moderately unstable quasilinear thermal equilibria. 
-More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\omega_{\rm{max}}$ agree with simulation data. 
-Doing so would almost certainly yield more diffuse equilibria $\bar{T}$ whose scaling behavior would likely differ from that of MSTE. 
+This perpetual linear instability cannot be described by our model independently (we do not know, a priori, how unstable such modes are) but it might prove fruitful to investigate moderately unstable thermal equilibria (MUTE). 
+More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\omega_{\rm{max}}$ agree with some other stability constraint. 
+Note that under this definition, 2-dimensional ECS and temporally-averaged steady DNS data are subsets of MUTE, since they are thermally-equilibrated and generally unstable, though they need not necessarily satisfy the quasilinear form.
+
+We cannot use our reduced quasilinear model to predict $\Nu \sim Ra^{\beta}$ for large $Ra$ without some complementary stability constraint. 
+The eigenvalues of DNS data might provide an informative stability constraint (we could find MUTE and compare them with DNS data), but this would be self-defeating in general. 
+Instead we seek to combine reduced models to approximate $\beta$ without DNS. Under the marginal-stability constraint, we found that MSTE exhibit classical Malkus scaling, having marginally-stable boundary layers with $\beta = 1/3$. 
+We could instead require that the eigenvalues of MUTE agree with the eigenvalues of the analytic 1-dimensional boundary layer predictions of \cite{Shishkina, Zhang_20} (which remain in development), allowing us to refine and expand these estimates into 2-dimensional MUTE. 
+Accessible MUTE states would not rely on DNS, satisfying only the quasilinear problem and stability constraint. 
+Such MUTE ought to agree with DNS data more precisely then MSTE, ideally having less extreme velocities. 
+This is reasonable to expect, since accurate boundary layer approximations and DNS data should have similar stability characteristics. 
+By definition, $\bar{T}_{\rm{MUTE}}$ is unstable and would therefore admit more diffuse boundary layer structures, requiring smaller $A^2(t)$ (less advection) to satisfy the stability constraint and thereby reducing $\Nu$, $\langle \langle |\mathbf{u}|^2 \rangle_x \rangle_z$ and possibly $\beta$.
 
 \section*{Appendix}
 \subsection{Initial buoyancy profile} \label{sec:initial_profile}
-In an attempt to minimize the required number of iterations, we initialize with \cite{Shishkina}'s analytical thermal boundary layer equation for turbulent Rayleigh-B\'enard convection, given by 
+We initialize the thermal-equilibration algorithm with \cite{Shishkina}'s analytical thermal boundary layer equation for turbulent Rayleigh-B\'enard convection, given by 
 \begin{align}
     \bar{T}_0(\xi) &= \frac{\sqrt{3}}{4\pi} \log \frac{(1 + a\xi)^3}{1 + (a\xi)^3} + \frac{3}{2\pi} \arctan \Big( \frac{4\pi}{9}\xi - \frac{1}{\sqrt{3}} \Big) + \frac{1}{4} \nonumber \\
     \xi &= \frac{z}{\delta_0}, \qquad a = \frac{2\pi}{3\sqrt{3}}\label{EQ:T0}
