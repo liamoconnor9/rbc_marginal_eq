@@ -82,7 +82,7 @@ if __name__ == "__main__":
         plt.xlim(0, 400)
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')
-        plt.ylabel(r'$\overline{|\mathbf{u}|^2}$')
+        plt.ylabel(r'$\langle |\mathbf{u}|^2 \rangle_{\mathcal{D}}$')
         plt.title(r'$Ra \, = \, 10^8$')
         plt.savefig(path + '/publication_materials/sim_eq_ke')
         # plt.savefig(path + '/publication_materials/sim_eq_ke_p0_2')
