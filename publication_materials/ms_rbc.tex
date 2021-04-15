@@ -3,11 +3,13 @@
 \usepackage{graphicx}
 \usepackage{natbib}
 \usepackage{amsmath}
+\usepackage{longtable}
 \usepackage{gensymb}
 \usepackage{enumerate}
 \usepackage{varwidth}
 \usepackage{float}
 \usepackage{nonfloat}
+% \usepackage{multicol}
 % \usepackage{afterpage}
 \usepackage[usenames, dvipsnames]{color}
 \newcommand{\note}[1]{\noindent \textbf{\textit{\textcolor{Red}{#1}}}}
@@ -203,7 +205,7 @@ Unstable modes will not persist on the slow time-scale because the advective ter
     \max_{k_x} \{ \omega \} = 0.
 \end{equation}
 
-For various $Ra$ and fixed $Pr = 1$, we seek symmetric marginally-stable thermal equilibria (MSTE), thereby satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
+For various $Ra$ and fixed $Pr = 1$, we seek marginally-stable thermal equilibria (MSTE) satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to (\ref{EQ:T0_IVP}). 
 We employ the \texttt{Dedalus} pseudo-spectral python framework to solve the EVP outlined in Section \ref{sec:model} as well as the IVP (\ref{EQ:T0_IVP}) by representing each field with a dealiased Chebyshev polynomial basis. 
 The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large $Ra$ admit increasingly small-scale features. 
 We supplement \texttt{Dedalus} with the \texttt{Eigentools} package to compute $\langle w' T' \rangle_x$.
@@ -251,8 +253,7 @@ In general we find that no other obvious course of action yields equilibria.
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
 MSTE are fixed points of the quasilinear form derived in section \ref{sec:model}, differing from ECS in that ECS are fixed points of the full nonlinear problem (\ref{EQ:motion1})--(\ref{EQ:motion3}). 
 Such definitions are not mutually exclusive, but in general we can assume that MSTE and ECS are not steady with respect to their counterparts' problems.
-For this investigation, we calculate solutions for $Ra$ in the range $10^5 - 10^9$. 
-Their mean temperatures $\bar{T}$ are symmetric about $z = 0$ by construction. 
+We compute symmetric MSTE for $Ra$ in the range $10^5 - 10^9$. 
 
 \begin{figure}
     \centering
@@ -273,13 +274,6 @@ The DNS curve is more diffuse than the MSTE curve, which in turn, is more diffus
 Performing an eigenvalue solve by setting $\bar{T}$ equal to the DNS profile yields positive eigenvalues. 
 Comprehensively, this suggests that MSTE might maximize boundary layer thickness, while subject to the marginal stability constraint.
 
-The most resilient and unexpected feature of MSTE temperature profiles are the pronounced dips adjacent to the boundary layers. 
-These dips appear in every solution, regardless of $Ra$. 
-Physically, they correspond to thin layers in which the mean temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954}. 
-This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}. 
-We don't understand the source of these dips, but similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2-dimensional convective cellular solutions at $Ra \sim 10^6$. 
-
-
 \begin{figure*}
     \centering
     \begin{tabular}{@{}c@{}}
@@ -295,6 +289,12 @@ We don't understand the source of these dips, but similar temperature gradient r
     A combination of of progressively wider advection profiles is necessary to transition to the $k_x = 1.5\pi$ mode.}
     \label{fig:flux}
 \end{figure*}
+
+The most resilient and unexpected feature of MSTE temperature profiles are the pronounced dips adjacent to the boundary layers. 
+These dips appear in every solution, regardless of $Ra$. 
+Physically, they correspond to thin layers in which the mean temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954}. 
+This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}. 
+We don't understand the source of these dips, but similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2-dimensional convective cellular solutions at $Ra \sim 10^6$. 
 
 Equilibrated states exhibit distinct behaviors for large and small $Ra$. 
 This contrast is illustrated in Figure \ref{fig:flux}, where we give heat flux profiles and eigenvalue spectra for two cases: $Ra = 2 \times 10^5$ and $Ra = 10^9$. 
@@ -358,10 +358,10 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
     \label{fig:nu_vs_ra}%
 \end{figure*}
 
-The Nusselt number, which measures convective performance, is given by
-\begin{equation}
-  \Nu = 1 + \frac{A^2}{\mathcal{P}} \langle w'T' \rangle_x.
-\end{equation}
+The Nusselt number, which measures convective performance, reduces to
+\begin{equation*}
+    \Nu = \frac{\langle A^2 \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}.
+\end{equation*}
 There is no general consensus surrounding the scaling behavior of $\Nu$ for high $Ra$ systems, which are of particular importance in astrophysical systems. In Figure \ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, ``steady rolls" ECS \cite{Wen}, and DNS \cite{Scheel_2016, Johnston}. 
 All states obey $\Nu \sim Ra^{\beta}$ with classical scaling $\beta = 1/3$ in the ECS and MSTE. 
 \cite{Wen} hypothesized that $\Nu$ of ECS which admit classical Malkus scaling must always exceed $\Nu$ of turbulent convection.
@@ -373,19 +373,29 @@ We might also anticipate the existence of similar equilibria, having smaller $\N
 This investigation is partially motivated by the prospect of decreasing DNS times by employing MSTE initial conditions. 
 Conventionally, (\ref{EQ:motion1})--(\ref{EQ:motion3}) are solved via DNS with the linear initial conditions
 \begin{align}
-    T(x, z)\big|_{t=0} &= 0.5 - z \\
-    \mathbf{u}(x, z)\big|_{t=0} &= \mathbf{0} \\
-    p(x, z)\big|_{t=0} &= 0.
+    T(x, z)\big|_{t=0} &= 0.5 - z \nonumber \\
+    \mathbf{u}(x, z)\big|_{t=0} &= \mathbf{0} \nonumber \\
+    p(x, z)\big|_{t=0} &= 0 \label{EQ:linear_ic}.
 \end{align}
 $t$ in this section now refers to the simulation time as opposed to the thermal equilibration time parameter used previously. 
 We define the MSTE initial conditions
 \begin{align}
     T(x, z)\big|_{t=0} &= \bar{T}(z) + \sqrt{2} \sum_{n=1}^N  A_n \text{ Re} \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] \nonumber \\
     \mathbf{u}(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[\Big( U_n (z) \hat{x} + W_n(z) \hat{z} \Big) e^{ik_{x_n}x} \Big] \nonumber\\
-    p(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[P_n (z) e^{ik_{x_n}x}\Big]
+    p(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[P_n (z) e^{ik_{x_n}x}\Big] \label{EQ:mste_ic}
 \end{align}
-Where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber at the $n$th marginal mode respectively. 
+where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber at the $n$th marginal mode respectively. 
 The $\sqrt{2}$ factor is necessary for eigenfunction normalization. 
+
+\begin{figure}
+    \begin{minipage}{3.4in}
+        \centering
+        \includegraphics[width=3.4in]{sim_eq_nu.png}
+        \caption{Nusselt numbers of simulations performed at $Ra = 10^8$ with the conventional initial conditions (black) and MSTE initial conditions (blue). 
+        MSTE simulations do not undergo a convective-transient period because the characteristic large-scale convective cell structure exists on initialization.}
+        \label{fig:nu_sim}
+    \end{minipage}
+\end{figure}
 
 Simulations with MSTE initial conditions do not exhibit a convective-transient period, as the large-scale anatomy of convective cells exists on initialization. 
 This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $\Nu$ is associated with a turbulent transitional period of upwelling until the distinctive plume-like structure is established. 
@@ -399,44 +409,26 @@ If we treat MSTE as background states, DNS suggest that plumes, vortex sheets, a
 This perspective agrees with conventional models of transitions to turbulent flows, such as Boussinesq's turbulent-viscosity hypothesis \cite{boussinesq_1877}, where the emergence of small-scale velocity structures tends to increase total shear \cite{Lecoanet_KH, drazin_reid_2004, pope_2000}, thereby impeding buoyancy-driven flows and decreasing advection in the bulk of the domain. 
 We could also attribute the diffuse DNS temperature profile in Figure \ref{fig:T0_profiles} with unsteady boundary-layer penetration and mixing that MSTE do not exhibit.
 
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=3.4in]{sim_eq_nu.png}
-%     \caption{Nusselt numbers of simulations performed at $Ra \, = \, 10^8$ with conventional initial conditions (red) and marginally-stable thermally-equilibrated initial conditions (blue). Simulations launched with thermally-equilibrated states do not undergo a convective-transient period because the characteristic plume structure exists on initialization. This is illustrated by the $Nu$ spike at $t \sim 15$ in the convectional simulation.}
-%     \label{fig:nu_sim}
-% \end{figure}
-The average kinetic energy MSTE is significantly larger than the statistical steady state, as shown Figure \ref{fig:ke_sim}. 
-This is postpones kinetic relaxation because the large-scale flows decay on a viscous time-scale
-\begin{equation}
-    t_{\nu} \sim \sqrt{\frac{Ra}{Pr}}. \nonumber
-\end{equation}
-Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically steady state -- instead they increase it considerably. This suggests the MSTE background state perspective is partially flawed, as an appropriate background state would approximate $\langle|\mathbf{u}|^2 \rangle_{\mathcal{D}}$ with more fidelity.
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=3.4in]{sim_eq_ke.png}
-%     \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim Pr Ra^{-1/2}$.}
-%     \label{fig:ke_sim}
-% \end{figure}
-\begin{figure}
-    \begin{minipage}{3.4in}
-        \centering
-        \includegraphics[width=3.4in]{sim_eq_nu.png}
-        \caption{Nusselt numbers of simulations performed at $Ra = 10^8$ with the conventional initial conditions (black) and MSTE initial conditions (blue). 
-        MSTE simulations do not undergo a convective-transient period because the characteristic large-scale convective cell structure exists on initialization.}
-        \label{fig:nu_sim}
-    \end{minipage}
-\end{figure}
-
 \begin{figure}
     \begin{minipage}{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_ke.png}
         \caption{Average kinetic energies are reported for the simulations performed in Figure \ref{fig:nu_sim} at $Ra = 10^8$. 
-        The combination of eigenfunctions associated with MSTE have significantly more kinetic energy than the statistically steady state. 
-        Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim \sqrt{Ra / Pr}$.}
+        The combination of eigenfunctions associated with MSTE have significantly more kinetic energy than the statistically-steady state. 
+        Kinetic equilibrium is achieved according to the viscous time-scale $t_{\nu} \sim \sqrt{Ra / Pr}$.}
         \label{fig:ke_sim}
     \end{minipage}
 \end{figure}
+
+The average kinetic energies of MSTE are significantly larger than those associated with the statistically-steady state, as shown Figure \ref{fig:ke_sim}. 
+This is postpones kinetic relaxation because the large-scale flows decay on a viscous time-scale
+
+\begin{equation}
+    t_{\nu} \sim \sqrt{\frac{Ra}{Pr}}. \nonumber
+\end{equation}
+
+Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically-steady state -- instead they increase it considerably. 
+This suggests the MSTE background state perspective is partially flawed, as an appropriate background state would approximate $\langle|\mathbf{u}|^2 \rangle_{\mathcal{D}}$ with more fidelity.
 
 \section{Discussion}\label{sec:Discussion}
 In general, the reduced model we study in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. 
@@ -446,13 +438,14 @@ They also exhibit unique and unexpected features: mean temperature gradient-reve
 We obtain indistinguishable solutions despite initializing with various mean temperature profiles $\bar{T}(z, 0)$. 
 Thus solutions might be unique, but we cannot demonstrate this rigorously.
 
-% Simulations performed with MSTE initial conditions do not undergo an initial convective transient period, 
+Simulations performed with MSTE initial conditions (\ref{EQ:mste_ic}) do not undergo an early convective transient period, but have faster flows and greater $\Nu$ when compared with DNS. 
+From a dynamical systems perspective, unstable orbits depart from MSTE and approach the global attractor (the compact manifold of states whose weighted-average agrees with experiments) on a viscous time-scale. This requires more $CPU-hr$ to achieve relaxation as compared to the conventional linear initial condition (\ref{EQ:linear_ic}).
 
-As previously noted, solving the EVP for statistically steady DNS data yields positive eigenvalues; the system is in a perpetual state of instability. 
+As previously noted, solving the EVP for statistically-steady DNS data yields positive eigenvalues; the system is in a perpetual state of instability. 
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
 We might curtail the disagreement between MSTE and DNS by loosening our marginal-stability criterion. 
 Should the time-scales not be entirely separate, we might anticipate the long-term persistance of moderately unstable modes. 
-This perpetual instability cannot be described by our model independently (we do not know, a priori, how unstable such modes are) but it might prove fruitful to investigate moderately unstable thermal equilibria (MUTE). 
+Such an instability cannot be described by our model independently (we do not know, a priori, \textit{how unstable} MUTE should be) but it might prove fruitful to investigate moderately unstable thermal equilibria (MUTE). 
 More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\omega_{\rm{max}}$ agree with some other stability constraint. 
 Note that under this definition, 2-dimensional ECS are themselves MUTE, because they are thermally-equilibrated and generally unstable, though they need not satisfy the quasilinear form.
 
@@ -476,6 +469,86 @@ where $\delta_0$ is the boundary layer height.
 We expect that each $\Ra$ is associated with a unique $\delta_0$ for which $\bar{T}_0(z)$ is marginally-stable. 
 It should be noted that when experimenting with various initial profiles $(\tanh, \rm{erf}, \rm{etc.})$, we obtain indistinguishable equilibrated states, implying that solutions may be unique. 
 An example of (\ref{EQ:T0}) is given by the blue curve in Figure \ref{fig:T0_profiles}.
+
+% \begin{multicols}{1}
+\subsection{MSTE Metrics}
+\begin{longtable*}{cccccc}
+    %\begin{tabular}{cccccc}
+    %\hline
+    %\begin{longtable}[c]{@{}*{6}{>{\arraybackslash}p{0.15\linewidth}}@{}}
+    \quad\quad\quad Ra	\quad\quad\quad	&	\quad\quad\quad		Pr	\quad\quad\quad		&	\quad\quad\quad		$k=2\pi/\Gamma$	\quad\quad\quad		&	\quad\quad\quad		$N_x \times N_z$	\quad\quad\quad		&	\quad\quad\quad		Nu	\quad\quad\quad		&	\quad\quad\quad		Re	\quad\quad\quad\\
+    %\hline
+    $10^{13/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.056590	&	1.617336\\
+    $1.9\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.145807	&	2.682155\\
+    $2\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.212037	&	3.317190\\
+    $2.25\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.355410	&	4.550975\\
+    $2.5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.474455	&	5.537770\\
+    $2.75\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.575599	&	6.391812\\
+    $3\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.663162	&	7.159844\\
+    $10^{14/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.714193	&	7.624400\\
+    $3.5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.808754	&	8.526064\\
+    $4\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.926775	&	9.740578\\
+    $4.5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.025985	&	10.85141\\
+    $5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.111714	&	11.88534\\
+    $10^{15/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.204811	&	13.09152\\
+    $8\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.476330	&	17.05494\\
+    $10^4$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.648664	&	20.07400\\
+    $10^{17/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	3.122843	&	29.50047\\
+    $10^{18/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	3.665041	&	42.29585\\
+    $10^{19/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	4.287042	&	59.56858\\
+    $10^{5}$	&	1	&	$\pi$	&	128 $\times$ 65	&	4.994322	&	82.84462\\
+    $10^{21/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	5.795869	&	114.2355\\
+    $10^{22/4}$	&	1	&	$\pi$	&	128 $\times$ 97	&	6.703915	&	156.5252\\
+    $10^{23/4}$	&	1	&	$\pi$	&	128 $\times$ 97	&	7.732236	&	213.4031\\
+    $10^{6}$	&	1	&	$\pi$	&	128 $\times$ 97	&	8.896615	&	289.7982\\
+    $10^{25/4}$	&	1	&	$\pi$	&	256 $\times$ 97	&	10.21546	&	392.2837\\
+    $10^{26/4}$	&	1	&	$\pi$	&	256 $\times$ 129	&	11.71065	&	529.6372\\
+    $10^{27/4}$	&	1	&	$\pi$	&	256 $\times$ 129	&	13.40898	&	713.6005\\
+    $10^{7}$	&	1	&	$\pi$	&	512 $\times$ 129	&	15.34493	&	959.9367\\
+    $1.35\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 129	&	16.46456	&	1119.932\\
+    $1.5\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 129	&	16.87881	&	1182.172\\
+    $1.6\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.13944	&	1222.005\\
+    $1.65\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.26636	&	1241.484\\
+    $1.7\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.39216	&	1260.709\\
+    $1.736\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.48282	&	1274.414\\
+    $1.76\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.54351	&	1283.493\\
+    $10^{29/4}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.58987	&	1290.377\\
+    $1.786\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.60946	&	1293.277\\
+    $1.8\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.64500	&	1298.522\\
+    $1.85\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.77160	&	1317.122\\
+    $1.9\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.89693	&	1335.501\\
+    $1.95\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	18.02044	&	1353.657\\
+    $2\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	18.14193	&	1371.593\\
+    $2.4\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	19.04221	&	1507.890\\
+    $2.8\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	19.83413	&	1633.418\\
+    $10^{30/4}$	&	1	&	$\pi$	&	512 $\times$ 193	&	20.47798	&	1739.647\\
+    $4.5\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	22.44036	&	2087.182\\
+    $10^{31/4}$	&	1	&	$\pi$	&	512 $\times$ 193	&	23.76002	&	2340.822\\
+    $10^{8}$	&	1	&	$\pi$	&	768 $\times$ 257	&	27.50669	&	3144.931\\
+    $10^{33/4}$	&	1	&	$\pi$	&	768 $\times$ 257	&	31.81154	&	4220.616\\
+    $2.15\times10^{8}$	&	1	&	$\pi$	&	768 $\times$ 257	&	33.36657	&	4649.541\\
+    $10^{34/4}$	&	1	&	$\pi$	&	768 $\times$ 257	&	36.75427	&	5658.648\\
+    $4.64\times10^{8}$	&	1	&	$\pi$	&	896 $\times$ 321	&	40.44652	&	6875.704\\
+    $10^{35/4}$	&	1	&	$\pi$	&	896 $\times$ 321	&	42.42917	&	7580.057\\
+    $10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	48.94284	&	10145.79\\
+    $10^{37/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	56.42926	&	13571.10\\
+    $2.15\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	59.13988	&	14935.81\\
+    $2.5\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	61.38714	&	16116.94\\
+    $10^{38/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	65.06338	&	18145.61\\
+    $10^{153/16}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	67.42466	&	19511.79\\
+    $4\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	68.96487	&	20429.24\\
+    $4.64\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	71.58241	&	22019.93\\
+    $10^{39/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	75.09725	&	24262.22\\
+    $10^{10}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	86.68318	&	32430.06\\
+    $10^{41/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	100.0909	&	43339.02\\
+    $2\times10^{10}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	103.0738	&	45995.60\\
+    $2.15\times10^{10}$ &	1	&	$\pi$	&	1024 $\times$ 321	&	104.9517	&	47705.08\vspace{0.1in}\\
+    %\hline
+    %  \end{tabular}
+    \caption*{Table S1: Details for numerical solutions with $\Pran=1$ and $\Gamma=2$.  $N_x$ and $N_z$ represent the numbers of Fourier and Chebyshev modes, respectively.}
+    {\label{tab:Gamma2}}
+    \end{longtable*}
+% \end{multicols}
 
 \section*{Acknowledgments}
 The authors thank Jeff Vassil, Greg Chini, Emma Kaufman for their valuable feedback and suggestions. 
