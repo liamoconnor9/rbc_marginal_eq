@@ -65,7 +65,7 @@ def plot_flux(Rayleigh, ax, path, iteration):
         pi_mult3 = str(round(kx3/np.pi, 1))
         pi_mult4 = str(round(kx4/np.pi, 1))
         pi_mult5 = str(round(kx5/np.pi, 1))
-        ax.plot(z, advection1, label = 'Advection ($k_x  = $' + pi_mult1 + '$\pi$)')
+        ax.plot(z, advection1, label = r'$\langle w\' T\' \rangle (k_x  = $' + pi_mult1 + r'$\pi$)')
         ax.plot(z, advection2, label = 'Advection ($k_x  = $' + pi_mult2 + '$\pi$)')
         ax.plot(z, advection3, label = 'Advection ($k_x  = $' + pi_mult3 + '$\pi$)')
         ax.plot(z, advection4, label = 'Advection ($k_x  = $' + pi_mult4 + '$\pi$)')
@@ -131,7 +131,7 @@ plt.tight_layout()
 plt.subplots_adjust(right=1.0)
 # fig.text(0.00, 0.5, 'Flux', ha='center', va='center', rotation='vertical', fontsize=10)
 # plt.ylabel('Flux')
-plt.savefig(root_path + '/pubfigs/flux_sup_n', bbox_inches='tight')
-plt.savefig(root_path + '/publication_materials/flux_sup_n', bbox_inches='tight')
+plt.savefig(root_path + '/pubfigs/flux_sup_n1', bbox_inches='tight')
+# plt.savefig(root_path + '/publication_materials/flux_sup_n', bbox_inches='tight')
 
 

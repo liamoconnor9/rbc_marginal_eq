@@ -95,20 +95,24 @@ $^1$Department of Engineering Sciences and Applied Mathematics, Northwestern Uni
 $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, Northwestern University, Evanston, IL, 60201 USA}
 
 \begin{abstract}
-Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive -- particularly in the large Rayleigh number regime.
-In this investigation, we derive and solve a quasilinear form of the Boussinesq Rayleigh-B\'enard equations. 
-Eigenfunction amplitudes are obtained by requiring marginal-stability. We obtain symmetric thermally-equilibrated solutions and analyze their properties. 
-Solutions to the quasilinear problem differ from statistically-steady 2-dimensional Rayleigh-Be\'nard convection simulation data, having thinner boundary layers and larger Nusselt numbers $\Nu$ which scale like $\Nu \sim Ra^{1/3}$. 
-We initialize 2-dimensional simulations with solutions to the quasilinear problem; they do not undergo a convective transient period and are kinetically exaggerated.
+    Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive---particularly in the large Rayleigh number regime.
+    In this investigation, we derive and solve a quasilinear form of the Rayleigh-Benard problem by representing the perturbations in terms of marginally stable eigenmodes.
+    The amplitude of each eigenmode is determined by requiring that the background state maintains marginal stability.
+    The background temperature profile evolves due to the advective flux of each eigenmode, as well as diffusion.
+    The entire calculation is one-dimensional, and can be run on a workstation.
+    We find the background temperature field evolves to an equilibrium state, where the advective flux from the marginally-stable eigenmodes and the diffusive flux sum to a constant.
+    These marginally-stable thermal equilibria are exact solutions of the quasilinear equations.
+    The mean temperature profile has thinner boundary layers and larger Nusselt numbers than thermally-equilibrated 2D and 3D simulations of the full nonlinear equations.
+    We find the Nusselt number scales like $\Nu \sim Ra^{1/3}$.
+    When initializing a 2D simulation with a marginally-stable thermal equilibrium, we find the simulation does not exhibit the initial burst of turbulence typical of simulations initialized with the conductive background state plus noise.
+    Although the $\Nu$ quickly equilibrates in these simulations, the kinetic energy evolves on a viscous timescale as domain-filling flywheel flows viscously attenuate.
 \end{abstract}
-
 
 \maketitle
 
 \section{Introduction}
-Rayleigh-B\'enard convection plays a foundational role in large-scale astrophysical and geophysical settings.
-Buoyancy-driven convection regulates heat transfer and often gives way to violently turbulent flows, thereby dominating large-scale behaviors and generating small-scale processes in important systems \cite{Couston}.
-
+Rayleigh-B\'enard convection plays a foundational role in astrophysical and geophysical settings.
+The resulting buoyancy-driven flows regulate heat transfer and generate large-scale vortices \cite{Couston}.
 Aggressive convection, which is associated with large Rayleigh numbers $Ra$, is difficult to simulate. 
 State of the art simulations performed by \cite{Zhu_2018} have reached $Ra \sim 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
 The scaling behavior of the Nusselt number $\Nu \sim Ra^{\beta}$ in the asymptotic ultimate regime is of particular interest.
