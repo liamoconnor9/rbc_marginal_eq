@@ -157,7 +157,7 @@ Assuming the existance of nontrivial solutions, we also fix the volume-average o
   \langle T'^2 \rangle_{\mathcal{D}} = 1
 \end{equation}
 thereby alleviating any ambiguity in $A(t)$. 
-Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) and taking the horizontal average reduces the system to a simple initial value problem (IVP) for $\bar{T}$
+Substituting (\ref{EQ:reynolds_dc_T}) into (\ref{EQ:motion3}) and taking the horizontal-average reduces the system to a simple initial value problem (IVP) for $\bar{T}$
 \begin{equation}
   \frac{\partial \bar{T}}{\partial t} + A^2 \langle w'T' \rangle_x = \mathcal{P}  \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
 \end{equation}
@@ -175,7 +175,7 @@ with Dirichlet boundary conditions
     T'|_{z = \pm \frac{1}{2}} = 0, \quad u'|_{z = \pm \frac{1}{2}} = 0, \quad p'|_{z = \pm \frac{1}{2}} = 0.
 \end{equation}
 
-In 1916, Lord Rayleigh observed that (\ref{EQ:linear1}) and (\ref{EQ:linear3}) can be manipulated into a separable form with generalized solutions
+In his groundbreaking report \cite{Rayleigh_1916}, Lord Rayleigh observed that (\ref{EQ:linear1}) and (\ref{EQ:linear3}) can be manipulated into a separable form with generalized solutions
 \begin{align}
     w'(x, z, t) &= W(z) \, e^{i(k_xx-st)} \label{EQ:normal_modes1}\\ 
     u'(x, z, t) &= U(z) \, e^{i(k_xx-st)} \label{EQ:normal_modes2}\\ 
@@ -195,7 +195,7 @@ The prototypical case is used to demonstrate that the critical Rayleigh number $
 At some arbitrary time $t_0$, the forcing term $\langle w'T' \rangle_x$ can be found by solving an eigenvalue problem (EVP) which itself involves $\frac{\partial \bar{T}}{\partial z}$. 
 
 \section{Perturbation Evolution}
-Solving the linearized system (\ref{EQ:linear1}) -- (\ref{EQ:linear3}) does not yield $A(t)$. 
+Solving the linearized system (\ref{EQ:linear1})--(\ref{EQ:linear3}) does not yield $A(t)$. 
 To evolve $\bar{T}$, we assume the perturbations and mean quantities evolve according to different time-scales, as in \cite{michel_chini_2019}.
 Stable modes decay away rapidly. 
 Unstable modes will not persist on the slow time-scale because the advective term $\langle w'T' \rangle_x$ tends to stabilize $\bar{T}$, thereby creating a negative feedback loop. Only marginally stable modes can traverse this hypothetical time-scale separation. Therefore the amplitude function $A(t)$ must satisfy
@@ -249,7 +249,8 @@ Should we converge upon a negative amplitude, that mode is discarded and the ite
 In general we find that no other obvious course of action yields equilibria.
 
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
-MSTE are solutions to the quasilinear form of the Rayleigh-B\'enard convection equations derived in section \ref{sec:model}. 
+MSTE are fixed points of the quasilinear form derived in section \ref{sec:model}, differing from ECS in that ECS are fixed points of the full nonlinear problem (\ref{EQ:motion1})--(\ref{EQ:motion3}). 
+Such definitions are not mutually exclusive, but in general we can assume that MSTE and ECS are not steady with respect to their counterparts' problems.
 For this investigation, we calculate solutions for $Ra$ in the range $10^5 - 10^9$. 
 Their mean temperatures $\bar{T}$ are symmetric about $z = 0$ by construction. 
 
@@ -267,7 +268,7 @@ Their mean temperatures $\bar{T}$ are symmetric about $z = 0$ by construction.
     \label{fig:T0_profiles}
 \end{figure}
 
-Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the MSTE profile corresponds to the thermally relaxed state; and the DNS (direct numerical simulations) profile is obtained by solving (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal and time averaging. 
+Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the MSTE profile corresponds to the thermally relaxed state; and the DNS (direct numerical simulations) profile is obtained by solving (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal- and time- averaging. 
 The DNS curve is more diffuse than the MSTE curve, which in turn, is more diffuse than the initial curve. 
 Performing an eigenvalue solve by setting $\bar{T}$ equal to the DNS profile yields positive eigenvalues. 
 Comprehensively, this suggests that MSTE might maximize boundary layer thickness, while subject to the marginal stability constraint.
@@ -351,7 +352,7 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
 \begin{figure*}
     \centering
     \includegraphics[width=7.1in]{nu_ra.PNG}
-    \caption{Nusselt numbers are shown for MSTE, aspect-ratio optimized ECS \cite{Wen}, and statistically-steady DNS \cite{Johnston, Scheel_2016}.
+    \caption{Nusselt numbers are shown for MSTE, aspect-ratio-optimized ``steady rolls'' ECS \cite{Wen}, as well as statistically-steady 2D and 3D DNS \cite{Johnston, Scheel_2016}.
     All datasets obey power-law relationships, with the MSTE and ECS admitting classical scaling $\Nu \sim Ra^{1/3}$. 
     MSTE have greater $\Nu$ than the ECS, which in turn, have greater $\Nu$ than the DNS. This can be explained by the contrasting boundary layer geometries shown in Figure \ref{fig:T0_profiles}.}%
     \label{fig:nu_vs_ra}%
@@ -359,18 +360,18 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
 
 The Nusselt number, which measures convective performance, is given by
 \begin{equation}
-  \Nu = \frac{\langle A^2 \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}.
+  \Nu = 1 + \frac{A^2}{\mathcal{P}} \langle w'T' \rangle_x.
 \end{equation}
-There is no general consensus surrounding the scaling behavior of $\Nu$ for high $Ra$ systems, which are of particular importance in astrophysical systems. In Figure \ref{fig:nu_vs_ra} we report $\Nu$ for MSTE and DNS states. 
-Both exhibit power-law dependence $\Nu \sim Ra^{\beta}$ with classical scaling $\beta = 1/3$. 
+There is no general consensus surrounding the scaling behavior of $\Nu$ for high $Ra$ systems, which are of particular importance in astrophysical systems. In Figure \ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, ``steady rolls" ECS \cite{Wen}, and DNS \cite{Scheel_2016, Johnston}. 
+All states obey $\Nu \sim Ra^{\beta}$ with classical scaling $\beta = 1/3$ in the ECS and MSTE. 
 \cite{Wen} hypothesized that $\Nu$ of ECS which admit classical Malkus scaling must always exceed $\Nu$ of turbulent convection.
-Our findings agree; $\Nu$ of MSTE exceed 2D and 3D DNS. 
-This might be due to the chaotic transitions among unstable periodic orbits outlined by \cite{Yalniz, Cvitanovic} inhibiting heat flux. 
-We might also anticipate the existence of similar equilibria, having smaller $\Nu$ and occupying neighboring nodes in the Markov chain whose long-term behavior agrees with DNS. 
+If we generalize this notion to include quasilinear equilibria, our findings agree; MSTE have larger $\Nu$ than 2D and 3D DNS.
+This might be due to the chaotic transitions, among the unstable periodic orbits outlined by \cite{Yalniz, Cvitanovic}, inhibiting heat flux. 
+We might also anticipate the existence of similar equilibria, having smaller $\Nu$ and occupying complementary nodes in the Markov chain whose long-term behavior agrees with DNS. 
 
 \section{Simulations with Thermally Equilibrated Initial Conditions}
 This investigation is partially motivated by the prospect of decreasing DNS times by employing MSTE initial conditions. 
-Conventionally, (\ref{EQ:motion1}) - (\ref{EQ:motion3}) are solved via DNS with the linear initial conditions
+Conventionally, (\ref{EQ:motion1})--(\ref{EQ:motion3}) are solved via DNS with the linear initial conditions
 \begin{align}
     T(x, z)\big|_{t=0} &= 0.5 - z \\
     \mathbf{u}(x, z)\big|_{t=0} &= \mathbf{0} \\
@@ -409,7 +410,7 @@ This is postpones kinetic relaxation because the large-scale flows decay on a vi
 \begin{equation}
     t_{\nu} \sim \sqrt{\frac{Ra}{Pr}}. \nonumber
 \end{equation}
-Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically steady state--rather, they increase it considerably. This suggests the MSTE background state perspective is partially flawed, since an appropriate background state would approximate $\langle|\mathbf{u}|^2 \rangle_{\mathcal{D}}$ with more fidelity.
+Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically steady state -- instead they increase it considerably. This suggests the MSTE background state perspective is partially flawed, as an appropriate background state would approximate $\langle|\mathbf{u}|^2 \rangle_{\mathcal{D}}$ with more fidelity.
 % \begin{figure}
 %     \centering
 %     \includegraphics[width=3.4in]{sim_eq_ke.png}
@@ -430,8 +431,8 @@ Consequently, MSTE initial conditions do not reduce the simulation time required
     \begin{minipage}{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_ke.png}
-        \caption{Average kinetic energies of the same simulations performed in Figure \ref{fig:nu_sim} ($Ra = 10^8$). 
-        The combination of eigenfunctions which give thermal equilibrium have significantly more kinetic energy than the statistically steady state. 
+        \caption{Average kinetic energies are reported for the simulations performed in Figure \ref{fig:nu_sim} at $Ra = 10^8$. 
+        The combination of eigenfunctions associated with MSTE have significantly more kinetic energy than the statistically steady state. 
         Kinetic equilibrium is achieved according to the viscous timescale $t_{\nu} \sim \sqrt{Ra / Pr}$.}
         \label{fig:ke_sim}
     \end{minipage}
@@ -439,10 +440,13 @@ Consequently, MSTE initial conditions do not reduce the simulation time required
 
 \section{Discussion}\label{sec:Discussion}
 In general, the reduced model we study in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. 
-Solutions to the quasilinear problem retain several key features that are ubiquitous in experiments and simulations: power-law $\Nu$ scaling, convective cell structures, and minimum length-scale approximations \cite{Malkus_1954}. 
-They also exhibit unique and unexpected features: gradient-reversal/dips in temperature profiles, kinetic exaggeration, and greater $\Nu$ than other time-invariant solutions. 
+To compute MSTE, we construct a marginally-stable mean temperature profile and develop the quasilinear model via independent time-scales.
+Solutions retain several key features that are ubiquitous in experiments and simulations: $\Nu \sim Ra^{1/3}$ scaling, large-scale convective cell structures, and agreement with classical minimum length-scale approximations \cite{Malkus_1954}. 
+They also exhibit unique and unexpected features: mean temperature gradient-reversals/dips, kinetic exaggeration, and greater $\Nu$ than other time-invariant solutions. 
 We obtain indistinguishable solutions despite initializing with various mean temperature profiles $\bar{T}(z, 0)$. 
 Thus solutions might be unique, but we cannot demonstrate this rigorously.
+
+Simulations performed with MSTE initial conditions do not undergo an initial convective transient period, 
 
 As previously noted, solving the EVP for statistically steady DNS data yields positive eigenvalues; the system is in a perpetual state of instability. 
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
