@@ -217,17 +217,24 @@
   {\bibinfo  {journal} {Journal of Fluid Mechanics}\ }\textbf {\bibinfo
   {volume} {858}},\ \bibinfo {pages} {536–564} (\bibinfo {year}
   {2019})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Anders}\ \emph {et~al.}(2020)\citenamefont {Anders},
-  \citenamefont {Vasil}, \citenamefont {Brown},\ and\ \citenamefont
-  {Korre}}]{Anders_cd}%
+\bibitem [{\citenamefont {Johnston}\ and\ \citenamefont
+  {Doering}(2009)}]{Johnston}%
   \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~H.}\ \bibnamefont
-  {Anders}}, \bibinfo {author} {\bibfnamefont {G.~M.}\ \bibnamefont {Vasil}},
-  \bibinfo {author} {\bibfnamefont {B.~P.}\ \bibnamefont {Brown}}, \ and\
-  \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Korre}},\ }\href
-  {\doibase 10.1103/PhysRevFluids.5.083501} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. Fluids}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo
-  {pages} {083501} (\bibinfo {year} {2020})}\BibitemShut {NoStop}%
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
+  {Johnston}}\ and\ \bibinfo {author} {\bibfnamefont {C.~R.}\ \bibnamefont
+  {Doering}},\ }\href {\doibase 10.1103/PhysRevLett.102.064501} {\bibfield
+  {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
+  {volume} {102}},\ \bibinfo {pages} {064501} (\bibinfo {year}
+  {2009})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Scheel}\ and\ \citenamefont
+  {Schumacher}(2016)}]{Scheel_2016}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~D.}\ \bibnamefont
+  {Scheel}}\ and\ \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
+  {Schumacher}},\ }\href {\doibase 10.1017/jfm.2016.457} {\bibfield  {journal}
+  {\bibinfo  {journal} {Journal of Fluid Mechanics}\ }\textbf {\bibinfo
+  {volume} {802}},\ \bibinfo {pages} {147–173} (\bibinfo {year}
+  {2016})}\BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Anders}\ \emph {et~al.}(2018)\citenamefont {Anders},
   \citenamefont {Brown},\ and\ \citenamefont {Oishi}}]{Anders_AE}%
   \BibitemOpen
@@ -247,15 +254,6 @@
   \bibinfo {pages} {1287} (\bibinfo {year} {1997})},\ \Eprint
   {http://arxiv.org/abs/https://doi.org/10.1063/1.869244}
   {https://doi.org/10.1063/1.869244} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Johnston}\ and\ \citenamefont
-  {Doering}(2009)}]{Johnston}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
-  {Johnston}}\ and\ \bibinfo {author} {\bibfnamefont {C.~R.}\ \bibnamefont
-  {Doering}},\ }\href {\doibase 10.1103/PhysRevLett.102.064501} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
-  {volume} {102}},\ \bibinfo {pages} {064501} (\bibinfo {year}
-  {2009})}\BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Boussinesq}(1877)}]{boussinesq_1877}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
