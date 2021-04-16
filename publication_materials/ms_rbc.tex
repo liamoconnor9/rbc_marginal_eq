@@ -333,7 +333,7 @@ This suggests that MSTE might maximize boundary layer thickness, while subject t
 
 The most resilient and unexpected feature of MSTE temperature profiles are the pronounced dips adjacent to the boundary layers. 
 These dips appear in every solution, regardless of $\Ra$. 
-Physically, they correspond to thin layers in which the mean temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954}. 
+Physically, they correspond to thin layers in which the mean temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954,Howard_1966}. 
 This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}. 
 We don't understand the source of these dips, but similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$. 
 
@@ -360,7 +360,7 @@ In every case, the $k_x = 1.5\pi$ mode is included and is often unaccompanied by
 In Figure \ref{fig:kx_marginals} we give the wavenumbers $k_x$ of marginal modes. 
 These wavenumbers often appear in adjacent pairs, where the larger mode is denoted with an x and the smaller with a +. 
 For $\Ra \geq 10^6$, a second branch of marginal modes is introduced as shown in light green, obeying some power-law with respect to $\Ra$. 
-For large $\Ra$, the advections of this maximum branch opposes the strong diffusion of the thin boundary layers. 
+For large $\Ra$, the advections of this maximum branch opposes the strong diffusion of the thin MSTE boundary layers. 
 At $\Ra \geq 10^8$, a third branch appears (shown in light blue), splitting the widening gap between the other two. 
 This development is associated with moderately wide advection profiles, filling a niche in the total flux by uniting the thin profiles of the maximum branch with those of the bulk-domain-oriented minimum branch.
 
@@ -375,7 +375,13 @@ This development is associated with moderately wide advection profiles, filling 
     \label{fig:del_inv}
 \end{figure}
 
-The largest marginal wavenumber $\max \{ k_x \}$ (represented by the light green branch in Figure \ref{fig:kx_marginals}) serves as an inverse minimum length-scale in the $x$ direction. The finest structures in $\bar{T}(z)$ appear near the boundaries, requiring more basis functions (resolution) at large $\Ra$. Naturally, this provides a complementary minimum length-scale for $z$. We define the interior boundary layer threshold as the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$. In Figure \ref{fig:del_inv}, we illustrate the constant ratio between these two quantities for various $\Ra$. The quasilinear model cannot describe arbitrarily small scale structures. Discretization of the normal modes allows us to collapse the problem into a single dimension, but this comes at a cost.  
+The largest marginal wavenumber $\max \{ k_x \}$ (represented by the light green branch in Figure \ref{fig:kx_marginals}) serves as an inverse minimum length-scale in the $x$ direction. The finest structures in $\bar{T}(z)$ appear near the boundaries, requiring more basis functions (resolution) at large $\Ra$. Naturally, this provides a complementary minimum length-scale for $z$. We define the interior boundary layer threshold as the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$. In Figure \ref{fig:del_inv}, we illustrate the constant ratio between these two quantities for various $\Ra$. We can assume from this length scale agreement that the mean-squared $x$ and $z$ components of the temperature and velocity gradients are proportional for various $\Ra$
+\begin{align*}
+    \Big\langle \frac{\partial T}{\partial x} \cdot \frac{\partial T}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial T}{\partial z} \cdot \frac{\partial T}{\partial z} \Big\rangle_{\mathcal{D}}    \\
+    \Big\langle \frac{\partial \mathbf{u}}{\partial x} \cdot \frac{\partial \mathbf{u}}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial \mathbf{u}}{\partial z} \cdot \frac{\partial \mathbf{u}}{\partial z} \Big\rangle_{\mathcal{D}}.
+\end{align*}
+This is consistent with the mean squared gradient assumptions of \cite{Malkus_1954}.
+The quasilinear model cannot describe arbitrarily small scale structures. This is a consequence of us collapsing the problem into a single dimension via mode-discretization.
 
 \begin{figure}
     \centering
@@ -480,13 +486,13 @@ We assume that stable and unstable modes cannot persist over a long time scale.
 The marginal stability constraint then fixes the unknown ratio between advection and diffusion (eigenfunction amplitude $A^2$). 
 We use standard root-finding algorithms to solve for the appropriate $A^2$ at each iteration, until, the fixed combination of diffusion and advection sum to a constant flux.
 
-Solutions retain several key features that are ubiquitous in experiments and simulations: $\Nu \sim\Ra^{1/3}$ scaling, large-scale convective cell structures, and agreement with classical minimum length-scale approximations \cite{Malkus_1954}. 
+Solutions retain several key features that are prevalent in experiments and simulations: $\Nu \sim\Ra^{1/3}$ scaling, large-scale convective cell structures, and minimum length scale agreement. 
 They also exhibit unique and unexpected features: mean temperature gradient-reversals/dips, high kinetic energy flows, and greater $\Nu$ than other time-invariant solutions. 
 We obtain indistinguishable solutions despite initializing with various mean temperature profiles $\bar{T}(z, 0)$. 
 Thus solutions might be unique, but we cannot demonstrate this rigorously.
 
 Simulations performed with MSTE initial conditions \eq{EQ:mste_ic} do not undergo an early convective transient period, but have faster flows and greater $\Nu$ when compared with DNS. 
-From a dynamical systems perspective, in the space of nonlinear solution trajectories, unstable orbits depart from MSTE and approach the global attractor (the compact manifold of states whose weighted-average agrees with experiments) on a viscous time-scale. This requires more CPU-hr to achieve relaxation when compared to the conventional linear initial condition \eq{EQ:linear_ic}.
+From a dynamical systems perspective, unstable orbits depart from MSTE and approach the global attractor on a viscous time-scale \note{Still reading about this}. This requires more CPU-hr to achieve relaxation when compared to the conventional linear initial condition \eq{EQ:linear_ic}.
 
 As previously noted, solving the EVP for statistically-steady DNS data yields positive eigenvalues; the system is in a perpetual state of instability. 
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
