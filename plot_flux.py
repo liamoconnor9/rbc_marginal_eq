@@ -127,7 +127,7 @@ iteration2 = 12638
 
 plot_flux(ra1, axs[0], path1, iteration1)
 plot_flux(ra2, axs[1], path2, iteration2)
-plt.tight_layout()
+# plt.tight_layout()
 plt.subplots_adjust(right=1.0)
 # fig.text(0.00, 0.5, 'Flux', ha='center', va='center', rotation='vertical', fontsize=10)
 # plt.ylabel('Flux')
