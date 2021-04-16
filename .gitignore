@@ -30,6 +30,7 @@ RA5E8/*
 *.fls
 *.cls
 *.blg
+*.bbl
 *.fdb_latexmk
 *.gz
 *.synctex
