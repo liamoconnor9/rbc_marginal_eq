@@ -113,22 +113,34 @@ $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, North
 \section{Introduction}
 Rayleigh-B\'enard convection plays a foundational role in astrophysical and geophysical settings.
 The resulting buoyancy-driven flows regulate heat transfer and generate large-scale vortices \cite{Couston}.
-Aggressive convection, which is associated with large Rayleigh numbers $Ra$, is difficult to simulate. 
+Turbulent convection, which is associated with large Rayleigh numbers $Ra$, is difficult to simulate. 
 State of the art simulations performed by \cite{Zhu_2018} have reached $Ra \sim 10^{14}$ but estimates for stars are $Ra \sim 10^{20}$ \cite{Ossendrijver}. 
+\note{put in a number for earth's interior?}
 The scaling behavior of the Nusselt number $\Nu \sim Ra^{\beta}$ in the asymptotic ultimate regime is of particular interest.
 There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus_1954, Howard_1966, Kraichnan, Spiegel, Castaing, Grossman, Ahlers}. 
 
-Reduced models are particularly useful in this context because they allow us to study the problem with relatively low expense. 
-Much of the published work on this topic relates to unstable exact coherent states (ECS) \cite{Waleffe, Sondak, Wen, chini_cells}. 
-Simulations and analysis performed by \cite{Yalniz, Cvitanovic} suggest that chaotic simulation trajectories can be represented by a Markov chain whose long-term behavior is given by the time-weighted-average of a finite set of unstable equilibria. Should that be the case, it is crucial that we discover and classify such equilibria.
+Absent solid evidence from direct numerical simulation, other methods have been developed to try to infer large-$Ra$ behavior or otherwise gain insight.
+In the presence of other physical effects (e.g., rotation, magnetic fields), one can sometimes derive an asymptotically consistent set of reduced equations \cite{Julien2007, Julien2012}.
+Reduced models are potentially useful in this context because they may allow us to study the problem with less expensive computations.
+Another approach relates to unstable exact coherent states (ECS) \cite{Waleffe, Sondak, Wen, chini_cells}. 
+Simulations and analysis performed by \cite{Yalniz, Cvitanovic} suggest that chaotic simulation trajectories can be represented by a Markov chain whose long-term behavior is given by the time-weighted-average over a finite set of unstable equilibria.
+Should that be the case, it is crucial that we discover and classify such equilibria.
 
+Others have turned to studying quasilinear systems.
+The quasilinear approximation starts with a decomposition of all variables into a background and perturbations about this background.
+The approximation is to neglect the influence of nonlinear interactions between the perturbations on the perturbations themselves \cite{marston2016}.
+This renders the perturbation equations linear.
+Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
 In \cite{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
-This is realized by defining a mean state which, hypothetically, evolves on a slow time-scale. 
-Marginal stability is required at each successive timestep to constrain the perturbation amplitudes. 
-A similar strategy is employed by \cite{michel_chini_2019}, where an analytic expression for the first-order perturbations' amplitude is found by deriving a solvability condition of the second-order perturbations and integrating over the domain spatially. 
-We seek to solve the Boussinesq Rayleigh–Bénard convection equations using an analogous strategy. 
-The application of this procedure yields time-invariant solutions to the quasilinear problem with a range of expected and unexpected features. 
+They assume the background velocity evolves on a slow timescale, and to determine the perturbation amplitudes they require marginal stability at each timestep.
+A similar strategy is employed by \cite{michel_chini_2019} to studying acoustic streaming.
+In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
 
+In this paper we solve the Rayleigh-B\'{e}nard convection problem using an analogous strategy.
+In section~\ref{sec:model} we recall the underlying equations, and in section~\ref{sec:evolution} we describe how we evolve the background temperature profile while maintaining marginal stability.
+Section~\ref{sec:properties} describes the properties of the marginally-stable thermal equilibria, in particular how the Nusselt number and characteristic wavenumbers vary with the Rayleigh number.
+Finally, we describe the results of simulations initialized with marginally-stable thermal equilibria in section~\ref{sec:sims}, and conclude in section~\ref{sec:Discussion}.
+ 
 \section{Model Setup}\label{sec:model}
 We begin with the non-dimensionalized Boussinesq approximation for Rayleigh-Bénard Convection. 
 The domain $\mathcal{D}$ is 2-dimensional rectangular and horizontally periodic with spatial dimensions $0 < x < 4$ and $-1/2 < z < 1/2$. 
@@ -200,7 +212,7 @@ The prototypical case is used to demonstrate that the critical Rayleigh number $
  
 At some arbitrary time $t_0$, the forcing term $\langle w'T' \rangle_x$ can be found by solving an eigenvalue problem (EVP) which itself involves $\frac{\partial \bar{T}}{\partial z}$. 
 
-\section{Perturbation Evolution}
+\section{Perturbation Evolution}\label{sec:evolution}
 Solving the linearized system (\ref{EQ:linear1})--(\ref{EQ:linear3}) does not yield $A(t)$. 
 To evolve $\bar{T}$, we assume the perturbations and mean quantities evolve according to different time-scales, as in \cite{michel_chini_2019}.
 Stable modes decay away rapidly. 
@@ -373,7 +385,7 @@ If we generalize this notion to include quasilinear equilibria, our findings agr
 This might be due to the chaotic transitions, among the unstable periodic orbits outlined by \cite{Yalniz, Cvitanovic}, inhibiting heat flux. 
 We might also anticipate the existence of similar equilibria, having smaller $\Nu$ and occupying complementary nodes in the Markov chain whose long-term behavior agrees with DNS. 
 
-\section{Simulations with Thermally Equilibrated Initial Conditions}
+\section{Simulations with Thermally Equilibrated Initial Conditions}\label{sec:sims}
 This investigation is partially motivated by the prospect of decreasing DNS times by employing MSTE initial conditions. 
 Conventionally, (\ref{EQ:motion1})--(\ref{EQ:motion3}) are solved via DNS with the linear initial conditions
 \begin{align}

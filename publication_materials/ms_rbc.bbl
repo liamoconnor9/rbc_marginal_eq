@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{29}%
+\begin{thebibliography}{32}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -140,6 +140,26 @@
   {\doibase 10.1103/RevModPhys.81.503} {\bibfield  {journal} {\bibinfo
   {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {81}},\ \bibinfo
   {pages} {503} (\bibinfo {year} {2009})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Julien}}\ and\ \citenamefont
+  {{Knobloch}}(2007)}]{Julien2007}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
+  {{Julien}}}\ and\ \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
+  {{Knobloch}}},\ }\href {\doibase 10.1063/1.2741042} {\bibfield  {journal}
+  {\bibinfo  {journal} {Journal of Mathematical Physics}\ }\textbf {\bibinfo
+  {volume} {48}},\ \bibinfo {pages} {065405} (\bibinfo {year}
+  {2007})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {{Julien}}\ \emph {et~al.}(2012)\citenamefont
+  {{Julien}}, \citenamefont {{Knobloch}}, \citenamefont {{Rubio}},\ and\
+  \citenamefont {{Vasil}}}]{Julien2012}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
+  {{Julien}}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
+  {{Knobloch}}}, \bibinfo {author} {\bibfnamefont {A.~M.}\ \bibnamefont
+  {{Rubio}}}, \ and\ \bibinfo {author} {\bibfnamefont {G.~M.}\ \bibnamefont
+  {{Vasil}}},\ }\href {\doibase 10.1103/PhysRevLett.109.254503} {\bibfield
+  {journal} {\bibinfo  {journal} {\prl}\ }\textbf {\bibinfo {volume} {109}},\
+  \bibinfo {eid} {254503} (\bibinfo {year} {2012})}\BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Waleffe}\ \emph {et~al.}(2015)\citenamefont
   {Waleffe}, \citenamefont {Boonkasame},\ and\ \citenamefont
   {Smith}}]{Waleffe}%
@@ -197,6 +217,18 @@
   {journal} {\bibinfo  {journal} {Physica Scripta}\ }\textbf {\bibinfo {volume}
   {2010}},\ \bibinfo {pages} {014007} (\bibinfo {year} {2010})}\BibitemShut
   {NoStop}%
+\bibitem [{\citenamefont {{Marston}}\ \emph {et~al.}(2016)\citenamefont
+  {{Marston}}, \citenamefont {{Chini}},\ and\ \citenamefont
+  {{Tobias}}}]{marston2016}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~B.}\ \bibnamefont
+  {{Marston}}}, \bibinfo {author} {\bibfnamefont {G.~P.}\ \bibnamefont
+  {{Chini}}}, \ and\ \bibinfo {author} {\bibfnamefont {S.~M.}\ \bibnamefont
+  {{Tobias}}},\ }\href {\doibase 10.1103/PhysRevLett.116.214501} {\bibfield
+  {journal} {\bibinfo  {journal} {\prl}\ }\textbf {\bibinfo {volume} {116}},\
+  \bibinfo {eid} {214501} (\bibinfo {year} {2016})},\ \Eprint
+  {http://arxiv.org/abs/1601.06720} {arXiv:1601.06720 [physics.flu-dyn]}
+  \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Beaume}\ \emph {et~al.}(2015)\citenamefont {Beaume},
   \citenamefont {Chini}, \citenamefont {Julien},\ and\ \citenamefont
   {Knobloch}}]{Beaume_2015}%
