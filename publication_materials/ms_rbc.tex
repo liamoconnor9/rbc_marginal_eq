@@ -274,7 +274,7 @@ In section \ref{sec:multiple_modes} we specify procedures for the treatment of m
 \subsection{Treatment of multiple marginally-stable modes} \label{sec:multiple_modes}
 In most cases, we eventually encounter eigenvalue spectra with multiple simultaneously marginal modes.
 If ignored, we are forced to reduce the timestep and allow the modes to alternate which is marginally stable.
-Instead, we generalize the advective term in (\ref{EQ:T0_IVP}) to accommodate $N$ simultaneously marginal modes
+Instead, we calculate the advective term in (\ref{EQ:T0_IVP}) accommodating $N$ simultaneously marginal modes
 \begin{equation}
     \langle w' T' \rangle_x = \sum_{n = 1}^{N} 4 A_n^2 \int \, \Re\left[ W_n \theta_n^* \right] \,dz
 \end{equation}
@@ -289,9 +289,12 @@ Should we converge upon a negative amplitude, that mode is discarded and the ite
 %In general we find that no other obvious course of action yields equilibria.
 
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
-MSTE are fixed points of the quasilinear form derived in section \ref{sec:model}, differing from ECS in that ECS are fixed points of the full nonlinear problem (\ref{EQ:motion1})--(\ref{EQ:motion3}). 
-Such definitions are not mutually exclusive, but in general we can assume that MSTE and ECS are not steady with respect to their counterparts' problems.
-We compute symmetric MSTE for $Ra$ in the range $10^5 - 10^9$. 
+We evolve $\bar{T}$ as described above until $\partial_t\bar{T}\approx 0$ \note{what is your criterion for equilibrium?}.
+In this marginally-stable thermal equilibrium, $\bar{T}$ does not evolve in time, and the perturbations also do not evolve in time, as they are marginally stable.
+Thus, these configurations are exact solutions to the quasilinear equations (equations~\ref{EQ:T0_IVP}--\ref{EQ:linear3}).
+They differ from the usual ECS in that ECS are fixed points of the full nonlinear problem (\ref{EQ:motion1})--(\ref{EQ:motion3}). 
+Such definitions are not mutually exclusive, but in general we can assume that MSTE and ECS are not steady with respect to their counterparts' equations.
+We compute symmetric MSTE for $Ra$ in the range $10^5 - 10^9$ \note{Somewhere you need to state we impose symmetry on the temperature field... this should got in section 3}. 
 
 \begin{figure}
     \centering
@@ -310,7 +313,7 @@ We compute symmetric MSTE for $Ra$ in the range $10^5 - 10^9$.
 Figure \ref{fig:T0_profiles} gives temperature profiles for $Ra = 10^8$ where the initial profile, given by (\ref{EQ:T0}), is employed at iteration 0; the MSTE profile corresponds to the thermally relaxed state; and the DNS (direct numerical simulations) profile is obtained by solving (\ref{EQ:motion1})--(\ref{EQ:motion3}) with \texttt{Dedalus}, followed by horizontal- and time- averaging. 
 The DNS curve is more diffuse than the MSTE curve, which in turn, is more diffuse than the initial curve. 
 Performing an eigenvalue solve by setting $\bar{T}$ equal to the DNS profile yields positive eigenvalues. 
-Comprehensively, this suggests that MSTE might maximize boundary layer thickness, while subject to the marginal stability constraint.
+This suggests that MSTE might maximize boundary layer thickness, while subject to the marginal stability constraint.
 
 \begin{figure*}
     \centering
@@ -496,6 +499,12 @@ Such MUTE ought to agree with DNS data more precisely than MSTE, ideally having 
 This is reasonable to expect, since accurate boundary layer approximations and DNS data should have similar stability characteristics. 
 By definition, MUTE are unstable and would therefore admit more diffuse boundary layer structures, requiring smaller $A^2(t)$ (less advection) to satisfy the stability constraint and thereby reducing $\Nu$, $\langle |\mathbf{u}|^2 \rangle_{\mathcal{D}}$ and possibly $\beta$.
 
+\section*{Acknowledgments}
+The authors thank Geoff Vasil, Greg Chini, and Emma Kaufman for their valuable feedback and suggestions. 
+We also thank the \texttt{Dedalus} and \texttt{Eigentools} development teams. 
+Computations were performed on the NASA Pleiades system.
+
+
 \appendix
 
 \section{Initial buoyancy profile} \label{sec:initial_profile}
@@ -588,11 +597,6 @@ An example of (\ref{EQ:T0}) is given by the blue curve in Figure \ref{fig:T0_pro
     {\label{tab:Gamma2}}
     \end{longtable*}
 % \end{multicols}
-
-\section*{Acknowledgments}
-The authors thank Jeff Vassil, Greg Chini, Emma Kaufman for their valuable feedback and suggestions. 
-We also thank the \texttt{Dedalus} and \texttt{Eigentools} development teams. 
-Computations were performed on the NASA Pleiades system.
 
 
 % \bibliographystyle{plain}
