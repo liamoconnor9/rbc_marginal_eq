@@ -300,20 +300,20 @@ We compute symmetric MSTE for $Ra$ in the range $10^5 - 10^9$ \note{Somewhere yo
     \includegraphics[width=3.4in]{T_profs_na.png}
     \caption{Mean temperature profiles $\bar{T}$ for $\Ra = 10^8$. 
     The initial profile is given by \eq{EQ:T0}. 
-    MSTE refers to the mean temperature profile of the marginally-stable thermally-equilibrated state. 
-    DNS was obtained by performing a 2D nonlinear simulation of \eqss{EQ:motion1}{EQ:motion3} with \texttt{Dedalus} until thermal and kinetic relaxation. 
-    DNS temperature data are horizontally- and time-averaged. 
-    The initial, MSTE, and DNS profiles have increasingly relaxed boundary regions respectively. 
-    The MSTE profile exhibits prominent dips, nested alongside the boundary regions. 
-    The source of this feature is not well understood, but similar temperature gradient reversal regions were found by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$.}
+    We evolve this background temperature profile according to section~\ref{sec:evolution} until we reach a marginally-stable thermal equilibrium (MSTE).
+    The DNS curve is obtained from a 2D nonlinear simulation of \eqss{EQ:motion1}{EQ:motion3} with \texttt{Dedalus}.
+    DNS temperature data are horizontally- and time-averaged.
+    The initial profile has the narrowest boundary layer, while the DNS profile has the widest boundary layer.
+    The MSTE profile exhibits prominent dips, nested alongside the boundary regions. }
+%    The source of this feature is not well understood, but similar temperature gradient reversal regions were found by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$.}
     \label{fig:T0_profiles}
 \end{figure}
 
-Figure \ref{fig:T0_profiles} gives temperature profiles for $\Ra = 10^8$ where the initial profile, whose construction is outlined in \ref{sec:initial_profile}, is employed at iteration 0. 
-DNS (direct numerical simulations) are performed by solving \eqss{EQ:motion1}{EQ:motion3} with \texttt{Dedalus}, followed by horizontal- and time- averaging. 
+Figure \ref{fig:T0_profiles} gives temperature profiles for $\Ra = 10^8$ where the initial profile, whose construction is outlined in appendix~\ref{sec:initial_profile}, is employed at iteration 0. 
+Direct numerical simulations (DNS) are performed by solving \eqss{EQ:motion1}{EQ:motion3} with \texttt{Dedalus}, followed by horizontal- and time- averaging. 
 The DNS curve is more diffuse than the MSTE curve, which in turn, is more diffuse than the initial curve. 
-Performing an eigenvalue solve by setting $\bar{T}$ equal to the DNS profile yields positive eigenvalues. 
-This suggests that MSTE might maximize boundary layer thickness, while subject to the marginal stability constraint.
+Performing an eigenvalue solve by setting $\bar{T}$ equal to the DNS profile yields unstable eigenvalues. 
+This suggests that MSTE might maximize boundary layer thickness, subject to the marginal stability constraint.
 
 \begin{figure*}
     \centering
@@ -324,6 +324,7 @@ This suggests that MSTE might maximize boundary layer thickness, while subject t
         \includegraphics[width=3.4in]{EV_spectra_2ra.png}
     \end{tabular}
     \caption{Heat fluxes (left) and eigenvalue spectra (right) of equilibrated states $\Ra = 2 \times 10^5$ (top) and $\Ra = 10^9$ (bottom). 
+    The heat flux profiles are symmetric about $z=0$, so we only plot for $z<0$.
     Advection profiles belong to marginally-stable modes. 
     For low $\Ra$, a single mode with $k_x = 1.5\pi$ is sufficient to oppose boundary layer diffusion and facilitate heat flux throughout the bulk of the domain. 
     For large $\Ra$, high-wavenumber modes contribute pronounced small-scale advection profiles which tightly hug the thin boundary layers. 
@@ -335,19 +336,27 @@ The most resilient and unexpected feature of MSTE temperature profiles are the p
 These dips appear in every solution, regardless of $\Ra$. 
 Physically, they correspond to thin layers in which the mean temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954,Howard_1966}. 
 This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}. 
-We don't understand the source of these dips, but similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$. 
+We do not understand the source of these dips, but similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$.
+In that case, the reversals were due to nonlinear advection, which is not present in our quasilinear model. 
 
 Equilibrated states exhibit distinct behaviors for large and small $\Ra$. 
 This contrast is illustrated in Figure \ref{fig:flux}, where we give heat flux profiles and eigenvalue spectra for two cases: $\Ra = 2 \times 10^5$ and $\Ra = 10^9$. 
-For $\Ra = 2 \times 10^5$, there is a single marginal mode at $k_x = 1.5\pi$ whose advection occupies the bulk of the domain. 
-These states have relaxed boundary layers which gradually subside as advection becomes the dominant flux component. 
-Such transitional regions do not appear for $\Ra = 10^9$. In this case the shift from diffusion to advection is sharp. Thin advection profiles, belonging to high-wavenumber modes, hug the boundary layer. 
-Closer to the bulk of the domain, we see wider advection profiles corresponding to modes in the second marginal group $k_x = 6\pi, \, 6.5\pi$. The $k_x = 1.5\pi$ mode forms the large-scale convective cell structures observed in DNS, again occupying the bulk of the domain.
+For $\Ra = 2 \times 10^5$, there is a single marginal mode at $k_x = 1.5\pi$ whose advective flux occupies the bulk of the domain. 
+These states have wide boundary layers which gradually subside as advection becomes the dominant flux component. 
+Such transitional regions do not appear for $\Ra = 10^9$.
+In this case the shift from diffusion to advection is sharp.
+At $\Ra=10^9$ we find five marginally-stable modes are necessary to reach a MSTE.
+Thin advection profiles, belonging to high-wavenumber modes with $k_x=23.5\pi, \, 24\pi$, hug the boundary layer. 
+Closer to the bulk of the domain, we see wider advection profiles corresponding to modes in a second group of marginal modes $k_x = 6\pi, \, 6.5\pi$.
+The $k_x = 1.5\pi$ mode forms the large-scale convective cell structures observed in DNS, again occupying the bulk of the domain.
+The pairs of modes $k_x = 6\pi, \, 6.5\pi$ and $k_x=23.5\pi, \, 24\pi$ are each associated with a single maximum in our plots of growth rate $\omega$ as a function of $k_x$ (lower right panel of Figure~\ref{fig:flux}).
+If we allowed wavenumbers to vary continuously, there would be an unstable mode between these pairs of wavenumbers.
+However, since we have fixed the horizontal size of our domain, we are left with pairs of discrete margin modes.
 
 \begin{figure}
     \centering
     \includegraphics[width=3.4in]{kx_m_ra1.png}
-    \caption{Wavenumbers of marginally-stable modes of thermally equilibrated states. 
+    \caption{Wavenumbers of marginally-stable modes in thermally equilibrated states. 
     Marginal modes often appear in adjacent pairs, which we denote with a common color. 
     For example, the spectrum corresponding to $\Ra = 10^5$ has adjacent marginal wavenumbers $k_x = \pi, \, 1.5\pi$. 
     The $\Ra = 10^9$ spectrum, shown in lower right corner of Figure \ref{fig:flux}, has three groups of maxima, with a single marginal mode in the first group ($k_x = 1.5\pi$), two adjacent marginal modes in the second group ($k_x = 6\pi, \, 6.5\pi$), and two adjacent marginal modes in the third group ($k_x = 23.5\pi, \, 24\pi$). 
@@ -355,44 +364,57 @@ Closer to the bulk of the domain, we see wider advection profiles corresponding 
     \label{fig:kx_marginals}
 \end{figure}
 
-MSTE of large $\Ra$ tend to have a diverse combination of marginal modes.
-In every case, the $k_x = 1.5\pi$ mode is included and is often unaccompanied by adjacent modes. 
+MSTE for large $\Ra$ tend to have a diverse combination of marginal modes.
+In every case, the $k_x = 1.5\pi$ mode is included. 
 In Figure \ref{fig:kx_marginals} we give the wavenumbers $k_x$ of marginal modes. 
-These wavenumbers often appear in adjacent pairs, where the larger mode is denoted with an x and the smaller with a +. 
-For $\Ra \geq 10^6$, a second branch of marginal modes is introduced as shown in light green, obeying some power-law with respect to $\Ra$. 
-For large $\Ra$, the advections of this maximum branch opposes the strong diffusion of the thin MSTE boundary layers. 
+Sometimes we find two marginally-stable modes with wavenumbers separated by $\pi/2$.
+Like $k_x = 6\pi, \, 6.5\pi$ and $k_x=23.5\pi, \, 24\pi$ for the $\Ra=10^9$ MSTE, these are due to the discretization of wavenumbers from our domain of width 4.
+We think of the pairs of modes as acting together as part of a single maximum of the growth rate as a function of the wavenumber.
+When wavenumbers are adjacent, we plot them in the same color and denote the larger mode with an x and the smaller with a +.
+For $\Ra \geq 10^6$, a second branch of marginal modes is shown in light green. 
+For large $\Ra$, the advective fluxes of this maximum branch opposes the strong diffusion of the thin MSTE boundary layers. 
 At $\Ra \geq 10^8$, a third branch appears (shown in light blue), splitting the widening gap between the other two. 
 This development is associated with moderately wide advection profiles, filling a niche in the total flux by uniting the thin profiles of the maximum branch with those of the bulk-domain-oriented minimum branch.
 
 \begin{figure}
     \centering
     \includegraphics[width=3.4in]{del_kx_inv.png}
-    \caption{For $\Ra \geq 10^6$, the maximum marginally-stable wavenumbers (corresponding to the green x markers in Figure \ref{fig:kx_marginals}) are inversely related to the boundary layer heights $\delta$. 
+    \caption{For $\Ra \geq 10^6$, the maximum marginally-stable wavenumber (corresponding to the green x markers in Figure \ref{fig:kx_marginals}) are inversely related to the boundary layer height $\delta$. 
     $(\max \{ k_x \})^{-1}$ gives a minimum $x$ length scale for the perturbations, and consequently, the advection. 
-    For large $\Ra$, the boundary layers admit small scale features, requiring more basis functions (higher resolution).
-    It follows that the minimum $z$ length scale to agrees with the boundary layer height $\delta$. 
-    This suggests that the minimum $x$ and $z$ length scales obey some constant ratio over various $\Ra$.}
+    For large $\Ra$, the boundary layers admit small scale features, requiring more vertical basis functions (higher resolution).
+    The boundary layer width gives an estimate of the minimum vertical lengthscale in the problem.
+    This suggests that the minimum horizontal and vertical lengthscales are proportional to each other over a wide range of $\Ra$.}
     \label{fig:del_inv}
 \end{figure}
 
-The largest marginal wavenumber $\max \{ k_x \}$ (represented by the light green branch in Figure \ref{fig:kx_marginals}) serves as an inverse minimum length-scale in the $x$ direction. The finest structures in $\bar{T}(z)$ appear near the boundaries, requiring more basis functions (resolution) at large $\Ra$. Naturally, this provides a complementary minimum length-scale for $z$. We define the interior boundary layer threshold as the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$. In Figure \ref{fig:del_inv}, we illustrate the constant ratio between these two quantities for various $\Ra$. We can assume from this length scale agreement that the mean-squared $x$ and $z$ components of the temperature and velocity gradients are proportional for various $\Ra$
+The largest marginal wavenumber $\max \{ k_x \}$ (represented by the light green branch in Figure \ref{fig:kx_marginals}) serves as an inverse minimum length-scale in the $x$ direction.
+The finest vertical structures in $\bar{T}(z)$ appear near the boundaries, requiring more basis functions (resolution) at large $\Ra$.
+Naturally, this provides a complementary minimum length-scale for $z$.
+We define the boundary layer width $\delta$ as the distance from the boundary where $\partial_z T$ equals zero, i.e.,
+\begin{align}\label{eqn:delta}
+\left.\frac{\partial \bar{T}}{\partial z}\right|_{z=-\frac{1}{2}+\delta} = 0.
+\end{align}
+This height corresponds to the local extrema of the MSTE temperature profile, e.g., in Figure \ref{fig:T0_profiles}
+In Figure \ref{fig:del_inv}, we show $\max \{ k_x\}$ is proportional to $\delta$ over our range of $\Ra$.
+We can assume from this length scale agreement that the mean-squared $x$ and $z$ components of the temperature and velocity gradients are proportional
 \begin{align*}
     \Big\langle \frac{\partial T}{\partial x} \cdot \frac{\partial T}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial T}{\partial z} \cdot \frac{\partial T}{\partial z} \Big\rangle_{\mathcal{D}}    \\
     \Big\langle \frac{\partial \mathbf{u}}{\partial x} \cdot \frac{\partial \mathbf{u}}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial \mathbf{u}}{\partial z} \cdot \frac{\partial \mathbf{u}}{\partial z} \Big\rangle_{\mathcal{D}}.
 \end{align*}
 This is consistent with the mean squared gradient assumptions of \cite{Malkus_1954}.
-The quasilinear model cannot describe arbitrarily small scale structures. This is a consequence of us collapsing the problem into a single dimension via mode-discretization.
+%The quasilinear model cannot describe arbitrarily small scale structures. This is a consequence of us collapsing the problem into a single dimension via mode-discretization.
 
 \begin{figure}
     \centering
     \includegraphics[width=3.4in]{del_ra.PNG}
     \caption{Boundary layer height $\delta$ of MSTE. 
-    We define the threshold of each boundary layer as the $z$-coordinate at which $\frac{\partial \bar{T}}{\partial z} = 0$, corresponding to the local extrema of the MSTE curve in Figure \ref{fig:T0_profiles}. 
+    We define the boundary layer height based off the location where $\frac{\partial \bar{T}}{\partial z} = 0$ (see equation~\ref{eqn:delta}). 
     Plotting on a log-log scale, we find that $\delta$ and $\Ra$ obey a power-law relationship. We also demonstrate that $\Ra^{1/3}\delta$ is approximately constant with respect to $\Ra$ which is consistent with \cite{Malkus_1954}}
     \label{fig:bl_ra}
 \end{figure}
 
-In general, MSTE can be characterized by their boundary layer height, from which, the rest of their properties follow. In Figure \ref{fig:bl_ra}, we illustrate the scaling behavior of the boundary layer height $\delta = \Ra^{-1/3}$. 
+We find the MSTE can be characterized by their boundary layer height.
+In Figure \ref{fig:bl_ra}, we illustrate the scaling behavior of the boundary layer height $\delta = \Ra^{-1/3}$. 
 This is consistent with Malkus' classical marginal-stability theory, a scaling argument which perceives the boundary regions as subdomains which are themselves marginally-stable \cite{Malkus_1954}.
 
 \begin{figure*}
@@ -407,26 +429,28 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
 
 The Nusselt number, which measures convective performance is given by
 \begin{equation*}
-    \Nu = \frac{\langle A^2 \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}.
+    \Nu = \frac{\langle \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}.
 \end{equation*}
 \note{I'm giving the full Nu definition here so it's clear what's reported later in the simulations.}
 There is no general consensus surrounding the scaling behavior of $\Nu$ for high $\Ra$ systems, which are of particular importance in astrophysical and geophysical systems. In Figure \ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, ``steady rolls" ECS \cite{Wen}, and DNS \cite{Scheel_2016, Johnston}. 
-All states obey $\Nu \sim\Ra^{\beta}$ with classical scaling $\beta = 1/3$ in the ECS and MSTE. 
+We find that MSTE satisfy $\Nu \sim\Ra^{1/3}$, consistent with our finding that the boundary layer width scales like $\delta \sim \Ra^{1/3}$.
+The Nusselt numbers of the ECS are somewhat lower and the DNS Nusselt numbers are yet lower still.
+In both cases, the $\Ra$ dependence appear slightly more shallow than for the MSTE.
 \cite{Wen} hypothesized that the $\Nu$ of all ECS which admit classical Malkus scaling must always exceed the $\Nu$ of turbulent convection.
 If we generalize this notion to include quasilinear equilibria, our findings agree; MSTE have larger $\Nu$ than 2D and 3D DNS.
 This might be due to the chaotic transitions among the unstable periodic orbits outlined by \cite{Yalniz, Cvitanovic} inhibiting heat flux. 
 We might also anticipate the existence of similar equilibria with smaller $\Nu$, occupying complementary nodes in the Markov chain whose behavior agrees with DNS. 
 
 \section{Simulations with Thermally Equilibrated Initial Conditions}
-This investigation is partially motivated by the prospect of decreasing DNS times by employing MSTE as initial conditions. 
-Conventionally, \eqss{EQ:motion1}{EQ:motion3} are solved via DNS with the linear initial conditions
+This investigation is partially motivated by the prospect of decreasing DNS runtimes by employing MSTE as initial conditions. 
+One common choice of initial conditions for DNS of equations \eqss{EQ:motion1}{EQ:motion3} are
 \begin{align}
-    T(x, z)\big|_{t=0} &= 0.5 - z \nonumber \\
+    T(x, z)\big|_{t=0} &= 0.5 - z + N \nonumber \\
     \mathbf{u}(x, z)\big|_{t=0} &= \mathbf{0} \nonumber \\
     p(x, z)\big|_{t=0} &= 0 \label{EQ:linear_ic}
 \end{align}
-where $t$ in this section now refers to the simulation time as opposed to the thermal equilibration time used previously. 
-We define the MSTE initial conditions
+where $N$ is low-amplitude random noise.
+Here we instead initialize using the MSTE,
 \note{This needs to be updated}
 \begin{align}
     T(x, z)\big|_{t=0} &= \bar{T}(z) + \sqrt{2} \sum_{n=1}^N  A_n \text{ Re} \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] \nonumber \\
@@ -435,19 +459,22 @@ We define the MSTE initial conditions
 \end{align}
 where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber at the $n$th marginal mode respectively. 
 The $\sqrt{2}$ factor is necessary for eigenfunction normalization. 
+Note that although the MSTE is an equilibrium of the quasilinear equations, it is not an equilibrium of the full nonlinear equations.
+\note{Say something about noise}
 
 \begin{figure}
     \begin{minipage}{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_nu.png}
-        \caption{Nusselt numbers of simulations performed at $\Ra = 10^8$ with the conventional initial conditions (black) and MSTE initial conditions (blue). 
+        \caption{Nusselt numbers of simulations performed at $\Ra = 10^8$, initialized with the conductive equilibrium plus thermal noise (black) and the MSTE (blue). 
         MSTE simulations do not undergo a convective-transient period because the characteristic large-scale convective cell structure exists on initialization.}
         \label{fig:nu_sim}
     \end{minipage}
 \end{figure}
 
-Simulations with MSTE initial conditions do not exhibit a convective-transient period, as the large-scale anatomy of convective cells exists on initialization. 
-This is illustrated in Figure \ref{fig:nu_sim}, where the sharp spike in $\Nu$ is associated with a turbulent transitional period of upwelling until the distinctive flywheel structure is established. 
+Simulations initialized with the conductive equilibrium plus low-amplitude thermal noise have a large peak in $\Nu$ early on in their evolution (Figure~\ref{fig:nu_sim}).
+This is due to a burst of turbulence which occurs when the convective motions first become nonlinear.
+A simulation initialized with the MSTE, however, does not exhibit this transient burst of turbulence, as the large-scale anatomy of convective cells exists on initialization. 
 Simulation of this transitional period is prohibitive \cite{Anders_AE}. 
 For high $\Ra$ experiments, researchers often ``bootstrap" data by initializing simulations with the results of similar $\Ra$ runs \cite{Verzicco, Johnston}. 
 MSTE can be perceived as a set of initial conditions, designed for avoiding the simulation of transitional high Reynolds number flows.
@@ -469,39 +496,41 @@ We could also attribute the diffuse DNS temperature profile in Figure \ref{fig:T
     \end{minipage}
 \end{figure}
 
-The average kinetic energies of MSTE are significantly larger than those of the statistically-steady state, as shown Figure \ref{fig:ke_sim}. 
-This is postpones kinetic relaxation because the large-scale flows decay on a viscous time-scale
-
+We also find that the average kinetic energies of simulations initialized with MSTE are significantly larger than those found in simulations initialized with the conductive state plus noise, as shown Figure \ref{fig:ke_sim}. 
+This is because the MSTE contain strong large-scale flows, which decay on a viscous time-scale
 \begin{equation}
     t_{\nu} \sim \sqrt{\frac{\Ra}{\Pr}}. \nonumber
 \end{equation}
-
-Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically-steady state -- instead they increase it considerably. 
-This suggests the MSTE background state perspective is partially flawed, as an appropriate background state would approximate $\langle|\mathbf{u}|^2 \rangle_{\mathcal{D}}$ with more fidelity.
+Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically-steady state---rather they increase it considerably!
+This suggests the MSTE background state perspective is partially flawed, as a more useful background state would approximate the kinetic energy with more fidelity.
 
 \section{Discussion}\label{sec:Discussion}
-In general, the reduced model we study in this paper can be perceived as a unique way to describe Rayleigh–Bénard convection. 
-To compute MSTE, we construct a marginally-stable mean temperature profile and evolved it according to its eigenfunctions' advection and its own diffusion. 
-We assume that stable and unstable modes cannot persist over a long time scale. 
-The marginal stability constraint then fixes the unknown ratio between advection and diffusion (eigenfunction amplitude $A^2$). 
+In this paper we describe a new way to study Rayleigh–Bénard convection. 
+We compute marginally-stable thermal equilibria (MSTE), which are equilibria of the quasilinear equations.
+To compute MSTE, we construct a marginally-stable mean temperature profile and evolved it according to the advective flux of its marginally-stable eigenfunctions, and its own diffusion. 
+We assume that at least some modes are always in a marginally-stable configuration. 
+The marginal stability constraint then fixes the ratio between advection and diffusion (eigenfunction amplitude $A^2$). 
 We use standard root-finding algorithms to solve for the appropriate $A^2$ at each iteration, until, the fixed combination of diffusion and advection sum to a constant flux.
+The MSTE calculation is a one-dimensional problem, combining eigenvalue solves, and the time evolution of the one-dimensional mean temperature profile.
+Thus, they can be calculated on a single workstation.
 
-Solutions retain several key features that are prevalent in experiments and simulations: $\Nu \sim\Ra^{1/3}$ scaling, large-scale convective cell structures, and minimum length scale agreement. 
-They also exhibit unique and unexpected features: mean temperature gradient-reversals/dips, high kinetic energy flows, and greater $\Nu$ than other time-invariant solutions. 
-We obtain indistinguishable solutions despite initializing with various mean temperature profiles $\bar{T}(z, 0)$. 
-Thus solutions might be unique, but we cannot demonstrate this rigorously.
+The MSTE retain several key features that are prevalent in experiments and simulations: $\Nu \sim\Ra^{1/3}$ scaling, large-scale convective cell structures, and minimum length scale agreement. 
+They also exhibit unique and unexpected features: mean temperature gradient-reversals/dips, high kinetic energy flows, and a larger $\Nu$ than other time-invariant solutions. 
+When initializing with different mean temperature profile, we found the the same MSTE, suggesting these equilibria might be unique.
 
-Simulations performed with MSTE initial conditions \eq{EQ:mste_ic} do not undergo an early convective transient period, but have faster flows and greater $\Nu$ when compared with DNS. 
-From a dynamical systems perspective, unstable orbits depart from MSTE and approach the global attractor on a viscous time-scale \note{Still reading about this}. This requires more CPU-hr to achieve relaxation when compared to the conventional linear initial condition \eq{EQ:linear_ic}.
+Simulations initialized with the MSTE \eq{EQ:mste_ic} do not undergo an early convective transient period, but have faster flows and greater $\Nu$ when compared with DNS. \note{Do they have larger Nu? It looks like it's the same in the plot!!}
+From a dynamical systems perspective, unstable orbits depart from MSTE and approach the global attractor on a viscous time-scale \note{Still reading about this}.
+This requires more computational effort to achieve relaxation when compared to the conventional conductive initial condition \eq{EQ:linear_ic}.
 
-As previously noted, solving the EVP for statistically-steady DNS data yields positive eigenvalues; the system is in a perpetual state of instability. 
+As previously noted, using the mean temperature in a statistically-steady DNS as a background state for an eigenvalue problem yields positive eigenvalues: the system is in a perpetual state of instability. 
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
-We might curtail the disagreement between MSTE and DNS adjusting our marginal-stability criterion. 
+We might curtail the disagreement between MSTE and DNS by adjusting our marginal-stability criterion. 
 Should the time scales not be entirely separate, we might anticipate the long-term persistance of moderately unstable modes. 
-Such an instability cannot be described by our model independently (we do not know, a priori, \textit{how unstable} the equilibria should be) but it might prove fruitful to investigate moderately unstable thermal equilibria (MUTE). 
+Such an instability cannot be described by our model independently (we do not know, a priori, \textit{how unstable} the equilibria should be) but it might prove fruitful to investigate moderately unstable thermal equilibria (MUTE). \note{This is a bit too cute... Might be a risk for a reviewer? Your call.}
 More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\omega_{\rm{max}}$ agree with some other stability constraint. 
 Note that under this definition, ECS are themselves MUTE, because they are thermally-equilibrated and generally unstable, though they need not satisfy the quasilinear form.
 
+\note{This last paragraph is somewhat confusing to me. I think it's dangerous to say that we can predict Nu-Ra scaling using anything other than DNS or experiments. Why would 1D boundary-layer predictions give 2D equilibria? Right now we're using a 1D boundary-layer prediction.}
 We cannot use our reduced quasilinear model to predict $\Nu \sim\Ra^{\beta}$ for large $\Ra$ without some complementary stability constraint. 
 The eigenvalues of DNS data might provide an informative stability constraint (we could find MUTE and compare them with DNS data), but this would be self-defeating in general. 
 Instead we seek to combine reduced models to approximate $\beta$ without DNS. Under the marginal-stability constraint, we found that MSTE exhibit classical Malkus scaling, having marginally-stable boundary layers. 
@@ -516,7 +545,7 @@ By definition, MUTE are unstable and would likely admit more diffuse boundary la
 \section*{Acknowledgments}
 The authors thank Geoff Vasil, Greg Chini, and Emma Kaufman for their valuable feedback and suggestions. 
 We also thank the \texttt{Dedalus} and \texttt{Eigentools} development teams. 
-Computations were performed on the NASA Pleiades system.
+Computations were conducted with support by the NASA High End Computing (HEC) Program through the NASA Advanced Supercomputing (NAS) Division at Ames Research Center on Pleiades with allocation GIDs s2276.
 
 
 \appendix
