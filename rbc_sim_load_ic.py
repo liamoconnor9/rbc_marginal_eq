@@ -135,7 +135,8 @@ if not pathlib.Path('restart.h5').exists():
     b0z_f.set_scales(1)
     b0 = b0z_f.antidifferentiate(z_basis, ('left', 0))
     b0.set_scales(evp_scale)
-    b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real + F * pert
+    b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
+    # b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real + F * pert
     bz = b.differentiate('z')
     # plot_bot_2d(b)
     # plt.show()
@@ -180,13 +181,13 @@ solver.stop_sim_time = stop_sim_time
 # snapshots.add_task('w')
 # snapshots.add_task('u')
 
-profiles = solver.evaluator.add_file_handler('profiles_eq_p0', sim_dt=0.1, max_writes=100, mode=fh_mode)
-profiles.add_task("P*integ(dz(b) - 1, 'x') / Lx", name='diffusive_flux')
-profiles.add_task("integ(w*b, 'x') / Lx", name='adv_flux')
-profiles.add_task("integ(integ(w**2 + u**2, 'x'), 'z') / Lx", name='ke')
-profiles.add_task("integ(integ((dx(w) - uz)**2, 'x'), 'z') / Lx", name='enst')
+# profiles = solver.evaluator.add_file_handler('profiles_nonoise', sim_dt=0.1, max_writes=100, mode=fh_mode)
+# profiles.add_task("P*integ(dz(b) - 1, 'x') / Lx", name='diffusive_flux')
+# profiles.add_task("integ(w*b, 'x') / Lx", name='adv_flux')
+# profiles.add_task("integ(integ(w**2 + u**2, 'x'), 'z') / Lx", name='ke')
+# profiles.add_task("integ(integ((dx(w) - uz)**2, 'x'), 'z') / Lx", name='enst')
 
-checkpoints = solver.evaluator.add_file_handler('checkpoints_eq_p0', sim_dt=0.5, max_writes=50, mode=fh_mode)
+checkpoints = solver.evaluator.add_file_handler('checkpoints_nonoise', sim_dt=0.1, max_writes=50, mode=fh_mode)
 checkpoints.add_system(solver.state)
 # snapshots.add_task('b')
 

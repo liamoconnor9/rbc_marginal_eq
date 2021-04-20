@@ -75,7 +75,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 dir1 = path + '/RA2E5/results_conv/Iteration13597'
 dir2 = path + '/RA1E9/results/Iteration12638'
 iteration_strs_dir = [dir1, dir2]
-labels = [r'$Ra \, = \, 2 \times 10^5$', r'$Ra \, = \, 10^9$']
+labels = [r'$\rm{Ra} \, = \, 2 \times 10^5$', r'$\rm{Ra} \, = \, 10^9$']
 ev_mat = []
 for i, iteration_str in enumerate(iteration_strs_dir):
     evs = pickle.load(open(iteration_str + '/evs.pick', 'rb'))

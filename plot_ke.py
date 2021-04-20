@@ -56,6 +56,7 @@ if __name__ == "__main__":
     global path 
     path = os.path.dirname(os.path.abspath(__file__))
     write_data = False
+    plot = True
     if (write_data):
         args = docopt(__doc__)
         output_path = pathlib.Path(args['--output']).absolute()
@@ -68,7 +69,7 @@ if __name__ == "__main__":
                 if not output_path.exists():
                     output_path.mkdir()
         post.visit_writes(args['<files>'], main, output=output_path)
-    else:
+    if (plot):
         ke_data_eq = pickle.load(open(path + '/ke_data_eq2.pick', 'rb'))
         ke_data = pickle.load(open(path + '/ke_data_nom.pick', 'rb'))
 
@@ -83,6 +84,6 @@ if __name__ == "__main__":
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')
         plt.ylabel(r'$\langle |\mathbf{u}|^2 \rangle_{\mathcal{D}}$')
-        plt.title(r'$Ra \, = \, 10^8$')
-        plt.savefig(path + '/publication_materials/sim_eq_ke')
+        plt.title(r'$\rm{Ra} \, = \, 10^8$')
+        plt.savefig(path + '/publication_materials/sim_eq_ke_nonoise')
         # plt.savefig(path + '/publication_materials/sim_eq_ke_p0_2')
