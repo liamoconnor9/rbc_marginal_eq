@@ -176,7 +176,7 @@ where the mean-velocity components vanish due to incompressibility and symmetry.
 %thereby alleviating any ambiguity in $A(t)$. 
 Substituting \eq{EQ:reynolds_dc_T} into \eq{EQ:motion3} and taking the horizontal-average reduces the system to a simple initial value problem (IVP) for $\bar{T}$
 \begin{equation}
-  \frac{\partial \bar{T}}{\partial t} + \langle w'T' \rangle_x = \mathcal{P}  \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
+  \frac{\partial \bar{T}}{\partial t} + \frac{\partial}{\partial z} \langle w'T' \rangle_x = \mathcal{P} \frac{\partial^2 \bar{T}}{\partial z^2}, \label{EQ:T0_IVP}
 \end{equation}
 with associated boundary conditions $\bar{T}(-1/2, t) = 1/2$ and $\bar{T}(1/2, t) = -1/2$. It should be noted that we could obtain a similar IVP for $u$ by breaking symmetry and considering some nontrivial mean horizontal flow $\bar{u}(z, t)$. However we must have $\bar{w}(z, t) = 0$ due to incompressibility.
 
@@ -558,7 +558,7 @@ The process for finding such MUTE would not involve DNS. Equilibria would satisf
 They ought to agree with DNS data more than MSTE, ideally having slower flows. 
 This is reasonable to expect because accurate boundary layer approximations and DNS data should have similar stability characteristics. 
 We also observed that MSTE have marginally stable boundary layers, so it would be reasonable to place a hypothetical stability constraint on MUTE based on boundary layer approximations.
-By definition, MUTE are unstable and would likely admit more diffuse boundary layer structures, requiring smaller $A^2(t)$ (less advection) to satisfy the stability constraint and thereby reducing $\Nu$, $\langle |\vec{u}|^2 \rangle_{\mathcal{D}}$ and possibly $\beta$.
+By definition, MUTE are unstable and would likely admit more diffuse boundary layer structures, requiring smaller $A^2$ (less advection) to satisfy the stability constraint and thereby reducing $\Nu$, $\langle |\vec{u}|^2 \rangle_{\mathcal{D}}$ and possibly $\beta$.
 
 
 \section*{Acknowledgments}
