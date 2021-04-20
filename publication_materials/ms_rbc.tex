@@ -201,7 +201,7 @@ In his groundbreaking report \cite{Rayleigh_1916}, Lord Rayleigh observed that \
     T'(x, z, t) &= A\, \Re\left[\theta(z) \, e^{i(k_xx-st)}\right], \label{EQ:normal_modes3}\\ 
     p'(x, z, t) &= A\, \Re\left[P(z) \, e^{i(k_xx-st)}\right], \label{EQ:normal_modes4}
 \end{align}
-where $A$ is the (undetermined) mode amplitude, $s = \sigma + i\omega$ and $k_x$ is constrained, by periodicity, to the countably infinite set (spectrum) of wavenumbers
+where $A$ is the (undetermined) mode amplitude, $s = \omega + i\sigma$ and $k_x$ is constrained, by periodicity, to the countably infinite set (spectrum) of wavenumbers
 \begin{align}
     k_x \in \left\{\frac{n\pi}{2} \, \big| \, n \in \mathbb{N}\right\}.
 \end{align}
@@ -209,7 +209,7 @@ We normalize the eigenmodes to have
 \begin{equation}
   \langle |\theta|^2 \rangle_{\mathcal{D}} = 1.
 \end{equation}
-For each $k_x$, we can assess the stability of the perturbations by solving for the eigenvalue $s$, whose imaginary component $\omega$ plays the role of an exponential growth rate. 
+For each $k_x$, we can assess the stability of the perturbations by solving for the eigenvalue $s$, whose imaginary component $\sigma$ plays the role of an exponential growth rate. 
 Positive eigenvalues indicate that the system is unstable to small disturbances of wavenumber $k_x$, while negative eigenvalues indicate stability. 
 A complete linear stability analysis requires solution over the full spectrum of wavenumbers. 
 The prototypical case is used to demonstrate that the critical Rayleigh number $\Ra_c = 1708$ when $\frac{\partial \bar{T}}{\partial z} = -1$.
@@ -228,7 +228,7 @@ Unstable modes will not persist on the slow timescale because the advective term
 Only marginally stable modes can be maintained on the slow timescale.
 Therefore the amplitude $A$ must satisfy
 \begin{equation}
-    \max_{k_x} \{ \omega \} = 0.
+    \max_{k_x} \{ \sigma \} = 0.
 \end{equation}
 
 For various $\Ra$ and fixed $\Pr = 1$, we seek marginally-stable thermal equilibria (MSTE) satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to . 
@@ -258,13 +258,13 @@ Diffusing $\bar{T}(z, t_0)$ tends to increase its eigenvalues.
 Ignoring the diffusive term and evolving according to advection tends the stabilize the system.
 The appropriate amplitude $A^2$ can then be approximated by
 \begin{equation}
-    A^2 \approx -\frac{\omega_{\rm{diff}}}{\omega_{\rm{adv}}} \label{EQ:amp_approx}
+    A^2 \approx -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}} \label{EQ:amp_approx}
 \end{equation}
-where $\omega_{\rm{diff}}$ and $\omega_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode.
+where $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode.
 We illustrate these trends in Figure~\ref{fig:iteration_spectra}. 
 $\bar{T}(z, t)$ is then evolved according to \eq{EQ:T0_IVP} and another eigenvalue solve is performed. 
-Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\omega_{\rm{max}} (A^2)$ which is locally differentiable. 
-We use Newton's method to find an amplitude which satisfies our marginal stability tolerance criterion $|\omega_{\rm{max}} (A^2)| < 10^{-9}$.
+Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\sigma_{\rm{max}} (A^2)$ which is locally differentiable. 
+We use Newton's method to find an amplitude which satisfies our marginal stability tolerance criterion $|\sigma_{\rm{max}} (A^2)| < 10^{-9}$.
 Crucially, we do not assume the $k_x$ of the marginally-stable is fixed.
 In section \ref{sec:multiple_modes} we specify procedures for the treatment of multiple simultaneously marginal modes.
 
@@ -276,23 +276,24 @@ Instead, we generalize the advective term in \eq{EQ:T0_IVP} to accommodate $N$ s
     \langle w' T' \rangle_x = \sum_{n = 1}^{N} 4 A_n^2 \int \, \Re\left[ W_n \theta_n^* \right] \,dz
 \end{equation}
 where $W_n$ and $\theta_n$ are the eigenmodes associated with $k_x = \frac{n\pi}{2}$. 
-Given a fixed time step, there are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. 
-In general, we expect a function $\vec{\omega} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots (should they exist). 
-To approximate the appropriate amplitude vector $\vec{A^2}$ we assume that for small time steps, diffusion and advection act independently (just as before). We represent the influences of $N$ modes with the linear system
+There are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. 
+Given a fixed time step $\Delta t$, let $\vec{A^2}$ be the amplitude vector and $\vec{\sigma}(\vec{A^2})$ be the dependent eigenvalues.
+We expect a function $\vec{\sigma} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots $\vec{A^2_m}$ (should they exist). 
+The appropriate amplitude vector $\vec{A^2_m}$ can be approximated by a generalized form of \eq{EQ:amp_approx}:
 \begin{equation}
-    \vec{\omega}_{\rm{diff}} \approx \Omega_{\rm{adv}} \vec{A^2}
+    \vec{A^2_m} \approx -\Sigma_{\rm{adv}}^{-1} \vec{\sigma_{\rm{diff}}}.
     \label{EQ:AN_approx}
 \end{equation}
-where $\vec{\omega}_{\rm{diff}}$ is the vector of previously marginally-stable eigenvalues obtained by solving the EVP with a diffused mean temperature profile. 
-$\Omega_{\rm{adv}} \in \mathbb{R}^{N \times N}$ is the Jacobian matrix of eigenvalues' partial derivatives with respect to the amplitudes (ignoring diffusion and centered at $\vec{A^2} = \vec{0}$).
-The $k$th row of $\Omega_{\rm{adv}}$ is then given by the gradient of the $k$th mode's eigenvalue $\nabla \omega_k$.
-We perform $N$ periods of advection (one for each mode) followed by EVP solves to approximate $\Omega_{\rm{adv}}$ via first-order finite differences. 
-In this way, an arbitrary element of $\Omega_{\rm{adv}}$ represents how a particular mode's eigenvalue responds to the advection of another mode. 
-Solving \eq{EQ:AN_approx} gives a mediocre estimate for $\vec{A^2}$. 
-We refine our estimate by constructing a new Jacobian matrix via first-order finite differences at the point of our initial estimate (this time including diffusion).
-The Jacobian is updated with each guess according to Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
-We find $\vec{\omega}(\vec{A^2})$ does indeed have a unique root provided the time step is not too large and there are no numerical instabilities, as outlined in appendix \ref{sec:timestep}.
-Presumably this is due the dependence of $W(z)$ and $\theta(z)$ on $\bar{T}$.
+Here $\vec{\sigma_{\rm{diff}}} = \vec{\sigma} (\vec{0})$ refers to the eigenvalues after a brief $\Delta t$ period of diffusion. 
+$\Sigma_{\rm{adv}} \in \mathbb{R}^{N \times N}$ is the matrix of eigenvalues after $N$ $\Delta t$ periods of advection (one for each mode).
+% The $k$th row of $J_0$ is then given by the gradient of the $k$th mode's eigenvalue $\nabla \sigma_k$.
+In this way, an arbitrary element of $\sigma_{\rm{adv}}$ represents how a particular mode's eigenvalue responds to the advection of another mode. 
+Solving \eq{EQ:AN_approx} gives a coarse estimate for $\vec{A^2_m}$. 
+We refine our estimate by approximating the Jacobian matrix of $\vec{\sigma}(\vec{A^2})$ via first-order finite differences at the point of our coarse estimate.
+This involves $N^2$ more individual EVP solves.
+After its construction, the Jacobian is updated with each guess according to Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
+We find $\vec{\sigma}(\vec{A^2})$ does indeed have a unique root provided the time step is not too large and there are no numerical instabilities, as outlined in appendix \ref{sec:timestep}.
+Presumably this is due to the dependence of $W(z)$ and $\theta(z)$ on $\bar{T}$.
 Over the course of a large time step, $\bar{T}$ evolves according to \eq{EQ:T0_IVP} and the eigenfunctions might cease to provide a stabilizing influence.
 
 Difficulty arises when transitioning between different numbers of marginal modes, particularly when stable modes become marginally-stable mid-iteration.
@@ -368,7 +369,7 @@ At $\Ra=10^9$ we find five marginally-stable modes are necessary to reach a MSTE
 Thin advection profiles, belonging to high-wavenumber modes with $k_x=23.5\pi, \, 24\pi$, hug the boundary layer. 
 Closer to the bulk of the domain, we see wider advection profiles corresponding to modes in a second group of marginal modes $k_x = 6\pi, \, 6.5\pi$.
 The $k_x = 1.5\pi$ mode forms the large-scale convective cell structures observed in DNS, again occupying the bulk of the domain.
-The pairs of modes $k_x = 6\pi, \, 6.5\pi$ and $k_x=23.5\pi, \, 24\pi$ are each associated with a single maximum in our plots of growth rate $\omega$ as a function of $k_x$ (lower right panel of Figure~\ref{fig:flux}).
+The pairs of modes $k_x = 6\pi, \, 6.5\pi$ and $k_x=23.5\pi, \, 24\pi$ are each associated with a single maximum in our plots of growth rate $\sigma$ as a function of $k_x$ (lower right panel of Figure~\ref{fig:flux}).
 If we allowed wavenumbers to vary continuously, there would be an unstable mode between these pairs of wavenumbers.
 However, since we have fixed the horizontal size of our domain, we are left with pairs of discrete margin modes.
 
@@ -545,7 +546,7 @@ Unstable modes tend to stabilize the system rapidly, creating a negative feedbac
 We might curtail the disagreement between MSTE and DNS by adjusting our marginal-stability criterion. 
 Should the time scales not be entirely separate, we might anticipate the long-term persistance of moderately unstable modes. 
 Such an instability cannot be described by our model independently (we do not know, a priori, \textit{how unstable} the equilibria should be) but it might prove fruitful to investigate moderately unstable thermal equilibria (MUTE). \note{This is a bit too cute... Might be a risk for a reviewer? Your call.}
-More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\omega_{\rm{max}}$ agree with some other stability constraint. 
+More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\sigma_{\rm{max}}$ agree with some other stability constraint. 
 Note that under this definition, ECS are themselves MUTE, because they are thermally-equilibrated and generally unstable, though they need not satisfy the quasilinear form.
 
 \note{This last paragraph is somewhat confusing to me. I think it's dangerous to say that we can predict Nu-Ra scaling using anything other than DNS or experiments. Why would 1D boundary-layer predictions give 2D equilibria? Right now we're using a 1D boundary-layer prediction.}
