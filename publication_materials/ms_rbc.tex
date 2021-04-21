@@ -306,10 +306,10 @@ A refined estimate is then given by
 \begin{equation}
     \vec{A^2_1} = -J^{-1} \vec{\sigma}(\vec{A^2_0}).
 \end{equation}
-Once constructed we use each subsequent guess to update the Jacobian iteratively according to Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
+Once constructed, we use each subsequent guess to adjust the Jacobian via Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
 We find $\vec{\sigma}(\vec{A^2})$ does indeed have a unique root provided the time step is not too large and there are no numerical instabilities, as outlined in appendix \ref{sec:timestep}.
-Presumably this is due to the coupling of $W(z)$ and $\theta(z)$ with $\bar{T}$.
-Over the course of a large time step, $\bar{T}$ evolves according to \eq{EQ:T0_IVP} and the eigenfunctions might cease to provide a stabilizing influence.
+Presumably this is due to the coupling of $\langle w'T' \rangle_x$ with $\bar{T}$.
+Over the course of a large time step, $\bar{T}$ evolves according to \eq{EQ:T0_IVP} and eventually the original eigenfunctions cease to provide a stabilizing influence.
 
 Difficulty arises when transitioning between different numbers of marginal modes, particularly when stable modes become marginally-stable mid-iteration.
 We facilitate these transitions by defining an adjustable candidate tolerance $\varepsilon_{\rm{cand}} \in [10^{-6}, 10^{-8}]$.
