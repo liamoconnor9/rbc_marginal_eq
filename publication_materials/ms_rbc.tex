@@ -283,18 +283,16 @@ where $W_n$ and $\theta_n$ are the eigenmodes associated with $k_x = \frac{n\pi}
 There are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. 
 Given a small fixed time step $\Delta t$, let $\vec{A^2}$ be the amplitude vector and $\vec{\sigma}(\vec{A^2})$ be the dependent eigenvalues.
 We expect a function $\vec{\sigma} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots $\vec{A^2_m}$ (should they exist). 
-The appropriate amplitude vector $\vec{A^2_m}$ can be approximated by a generalized form of \eq{EQ:amp_approx}:
+A coarse approximation for the appropriate amplitude vector $\vec{A^2_m}$ is given by a generalized form of \eq{EQ:amp_approx}:
 \begin{equation}
     \vec{A^2_m} \approx -\Sigma_{\rm{adv}}^{-1} \vec{\sigma_{\rm{diff}}}.
     \label{EQ:AN_approx}
 \end{equation}
 Here $\vec{\sigma_{\rm{diff}}} = \vec{\sigma} (\vec{0})$ refers to the eigenvalues after a brief $\Delta t$ period of diffusion. 
-$\Sigma_{\rm{adv}} \in \mathbb{R}^{N \times N}$ is the matrix of eigenvalues after $N$ $\Delta t$ periods of advection (one for each mode).
+$\Sigma_{\rm{adv}} \in \mathbb{R}^{N \times N}$ is the matrix of eigenvalues after $N$ periods of advection (one for each mode).
 % The $k$th row of $J_0$ is then given by the gradient of the $k$th mode's eigenvalue $\nabla \sigma_k$.
 In this way, an arbitrary element of $\sigma_{\rm{adv}}$ represents how a particular mode's eigenvalue responds to the advection of another mode. 
-Solving \eq{EQ:AN_approx} gives a coarse estimate for $\vec{A^2_m}$. 
-We refine our estimate by approximating the Jacobian matrix of $\vec{\sigma}(\vec{A^2})$ via first-order finite differences at the point of our coarse estimate.
-This involves $N^2$ more individual EVP solves.
+We then approximate the Jacobian matrix of $\vec{\sigma}(\vec{A^2})$ via first-order finite differences at the point of our coarse estimate, requiring $N^2$ more individual EVP solves.
 After its construction, the Jacobian is updated with each guess according to Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
 We find $\vec{\sigma}(\vec{A^2})$ does indeed have a unique root provided the time step is not too large and there are no numerical instabilities, as outlined in appendix \ref{sec:timestep}.
 Presumably this is due to the dependence of $W(z)$ and $\theta(z)$ on $\bar{T}$.
