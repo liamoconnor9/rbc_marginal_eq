@@ -85,5 +85,5 @@ if __name__ == "__main__":
         plt.xlabel(r'$t$')
         plt.ylabel(r'$\langle |\mathbf{u}|^2 \rangle_{\mathcal{D}}$')
         plt.title(r'$\rm{Ra} \, = \, 10^8$')
-        plt.savefig(path + '/publication_materials/sim_eq_ke_nonoise')
-        # plt.savefig(path + '/publication_materials/sim_eq_ke_p0_2')
+        # plt.savefig(path + '/publication_materials/sim_eq_ke_nonoise')
+        plt.savefig(path + '/publication_materials/sim_eq_ke')
