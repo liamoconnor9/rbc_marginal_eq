@@ -60,7 +60,7 @@ def plot_EVs(evs_mat, labels):
         ax.grid(False)
         ax.axhline(y=0.0, color='black', alpha=0.2)
         ax.set_xlabel(r'$k_x$')
-        ax.set_ylabel(r'$\omega$')
+        ax.set_ylabel(r'$\sigma$')
         ax.yaxis.set_major_formatter(FormatStrFormatter('%.4f'))
 
     plt.tight_layout()
