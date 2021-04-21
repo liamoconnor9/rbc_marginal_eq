@@ -153,7 +153,9 @@ The equations of motion are then given by
 \end{align}
 where $p$ is pressure and $T$ is temperature. 
 For completeness, we specify a final boundary condition $p = p_0$ at $z = \pm 1/2$. 
-Any system of this form can be characterized by its dimensionless Rayleigh number $\Ra = \frac{g\alpha L^3 \Delta T}{\nu \kappa}$ and Prandtl number $\Pr = \frac{\nu}{\kappa}$, where $g, \, \alpha, \, L, \, \Delta T, \nu, \kappa$ are the gravitational acceleration, coefficient of thermal expansion, domain height, opposed temperature difference, kinematic viscosity, and thermal diffusivity respectively. For convenience, we define
+Any system of this form can be characterized by its dimensionless Rayleigh number $\Ra = \frac{g\alpha L^3 \Delta T}{\nu \kappa}$ and Prandtl number $\Pr = \frac{\nu}{\kappa}$, where $g, \, \alpha, \, L, \, \Delta T, \nu, \kappa$ are the gravitational acceleration, coefficient of thermal expansion, domain height, opposed temperature difference, kinematic viscosity, and thermal diffusivity respectively. 
+In this paper, we fix $\Pr = 1$.
+For convenience, we define
 \begin{equation}
 \mathcal{R} = \sqrt{\frac{\Pr}{\Ra}}, \qquad \mathcal{P} = \frac{1}{\sqrt{\Pr \Ra}}.
 \end{equation}
@@ -265,6 +267,8 @@ We illustrate these trends in Figure~\ref{fig:iteration_spectra}.
 $\bar{T}(z, t)$ is then evolved according to \eq{EQ:T0_IVP} and another eigenvalue solve is performed. 
 Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\sigma_{\rm{max}} (A^2)$ which is locally differentiable. 
 We use Newton's method to find an amplitude which satisfies our marginal stability tolerance criterion $|\sigma_{\rm{max}} (A^2)| < 10^{-9}$.
+Marginally-stable modes do not osscillate in time, i.e. $\sigma = 0$ implies $\omega = 0$.
+This agrees with the convectional notion of exchange of stabilities \cite{drazin_reid_2004}.
 Crucially, we do not assume the $k_x$ of the marginally-stable is fixed.
 In section \ref{sec:multiple_modes} we specify procedures for the treatment of multiple simultaneously marginal modes.
 
@@ -277,7 +281,7 @@ Instead, we generalize the advective term in \eq{EQ:T0_IVP} to accommodate $N$ s
 \end{equation}
 where $W_n$ and $\theta_n$ are the eigenmodes associated with $k_x = \frac{n\pi}{2}$. 
 There are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. 
-Given a fixed time step $\Delta t$, let $\vec{A^2}$ be the amplitude vector and $\vec{\sigma}(\vec{A^2})$ be the dependent eigenvalues.
+Given a small fixed time step $\Delta t$, let $\vec{A^2}$ be the amplitude vector and $\vec{\sigma}(\vec{A^2})$ be the dependent eigenvalues.
 We expect a function $\vec{\sigma} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots $\vec{A^2_m}$ (should they exist). 
 The appropriate amplitude vector $\vec{A^2_m}$ can be approximated by a generalized form of \eq{EQ:amp_approx}:
 \begin{equation}
@@ -416,11 +420,12 @@ We define the boundary layer width $\delta$ as the distance from the boundary wh
 \end{align}
 This height corresponds to the local extrema of the MSTE temperature profile, e.g., in Figure \ref{fig:T0_profiles}.
 In Figure \ref{fig:del_inv}, we show $\max \{ k_x\}$ is proportional to $\delta$ over our range of $\Ra$.
+Least-squares regression gives $\delta^{-1} = 1.71 \max \{ k_x \} - 2.13$.
 We can assume from this length scale agreement that the mean-squared $x$ and $z$ components of the temperature and velocity gradients are proportional
-\begin{align*}
-    \Big\langle \frac{\partial T}{\partial x} \cdot \frac{\partial T}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial T}{\partial z} \cdot \frac{\partial T}{\partial z} \Big\rangle_{\mathcal{D}}    \\
+\begin{align}
+    \Big\langle \frac{\partial T}{\partial x} \cdot \frac{\partial T}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial T}{\partial z} \cdot \frac{\partial T}{\partial z} \Big\rangle_{\mathcal{D}} \nonumber   \\
     \Big\langle \frac{\partial \vec{u}}{\partial x} \cdot \frac{\partial \vec{u}}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial \vec{u}}{\partial z} \cdot \frac{\partial \vec{u}}{\partial z} \Big\rangle_{\mathcal{D}}.
-\end{align*}
+\end{align}
 This is consistent with the mean squared gradient assumptions of \cite{Malkus_1954}.
 %The quasilinear model cannot describe arbitrarily small scale structures. This is a consequence of us collapsing the problem into a single dimension via mode-discretization.
 
@@ -448,9 +453,9 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
 \end{figure*}
 
 The Nusselt number, which measures convective performance is given by
-\begin{equation*}
+\begin{equation}
     \Nu = \frac{\langle \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}.
-\end{equation*}
+\end{equation}
 There is no general consensus surrounding the scaling behavior of $\Nu$ for high $\Ra$ systems, which are of particular importance in astrophysical and geophysical systems. In Figure \ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, ``steady rolls" ECS \cite{Wen}, and DNS \cite{Scheel_2016, Johnston}. 
 We find that MSTE satisfy $\Nu \sim\Ra^{1/3}$, consistent with our finding that the boundary layer width scales like $\delta \sim \Ra^{1/3}$.
 The Nusselt numbers of the ECS are somewhat lower and the DNS Nusselt numbers are yet lower still.
@@ -470,16 +475,14 @@ One common choice of initial conditions for DNS of equations \eqss{EQ:motion1}{E
 \end{align}
 where $N$ is low-amplitude random noise.
 Here we instead initialize using the MSTE,
-\note{This needs to be updated}
 \begin{align}
-    T(x, z)\big|_{t=0} &= \bar{T}(z) + \sqrt{2} \sum_{n=1}^N  A_n \text{ Re} \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] \nonumber \\
-    \vec{u}(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[\Big( U_n (z) \hat{x} + W_n(z) \hat{z} \Big) e^{ik_{x_n}x} \Big] \nonumber\\
-    p(x, z)\big|_{t=0} &= \sqrt{2} \sum_{n=1}^N A_n \text{ Re} \Big[P_n (z) e^{ik_{x_n}x}\Big] \label{EQ:mste_ic}
+    T(x, z)\big|_{t=0} &= \bar{T}(z) + \sum_{n=1}^N  A_n \Re \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] + N \nonumber \\
+    \vec{u}(x, z)\big|_{t=0} &= \sum_{n=1}^N A_n \Re \Big[\Big( U_n (z) \hat{x} + W_n(z) \hat{z} \Big) e^{ik_{x_n}x} \Big] \nonumber\\
+    p(x, z)\big|_{t=0} &= \sum_{n=1}^N A_n \Re \Big[P_n (z) e^{ik_{x_n}x}\Big] \label{EQ:mste_ic}
 \end{align}
 where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber at the $n$th marginal mode respectively. 
-The $\sqrt{2}$ factor is necessary for eigenfunction normalization. 
 Note that although the MSTE is an equilibrium of the quasilinear equations, it is not an equilibrium of the full nonlinear equations.
-\note{Say something about noise}
+\note{Say something about noise. Not sure if noise is important?}
 
 \begin{figure}
     \begin{minipage}{3.4in}
@@ -544,28 +547,19 @@ This requires more computational effort to achieve relaxation when compared to t
 As previously noted, using the mean temperature in a statistically-steady DNS as a background state for an eigenvalue problem yields positive eigenvalues: the system is in a perpetual state of instability. 
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
 We might curtail the disagreement between MSTE and DNS by adjusting our marginal-stability criterion. 
-Should the time scales not be entirely separate, we might anticipate the long-term persistance of moderately unstable modes. 
-Such an instability cannot be described by our model independently (we do not know, a priori, \textit{how unstable} the equilibria should be) but it might prove fruitful to investigate moderately unstable thermal equilibria (MUTE). \note{This is a bit too cute... Might be a risk for a reviewer? Your call.}
-More precisely, instead of traversing the manifold of marginally-stable states toward MSTE, we could consider the manifold of states whose maximum eigenvalue(s) $\sigma_{\rm{max}}$ agree with some other stability constraint. 
-Note that under this definition, ECS are themselves MUTE, because they are thermally-equilibrated and generally unstable, though they need not satisfy the quasilinear form.
+Should the fast and slow time scales not be entirely separate, we might anticipate the long-term persistance of moderately unstable modes. 
+To find MSTE, we initialize the time-evolution algorithm with the analytic temperature profile derived by \cite{Shishkina}.
+This involves modifying the boundary layer thickness $\delta_0$ to achieve marginal stability.
 
-\note{This last paragraph is somewhat confusing to me. I think it's dangerous to say that we can predict Nu-Ra scaling using anything other than DNS or experiments. Why would 1D boundary-layer predictions give 2D equilibria? Right now we're using a 1D boundary-layer prediction.}
-We cannot use our reduced quasilinear model to predict $\Nu \sim\Ra^{\beta}$ for large $\Ra$ without some complementary stability constraint. 
-The eigenvalues of DNS data might provide an informative stability constraint (we could find MUTE and compare them with DNS data), but this would be self-defeating in general. 
-Instead we seek to combine reduced models to approximate $\beta$ without DNS. Under the marginal-stability constraint, we found that MSTE exhibit classical Malkus scaling, having marginally-stable boundary layers. 
-We could instead require that the eigenvalues of MUTE agree with the eigenvalues of the analytic 1D boundary layer predictions of \cite{Shishkina, Zhang_20} (which remain in development), allowing us to refine and expand these estimates into 2D MUTE. 
-The process for finding such MUTE would not involve DNS. Equilibria would satisfy only the quasilinear problem and stability constraint. 
-They ought to agree with DNS data more than MSTE, ideally having slower flows. 
-This is reasonable to expect because accurate boundary layer approximations and DNS data should have similar stability characteristics. 
-We also observed that MSTE have marginally stable boundary layers, so it would be reasonable to place a hypothetical stability constraint on MUTE based on boundary layer approximations.
-By definition, MUTE are unstable and would likely admit more diffuse boundary layer structures, requiring smaller $A^2$ (less advection) to satisfy the stability constraint and thereby reducing $\Nu$, $\langle |\vec{u}|^2 \rangle_{\mathcal{D}}$ and possibly $\beta$.
-
+Instead of imposing marginal stability, we can use quasilinear model to thermally-equilibrate and expand 1D approximations into 2D.
+As previously noted, there is no shortage of theories pertaining to the scaling behavior $\Nu \sim \Ra^{\beta}$ \cite{Malkus_1954, Howard_1966, Kraichnan, Spiegel, Castaing, Grossman, Ahlers}.
+For large $\Ra$, we can approximate $\delta_0 \approx \Nu^{-1}$ and construct a 1D temperature profile according to \eq{EQ:T0} or some other approximation.
+In this way, other 2D quasilinear thermal equilibria can be obtained and analyzed. 
 
 \section*{Acknowledgments}
 The authors thank Geoff Vasil, Greg Chini, and Emma Kaufman for their valuable feedback and suggestions. 
 We also thank the \texttt{Dedalus} and \texttt{Eigentools} development teams. 
 Computations were conducted with support by the NASA High End Computing (HEC) Program through the NASA Advanced Supercomputing (NAS) Division at Ames Research Center on Pleiades with allocation GIDs s2276.
-
 
 \appendix
 
@@ -581,7 +575,7 @@ It should be noted that when experimenting with various initial profiles $(\tanh
 An example of \eq{EQ:T0} is given by the blue curve in Figure \ref{fig:T0_profiles}.
 
 % \begin{multicols}{1}
-\subsection{MSTE Metrics}\label{sec:tables}
+\section{MSTE Metrics}\label{sec:tables}
 \begin{longtable*}{cccccc}
     %\begin{tabular}{cccccc}
     %\hline
