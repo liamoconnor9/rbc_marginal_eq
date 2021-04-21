@@ -237,7 +237,7 @@ For various $\Ra$ and fixed $\Pr = 1$, we seek marginally-stable thermal equilib
 We employ the \texttt{Dedalus} pseudo-spectral python framework \cite{Dedalus_2020} to solve the EVP outlined in Section \ref{sec:model} as well as the IVP \eq{EQ:T0_IVP} by representing each field with Chebyshev polynomials.
 We use the 3/2 dealiasing rule to calculate the advective heat flux.
 The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large $\Ra$ admit increasingly small-scale features. 
-We use the \texttt{Eigentools} package to manipulate the eigenfunctions and calculate the advective heat flux $\langle w' T' \rangle_x$ \note{cite eigentools}.
+We use the \texttt{Eigentools} package \cite{Eigentools} to manipulate the eigenfunctions and calculate the advective heat flux $\langle w' T' \rangle_x$.
 
 At $t = 0$, we begin with a marginally-stable initial profile $\bar{T}(z, 0)$ whose construction is outlined in appendix~\ref{sec:initial_profile}. 
 At some arbitrary time $t = t_0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to \eq{EQ:T0_IVP}, using backward Euler to evolve the diffusion term and forward Euler to evolve the advection term. 
