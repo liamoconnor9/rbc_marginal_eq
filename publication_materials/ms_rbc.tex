@@ -88,7 +88,7 @@
 
 \author{Liam O'Connor$^1$}
 \author{Daniel Lecoanet$^{1, 2}$}
-\author{Evan Anders$^2$}
+\author{Evan H. Anders$^2$}
 \affiliation{%
 $^1$Department of Engineering Sciences and Applied Mathematics, Northwestern University, Evanston, IL 60208 USA}
 \affiliation{%
@@ -96,7 +96,7 @@ $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, North
 
 \begin{abstract}
     Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive---particularly in the large Rayleigh number regime.
-    In this investigation, we derive and solve a quasilinear form of the Rayleigh-Benard problem by representing the perturbations in terms of marginally stable eigenmodes.
+    In this investigation, we derive and solve a quasilinear form of the Rayleigh-Bénard problem by representing the perturbations in terms of marginally stable eigenmodes.
     The amplitude of each eigenmode is determined by requiring that the background state maintains marginal stability.
     The background temperature profile evolves due to the advective flux of each eigenmode, as well as diffusion.
     The entire calculation is one-dimensional, and can be run on a workstation.
@@ -114,8 +114,8 @@ $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, North
 Rayleigh-B\'enard convection plays a foundational role in astrophysical and geophysical settings.
 The resulting buoyancy-driven flows regulate heat transfer and generate large-scale vortices \cite{Couston}.
 Turbulent convection, which is associated with large Rayleigh numbers $\Ra$, is difficult to simulate. 
-State of the art simulations performed by \cite{Zhu_2018} have reached $\Ra \sim 10^{14}$ but estimates for the sun's convective zone and earth's interior are $Ra \sim 10^{16}-10^{20}$ and $Ra \sim 10^{20}-10^{30}$ respectively \cite{Ossendrijver,Gubbins_2001}. 
-The scaling behavior of the Nusselt number $\Nu \sim Ra^{\beta}$ in the asymptotic ultimate regime is of particular interest.
+State of the art simulations performed by \cite{Zhu_2018} have reached $\Ra \sim 10^{14}$ but estimates for the sun's convective zone and earth's interior are $\Ra \sim 10^{16}-10^{20}$ and $\Ra \sim 10^{20}-10^{30}$ respectively \cite{Ossendrijver,Gubbins_2001}. 
+The scaling behavior of the Nusselt number $\Nu \sim \Ra^{\beta}$ in the asymptotic ultimate regime is of particular interest.
 There exists a substantial body of work pertaining to this specific topic with no general consensus \cite{Malkus_1954, Howard_1966, Kraichnan, Spiegel, Castaing, Grossman, Ahlers}. 
 
 Absent solid evidence from direct numerical simulation, other methods have been developed to try to infer large-$\Ra$ behavior or otherwise gain insight.
@@ -141,7 +141,7 @@ Section~\ref{sec:properties} describes the properties of the marginally-stable t
 Finally, we describe the results of simulations initialized with marginally-stable thermal equilibria in section~\ref{sec:sims}, and conclude in section~\ref{sec:Discussion}.
  
 \section{Model Setup}\label{sec:model}
-We begin with the non-dimensionalized Boussinesq approximation for Rayleigh-Bénard Convection. 
+We begin with the Boussinesq approximation for Rayleigh-Bénard Convection, nondimensionalized on the freefall timescale. 
 The domain $\mathcal{D}$ is 2-dimensional, rectangular, and horizontally periodic with spatial dimensions $0 < x < 4$ and $-1/2 < z < 1/2$. 
 The fluid of interest is constrained between two flat boundaries at $z = -1/2$ and $z = 1/2$ with fixed temperatures $1/2$ and $-1/2$ respectively. 
 At both boundaries we specify impenetrable, no-slip conditions, such that the velocity $\vec{u} = u \hat{x} + w \hat{z} = \vec{0}$ at $z = \pm 1/2$, where $\hat{x}, \hat{z}$ are the unit vectors in the $x$ and $z$ directions. 
@@ -182,9 +182,14 @@ Substituting \eq{EQ:reynolds_dc_T} into \eq{EQ:motion3} and taking the horizonta
 \end{equation}
 with associated boundary conditions $\bar{T}(-1/2, t) = 1/2$ and $\bar{T}(1/2, t) = -1/2$. It should be noted that we could obtain a similar IVP for $u$ by breaking symmetry and considering some nontrivial mean horizontal flow $\bar{u}(z, t)$. However we must have $\bar{w}(z, t) = 0$ due to incompressibility.
 
+Substituting \eq{EQ:reynolds_dc_p} into \eq{EQ:motion2} and taking the horizontal average reveals that the mean pressure field $\bar{p}(z)$ must satisfy
+\begin{equation}
+    0 = -\frac{\partial \bar{p}}{\partial z} + \bar{T}\label{EQ:p_bar}
+\end{equation}
+
 To solve \eq{EQ:T0_IVP} numerically, we need an expression for the perturbation so we can calculate the advective heat flux.
 Here we will make the quasilinear approximation, dropping the $\vec{u}'\vec{\cdot}\vec{\nabla}\vec{u}'$ and $\vec{u}'\vec{\cdot}\vec{\nabla}T'$ terms from the evolution equations for the perturbations.
-Substituting \eqss{EQ:reynolds_dc_u}{EQ:reynolds_dc_p} into \eqss{EQ:motion1}{EQ:motion3} and subtracting \eq{EQ:T0_IVP} from the resulting temperature equation, and linearizing gives
+Substituting \eqss{EQ:reynolds_dc_u}{EQ:reynolds_dc_p} into \eqss{EQ:motion1}{EQ:motion3} followed by subtracting \eq{EQ:T0_IVP} and \eq{EQ:p_bar} from the resulting temperature and $\hat{z}$ momentum equations gives
 \begin{align}
     \nabla \cdot \vec{u'} &= 0 \label{EQ:linear1}\\
     \frac{\partial\vec{u'}}{\partial t} &= - \nabla p' + T'\hat{z} + \mathcal{R} \nabla^2 \vec{u'} \label{EQ:linear2}\\
@@ -209,8 +214,10 @@ where $A$ is the (undetermined) mode amplitude, $s = \omega + i\sigma$ and $k_x$
 \end{align}
 We normalize the eigenmodes to have
 \begin{equation}
-  \langle |\theta|^2 \rangle_{\mathcal{D}} = 1.
+  \langle |\theta|^2 \rangle_{\mathcal{D}} = 1
 \end{equation}
+where $\langle \cdot \rangle_{\mathcal{D}}$ denotes the spatial mean over the entire domain.
+
 For each $k_x$, we can assess the stability of the perturbations by solving for the eigenvalue $s$, whose imaginary component $\sigma$ plays the role of an exponential growth rate. 
 Positive eigenvalues indicate that the system is unstable to small disturbances of wavenumber $k_x$, while negative eigenvalues indicate stability. 
 A complete linear stability analysis requires solution over the full spectrum of wavenumbers. 
@@ -225,22 +232,23 @@ Thus, the mean temperature and perturbations fields are coupled.
 The linearized system \eqss{EQ:linear1}{EQ:linear3} cannot determine the amplitude of the eigenmodes, $A$.
 However, the advective heat flux is proportional to $A^2$, so we need to specify the amplitude in order to solve equation~\ref{EQ:T0_IVP}.
 To evolve $\bar{T}$, we assume the perturbations evolve on a much faster timescale than the mean temperature, as in \cite{michel_chini_2019}.
-Stable modes decay away rapidly. 
-Unstable modes will not persist on the slow timescale because the advective term $\langle w'T' \rangle_x$ tends to stabilize $\bar{T}$, thereby creating a negative feedback loop.
+Stable modes $(\sigma < 0)$ decay away rapidly. 
+Unstable modes $(\sigma > 0)$ will not persist on the slow timescale because the advective term $\langle w'T' \rangle_x$ tends to stabilize $\bar{T}$, thereby creating a negative feedback loop.
 Only marginally stable modes can be maintained on the slow timescale.
 Therefore the amplitude $A$ must satisfy
 \begin{equation}
     \max_{k_x} \{ \sigma \} = 0.
 \end{equation}
 
-For various $\Ra$ and fixed $\Pr = 1$, we seek marginally-stable thermal equilibria (MSTE) satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to . 
+For various $\Ra$ and fixed $\Pr = 1$, we seek marginally-stable thermal equilibria (MSTE) satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to \eq{EQ:T0_IVP}. 
 We employ the \texttt{Dedalus} pseudo-spectral python framework \cite{Dedalus_2020} to solve the EVP outlined in Section \ref{sec:model} as well as the IVP \eq{EQ:T0_IVP} by representing each field with Chebyshev polynomials.
 We use the 3/2 dealiasing rule to calculate the advective heat flux.
 The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large $\Ra$ admit increasingly small-scale features. 
+A two-stage Runge-Kutta timestepper is implemented for the IVP.
 We use the \texttt{Eigentools} package \cite{Eigentools} to manipulate the eigenfunctions and calculate the advective heat flux $\langle w' T' \rangle_x$.
 
 At $t = 0$, we begin with a marginally-stable initial profile $\bar{T}(z, 0)$ whose construction is outlined in appendix~\ref{sec:initial_profile}. 
-At some arbitrary time $t = t_0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to \eq{EQ:T0_IVP}, using backward Euler to evolve the diffusion term and forward Euler to evolve the advection term. 
+At some arbitrary time $t = t_0 \geq 0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to \eq{EQ:T0_IVP}, using backward Euler to evolve the diffusion term and forward Euler to evolve the advection term. 
 This requires us to determine the amplitude of the eigenfunction $A$.
 We will now illustrate our method of finding $A^2$ through an example.
 
@@ -267,13 +275,13 @@ We illustrate these trends in Figure~\ref{fig:iteration_spectra}.
 $\bar{T}(z, t)$ is then evolved according to \eq{EQ:T0_IVP} and another eigenvalue solve is performed. 
 Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\sigma_{\rm{max}} (A^2)$ which is locally differentiable. 
 We use Newton's method to find an amplitude which satisfies our marginal stability tolerance criterion $|\sigma_{\rm{max}} (A^2)| < 10^{-9}$.
-Marginally-stable modes do not osscillate in time, i.e. $\sigma = 0$ implies $\omega = 0$.
-This agrees with the convectional notion of exchange of stabilities \cite{drazin_reid_2004}.
-Crucially, we do not assume the $k_x$ of the marginally-stable is fixed.
+Marginally-stable modes do not oscillate in time, i.e. $\sigma = 0$ implies $\omega = 0$.
+This agrees with the conventional notion of exchange of stabilities \cite{drazin_reid_2004}.
+Crucially, we do not assume the $k_x$ of the marginally-stable mode is fixed.
 In section \ref{sec:multiple_modes} we specify procedures for the treatment of multiple simultaneously marginal modes.
 
 \subsection{Treatment of multiple marginally-stable modes} \label{sec:multiple_modes}
-In most cases, we eventually encounter eigenvalue spectra with multiple simultaneously marginal modes.
+In most cases, we encounter eigenvalue spectra with multiple simultaneously marginal modes.
 If ignored, we are forced to reduce the timestep and allow the modes to alternate which is marginally stable.
 Instead, we generalize the advective term in \eq{EQ:T0_IVP} to accommodate $N$ simultaneously marginal modes
 \begin{equation}
@@ -282,10 +290,10 @@ Instead, we generalize the advective term in \eq{EQ:T0_IVP} to accommodate $N$ s
 where $W_n$ and $\theta_n$ are the eigenmodes associated with $k_x = \frac{n\pi}{2}$. 
 There are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. 
 Given a small fixed time step $\Delta t$, let $\vec{A^2}$ be the amplitude vector and $\vec{\sigma}(\vec{A^2})$ be the dependent eigenvalues.
-We expect a function $\vec{\sigma} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots $\vec{A^2_m}$ (should they exist). 
-A coarse approximation $\vec{A^2_0}$ for the appropriate amplitude vector $\vec{A^2_m}$ is given by a generalized form of \eq{EQ:amp_approx}:
+We expect a function $\vec{\sigma} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots $\vec{\tilde{A}^2}$ (should they exist). 
+A coarse approximation $\vec{A^2_0}$ for the appropriate amplitude vector $\vec{\tilde{A}^2}$ is given by a generalized form of \eq{EQ:amp_approx}:
 \begin{equation}
-    \vec{A^2_0} = -\Sigma_{\rm{adv}}^{-1} \vec{\sigma_{\rm{diff}}}.
+    \vec{\tilde{A}^2} \approx \vec{A^2_0} = -\Sigma_{\rm{adv}}^{-1} \vec{\sigma_{\rm{diff}}}.
     \label{EQ:AN_approx}
 \end{equation}
 Here $\vec{\sigma_{\rm{diff}}} = \vec{\sigma} (\vec{0})$ refers to the eigenvalues after a brief $\Delta t$ period of diffusion. 
@@ -304,7 +312,7 @@ At the point of our coarse estimate $\vec{A^2_0}$, we approximate the Jacobian m
 via first-order finite differences, requiring $N^2$ more individual EVP solves.
 A refined estimate is then given by
 \begin{equation}
-    \vec{A^2_1} = -J^{-1} \vec{\sigma}(\vec{A^2_0}).
+    \vec{\tilde{A}^2} \approx \vec{A^2_1} = -J^{-1} \vec{\sigma}(\vec{A^2_0}).
 \end{equation}
 Once constructed, we use each subsequent guess to adjust the Jacobian via Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
 We find $\vec{\sigma}(\vec{A^2})$ does indeed have a unique root provided the time step is not too large and there are no numerical instabilities, as outlined in appendix \ref{sec:timestep}.
@@ -313,17 +321,15 @@ Over the course of a large time step, $\bar{T}$ evolves according to \eq{EQ:T0_I
 
 Difficulty arises when transitioning between different numbers of marginal modes, particularly when stable modes become marginally-stable mid-iteration.
 We facilitate these transitions by defining an adjustable candidate tolerance $\varepsilon_{\rm{cand}} \in [10^{-6}, 10^{-8}]$.
-We rely on $A^2 > 0$ by asserting that a mode which meets the candidate tolerance can be included in an iteration provided that its respective amplitude is positive.
-Should that be the case, the candidate mode is now marginally-stable and included in the subsequent iteration.
-If however we converge on a negative amplitude, the candidate mode is discarded and the iteration is repeated. 
-%In general we find that no other obvious course of action yields equilibria.
+We rely on $A^2 > 0$ by asserting that a mode which meets the candidate tolerance can be included as a candidate marginal mode.
+If the candidate mode's amplitude turns out to be positive, the candidate mode is now marginally-stable and can be regularly included in the subsequent iteration.
+If however we converge on a negative amplitude, the candidate mode must be discarded and the iteration is repeated. 
 
 After several time steps, $\bar{T}$ tends to asymmetrize due to numerical noise. 
-Though asymmetric pairs of solutions may exist, we further constrain $\bar{T}$ by imposing symmetry. 
-This is accomplished at the start of each iteration by setting the coefficients of even Chebyshev polynomials to zero.
+Though asymmetric pairs of solutions may exist, we further constrain $\bar{T}$ by setting the coefficients of its even Chebyshev basis functions to zero at the start of each iteration.
 
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
-We evolve $\bar{T}$ as described above until $|\partial_{t}\bar{T}| < 10^{-5}$.
+We evolve $\bar{T}$ as described above until $\max\{|\partial_{t}\bar{T}|\} < 10^{-5}$.
 In this marginally-stable thermal equilibrium, $\bar{T}$ does not evolve in time, and the perturbations also do not evolve in time, as they are marginally stable.
 Thus, these configurations are exact solutions to the quasilinear equations (equations~\ref{EQ:T0_IVP}--\ref{EQ:linear3}).
 They differ from the usual ECS in that ECS are fixed points of the full nonlinear problem \eqss{EQ:motion1}{EQ:motion3}. 
@@ -344,7 +350,7 @@ We compute symmetric MSTE for $\Ra$ in the range $10^5 - 10^9$.
     \label{fig:T0_profiles}
 \end{figure}
 
-Figure \ref{fig:T0_profiles} gives temperature profiles for $\Ra = 10^8$ where the initial profile, whose construction is outlined in appendix~\ref{sec:initial_profile}, is employed at iteration 0. 
+Figure~\ref{fig:T0_profiles} gives temperature profiles for $\Ra = 10^8$ where the initial profile, whose construction is outlined in appendix~\ref{sec:initial_profile}, is employed at iteration 0. 
 Direct numerical simulations (DNS) are performed by solving \eqss{EQ:motion1}{EQ:motion3} with \texttt{Dedalus}, followed by horizontal- and time- averaging. 
 The DNS curve is more diffuse than the MSTE curve, which in turn, is more diffuse than the initial curve. 
 Performing an eigenvalue solve by setting $\bar{T}$ equal to the DNS profile yields unstable eigenvalues. 
@@ -370,17 +376,15 @@ This suggests that MSTE might maximize boundary layer thickness, subject to the 
 The most resilient and unexpected feature of MSTE temperature profiles are the pronounced dips adjacent to the boundary layers. 
 These dips appear in every solution, regardless of $\Ra$. 
 Physically, they correspond to thin layers in which the mean temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954,Howard_1966}. 
-This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure \ref{fig:flux}. 
+This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure~\ref{fig:flux}. 
 We do not understand the source of these dips, but similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$.
 In that case, the reversals were due to nonlinear advection, which is not present in our quasilinear model. 
 
-Equilibrated states exhibit distinct behaviors for large and small $\Ra$. 
-This contrast is illustrated in Figure \ref{fig:flux}, where we give heat flux profiles and eigenvalue spectra for two cases: $\Ra = 2 \times 10^5$ and $\Ra = 10^9$. 
+In Figure~\ref{fig:flux}, where we give heat flux profiles and eigenvalue spectra for two cases: $\Ra = 2 \times 10^5$ (top) and $\Ra = 10^9$ (bottom). 
 For $\Ra = 2 \times 10^5$, there is a single marginal mode at $k_x = 1.5\pi$ whose advective flux occupies the bulk of the domain. 
 These states have wide boundary layers which gradually subside as advection becomes the dominant flux component. 
-Such transitional regions do not appear for $\Ra = 10^9$.
-In this case the shift from diffusion to advection is sharp.
-At $\Ra=10^9$ we find five marginally-stable modes are necessary to reach a MSTE.
+Transitional regions occur over a smaller length scale for $\Ra = 10^9$ where the shift from diffusion to advection is sharp.
+At $\Ra=10^9$ we find five marginally-stable modes are necessary to reach an MSTE.
 Thin advection profiles, belonging to high-wavenumber modes with $k_x=23.5\pi, \, 24\pi$, hug the boundary layer. 
 Closer to the bulk of the domain, we see wider advection profiles corresponding to modes in a second group of marginal modes $k_x = 6\pi, \, 6.5\pi$.
 The $k_x = 1.5\pi$ mode forms the large-scale convective cell structures observed in DNS, again occupying the bulk of the domain.
@@ -394,27 +398,29 @@ However, since we have fixed the horizontal size of our domain, we are left with
     \caption{Wavenumbers of marginally-stable modes in thermally equilibrated states. 
     Marginal modes often appear in adjacent pairs, which we denote with a common color. 
     For example, the spectrum corresponding to $\Ra = 10^5$ has adjacent marginal wavenumbers $k_x = \pi, \, 1.5\pi$. 
-    The $\Ra = 10^9$ spectrum, shown in lower right corner of Figure \ref{fig:flux}, has three groups of maxima, with a single marginal mode in the first group ($k_x = 1.5\pi$), two adjacent marginal modes in the second group ($k_x = 6\pi, \, 6.5\pi$), and two adjacent marginal modes in the third group ($k_x = 23.5\pi, \, 24\pi$). 
+    The $\Ra = 10^9$ spectrum, shown in lower right corner of Figure~\ref{fig:flux}, has three groups of maxima, with a single marginal mode in the first group ($k_x = 1.5\pi$), two adjacent marginal modes in the second group ($k_x = 6\pi, \, 6.5\pi$), and two adjacent marginal modes in the third group ($k_x = 23.5\pi, \, 24\pi$). 
     The largest wavenumbers of the green branch obey a power-law relationship with $\Ra$}
     \label{fig:kx_marginals}
 \end{figure}
 
 MSTE for large $\Ra$ tend to have a diverse combination of marginal modes.
 In every case, the $k_x = 1.5\pi$ mode is included. 
-In Figure \ref{fig:kx_marginals} we give the wavenumbers $k_x$ of marginal modes. 
+In Figure~\ref{fig:kx_marginals} we give the wavenumbers $k_x$ of marginal modes. 
 Sometimes we find two marginally-stable modes with wavenumbers separated by $\pi/2$.
 Like $k_x = 6\pi, \, 6.5\pi$ and $k_x=23.5\pi, \, 24\pi$ for the $\Ra=10^9$ MSTE, these are due to the discretization of wavenumbers from our domain of width 4.
 We think of the pairs of modes as acting together as part of a single maximum of the growth rate as a function of the wavenumber.
 When wavenumbers are adjacent, we plot them in the same color and denote the larger mode with an x and the smaller with a +.
 For $\Ra \geq 10^6$, a second branch of marginal modes is shown in light green. 
+Least-squares regression gives $\max\{k_x\} \propto \Ra^{0.300}$ with $R^2 = 0.998$ for this maximum branch.
 For large $\Ra$, the advective fluxes of this maximum branch opposes the strong diffusion of the thin MSTE boundary layers. 
-At $\Ra \geq 10^8$, a third branch appears (shown in light blue), splitting the widening gap between the other two. 
+At $\Ra \geq 10^8$, a third branch appears (shown in blue), splitting the widening gap between the other two. 
+For these points regression gives $k_x \propto \Ra^{0.155}$ with $R^2 = 0.988$
 This development is associated with moderately wide advection profiles, filling a niche in the total flux by uniting the thin profiles of the maximum branch with those of the bulk-domain-oriented minimum branch.
 
 \begin{figure}
     \centering
     \includegraphics[width=3.4in]{del_kx_inv.png}
-    \caption{For $\Ra \geq 10^6$, the maximum marginally-stable wavenumber (corresponding to the green x markers in Figure \ref{fig:kx_marginals}) are inversely related to the boundary layer height $\delta$. 
+    \caption{For $\Ra \geq 10^6$, the maximum marginally-stable wavenumber (corresponding to the green x markers in Figure~\ref{fig:kx_marginals}) are inversely related to the boundary layer height $\delta$. 
     $(\max \{ k_x \})^{-1}$ gives a minimum $x$ length scale for the perturbations, and consequently, the advection. 
     For large $\Ra$, the boundary layers admit small scale features, requiring more vertical basis functions (higher resolution).
     The boundary layer width gives an estimate of the minimum vertical lengthscale in the problem.
@@ -422,16 +428,16 @@ This development is associated with moderately wide advection profiles, filling 
     \label{fig:del_inv}
 \end{figure}
 
-The largest marginal wavenumber $\max \{ k_x \}$ (represented by the light green branch in Figure \ref{fig:kx_marginals}) serves as an inverse minimum length-scale in the $x$ direction.
+The largest marginal wavenumber $\max \{ k_x \}$ (represented by the light green branch in Figure~\ref{fig:kx_marginals}) serves as an inverse minimum length-scale in the $x$ direction.
 The finest vertical structures in $\bar{T}(z)$ appear near the boundaries, requiring more basis functions (resolution) at large $\Ra$.
 Naturally, this provides a complementary minimum length-scale for $z$.
 We define the boundary layer width $\delta$ as the distance from the boundary where $\partial_z T$ equals zero, i.e.,
 \begin{align}\label{eqn:delta}
 \left.\frac{\partial \bar{T}}{\partial z}\right|_{z=-\frac{1}{2}+\delta} = 0.
 \end{align}
-This height corresponds to the local extrema of the MSTE temperature profile, e.g., in Figure \ref{fig:T0_profiles}.
-In Figure \ref{fig:del_inv}, we show $\max \{ k_x\}$ is proportional to $\delta$ over our range of $\Ra$.
-Least-squares regression gives $\delta^{-1} = 1.71 \max \{ k_x \} - 2.13$.
+This height corresponds to the local extrema of the MSTE temperature profile, e.g., in Figure~\ref{fig:T0_profiles}.
+In Figure~\ref{fig:del_inv}, we show $\max \{ k_x\}$ is proportional to $\delta$ over our range of $\Ra$.
+Least-squares regression gives $\delta^{-1} = 1.71 \max \{ k_x \} - 2.13$ with $R^2 = 0.996$.
 We can assume from this length scale agreement that the mean-squared $x$ and $z$ components of the temperature and velocity gradients are proportional
 \begin{align}
     \Big\langle \frac{\partial T}{\partial x} \cdot \frac{\partial T}{\partial x} \Big\rangle_{\mathcal{D}} &\propto \Big\langle \frac{\partial T}{\partial z} \cdot \frac{\partial T}{\partial z} \Big\rangle_{\mathcal{D}} \nonumber   \\
@@ -450,7 +456,7 @@ This is consistent with the mean squared gradient assumptions of \cite{Malkus_19
 \end{figure}
 
 We find the MSTE can be characterized by their boundary layer height.
-In Figure \ref{fig:bl_ra}, we illustrate the scaling behavior of the boundary layer height $\delta = \Ra^{-1/3}$. 
+In Figure~\ref{fig:bl_ra}, we illustrate the scaling behavior of the boundary layer height $\delta = \Ra^{-1/3}$. 
 This is consistent with Malkus' classical marginal-stability theory, a scaling argument which perceives the boundary regions as subdomains which are themselves marginally-stable \cite{Malkus_1954}.
 
 \begin{figure*}
@@ -459,7 +465,7 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
     \caption{Nusselt numbers are shown for MSTE, aspect-ratio-optimized ``steady rolls'' ECS \cite{Wen}, as well as statistically-steady 2D and 3D DNS \cite{Johnston, Scheel_2016}.
     All datasets obey power-law relationships, with the MSTE and ECS scaling like $\Nu \sim\Ra^{1/3}$. 
     MSTE have greater $\Nu$ than the ECS, which in turn, have greater $\Nu$ than the DNS. 
-    This can be explained by the contrasting boundary layer geometries shown in Figure \ref{fig:T0_profiles}.}%
+    This can be explained by the contrasting boundary layer geometries shown in Figure~\ref{fig:T0_profiles}.}%
     \label{fig:nu_vs_ra}%
 \end{figure*}
 
@@ -467,7 +473,7 @@ The Nusselt number, which measures convective performance is given by
 \begin{equation}
     \Nu = \frac{\langle \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \bar{T}}{\partial z} \rangle_z}.
 \end{equation}
-There is no general consensus surrounding the scaling behavior of $\Nu$ for high $\Ra$ systems, which are of particular importance in astrophysical and geophysical systems. In Figure \ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, ``steady rolls" ECS \cite{Wen}, and DNS \cite{Scheel_2016, Johnston}. 
+There is no general consensus surrounding the scaling behavior of $\Nu$ for high $\Ra$ systems, which are of particular importance in astrophysical and geophysical systems. In Figure~\ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, ``steady rolls" ECS \cite{Wen}, and DNS \cite{Scheel_2016, Johnston}. 
 We find that MSTE satisfy $\Nu \sim\Ra^{1/3}$, consistent with our finding that the boundary layer width scales like $\delta \sim \Ra^{1/3}$.
 The Nusselt numbers of the ECS are somewhat lower and the DNS Nusselt numbers are yet lower still.
 In both cases, the $\Ra$ dependence appear slightly more shallow than for the MSTE.
@@ -517,20 +523,20 @@ MSTE are laminar, lacking the small-scale structures associated with moderate to
 This is an apparent consequence of the quasilinear assumptions. 
 If we perceive MSTE as background states, DNS suggest that plumes, vortex sheets, and other unstable turbulent features inhibit total heat transfer. 
 This perspective agrees with conventional models of transitions to turbulent flows, such as Boussinesq's turbulent-viscosity hypothesis \cite{boussinesq_1877}. The emergence of small-scale velocity structures tends to increase total shear \cite{Lecoanet_KH, drazin_reid_2004, pope_2000}, thereby impeding buoyancy-driven flows and decreasing advection in the bulk of the domain. 
-We could also attribute the diffuse DNS temperature profile in Figure \ref{fig:T0_profiles} with unsteady boundary-layer penetration and mixing that MSTE do not exhibit.
+We could also attribute the diffuse DNS temperature profile in Figure~\ref{fig:T0_profiles} with unsteady boundary-layer penetration and mixing that MSTE do not exhibit.
 
 \begin{figure}
     \begin{minipage}{3.4in}
         \centering
         \includegraphics[width=3.4in]{sim_eq_ke.png}
-        \caption{Average kinetic energies are reported for the same simulations illustrated in Figure \ref{fig:nu_sim} ($\Ra = 10^8$). 
+        \caption{Average kinetic energies are reported for the same simulations illustrated in Figure~\ref{fig:nu_sim} ($\Ra = 10^8$). 
         The eigenfunctions belonging to MSTE have significantly more kinetic energy than the statistically-steady state. 
         Kinetic equilibrium is achieved on the viscous time-scale $t_{\nu} \sim \sqrt{\Ra / \Pr}$.}
         \label{fig:ke_sim}
     \end{minipage}
 \end{figure}
 
-We also find that the average kinetic energies of simulations initialized with MSTE are significantly larger than those found in simulations initialized with the conductive state plus noise, as shown Figure \ref{fig:ke_sim}. 
+We also find that the average kinetic energies of simulations initialized with MSTE are significantly larger than those found in simulations initialized with the conductive state plus noise, as shown Figure~\ref{fig:ke_sim}. 
 This is because the MSTE contain strong large-scale flows, which decay on a viscous time-scale
 \begin{equation}
     t_{\nu} \sim \sqrt{\frac{\Ra}{\Pr}}. \nonumber
@@ -584,7 +590,7 @@ We initialize the thermal-equilibration algorithm with \cite{Shishkina}'s analyt
 where $\delta_0$ is the boundary layer height. 
 We expect that each $\Ra$ is associated with a unique $\delta_0$ for which $\bar{T}_0(z)$ is marginally-stable. 
 It should be noted that when experimenting with various initial profiles $(\tanh, \rm{erf}, \rm{etc.})$, we obtain indistinguishable equilibrated states, implying that solutions may be unique. 
-An example of \eq{EQ:T0} is given by the blue curve in Figure \ref{fig:T0_profiles}.
+An example of \eq{EQ:T0} is given by the blue curve in Figure~\ref{fig:T0_profiles}.
 
 % \begin{multicols}{1}
 \section{MSTE Metrics}\label{sec:tables}
