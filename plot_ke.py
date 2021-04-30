@@ -31,7 +31,7 @@ def main(filename, start, count, output):
 
     # Plot writes
     with h5py.File(filename, mode='r') as file:
-        ke_data = pickle.load(open(path + '/ke_data_eq2.pick', 'rb'))
+        ke_data = pickle.load(open(path + '/ke_data_eq3.pick', 'rb'))
         ke_ar = ke_data['ke_ar']
         # ke_max_ar = ke_data['ke_max_ar']
         sim_times_ar = ke_data['sim_times_ar']
@@ -41,7 +41,7 @@ def main(filename, start, count, output):
             sim_times_ar.append(file['scales/sim_time'][index])
         ke_data['ke_ar'] = ke_ar
         ke_data['sim_times_ar'] = sim_times_ar
-        pickle.dump(ke_data, open(path + '/ke_data_eq2.pick', 'wb'))
+        pickle.dump(ke_data, open(path + '/ke_data_eq3.pick', 'wb'))
         
 
 
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         args = docopt(__doc__)
         output_path = pathlib.Path(args['--output']).absolute()
         ke_data = {'ke_ar' : [], 'sim_times_ar' : []}
-        pickle.dump(ke_data, open(path + '/ke_data_eq2.pick', 'wb'))
+        pickle.dump(ke_data, open(path + '/ke_data_eq3.pick', 'wb'))
 
         # Create output directory if needed
         with Sync() as sync:
@@ -71,19 +71,24 @@ if __name__ == "__main__":
         post.visit_writes(args['<files>'], main, output=output_path)
     if (plot):
         ke_data_eq = pickle.load(open(path + '/ke_data_eq2.pick', 'rb'))
+        ke_data_eq_noflow = pickle.load(open(path + '/ke_data_eq3.pick', 'rb'))
         ke_data = pickle.load(open(path + '/ke_data_nom.pick', 'rb'))
 
         ke_ar_eq = ke_data_eq['ke_ar']
+        ke_ar_eq_noflow = ke_data_eq_noflow['ke_ar']
         ke_ar = ke_data['ke_ar']
         sim_times_ar_eq = ke_data_eq['sim_times_ar']
+        sim_times_ar_eq_noflow = ke_data_eq_noflow['sim_times_ar']
         sim_times_ar = ke_data['sim_times_ar']
         colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        plt.plot(sim_times_ar_eq_noflow, ke_ar_eq_noflow, color=colors[0])
         plt.plot(sim_times_ar, ke_ar, color='black', label = 'Linear IC')
         plt.plot(sim_times_ar_eq, ke_ar_eq, color=colors[-1], label = 'MSTE IC')
+        plt.plot(sim_times_ar_eq_noflow, ke_ar_eq_noflow, color=colors[0], label = 'MSTE No Flow IC')
         plt.xlim(0, 400)
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')
         plt.ylabel(r'$\langle |\mathbf{u}|^2 \rangle_{\mathcal{D}}$')
         plt.title(r'$\rm{Ra} \, = \, 10^8$')
         # plt.savefig(path + '/publication_materials/sim_eq_ke_nonoise')
-        plt.savefig(path + '/publication_materials/sim_eq_ke')
+        plt.savefig(path + '/publication_materials/sim_eq_ke_noflow')

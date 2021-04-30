@@ -135,8 +135,8 @@ if not pathlib.Path('restart.h5').exists():
     b0z_f.set_scales(1)
     b0 = b0z_f.antidifferentiate(z_basis, ('left', 0))
     b0.set_scales(evp_scale)
-    b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
-    # b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real + F * pert
+    # b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
+    b['g'] = b0['g'] + np.sqrt(2)*(sum([exp*fields['b'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real + F * pert
     bz = b.differentiate('z')
     # plot_bot_2d(b)
     # plt.show()
@@ -144,10 +144,11 @@ if not pathlib.Path('restart.h5').exists():
     p0 = b0.antidifferentiate(z_basis, ('left', 0))
     p0.set_scales(evp_scale)
     p['g'] = p0['g'] + np.sqrt(2)*(sum([exp*fields['p'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
-    w['g'] = np.sqrt(2)*(sum([exp*fields['w'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
-    u['g'] = np.sqrt(2)*(sum([exp*fields['u'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
-    wz = w.differentiate('z')
-    uz = u.differentiate('z')
+
+    # w['g'] = np.sqrt(2)*(sum([exp*fields['w'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
+    # u['g'] = np.sqrt(2)*(sum([exp*fields['u'][:, None][slices[1]].transpose() for (exp, fields) in exp_fields])).real
+    # wz = w.differentiate('z')
+    # uz = u.differentiate('z')
     
     w.set_scales(1)
     wz.set_scales(1)
@@ -159,7 +160,7 @@ if not pathlib.Path('restart.h5').exists():
 
     # Timestepping and output
     dt = 5e-4
-    stop_sim_time = 400
+    stop_sim_time = 100
     fh_mode = 'overwrite'
 
 else:
@@ -168,7 +169,7 @@ else:
 
     # Timestepping and output
     dt = last_dt
-    stop_sim_time = 500
+    stop_sim_time = 100
     fh_mode = 'append'
 
 # Integration parameters
@@ -176,18 +177,18 @@ solver.stop_sim_time = stop_sim_time
 # solver.stop_iteration = 20
 
 # Analysis
-# snapshots = solver.evaluator.add_file_handler('snapshots_eq', sim_dt=0.25, max_writes=50, mode=fh_mode)
-# snapshots.add_task('b')
-# snapshots.add_task('w')
-# snapshots.add_task('u')
+snapshots = solver.evaluator.add_file_handler('snapshots_eq', sim_dt=0.1, max_writes=50, mode=fh_mode)
+snapshots.add_task('b')
+snapshots.add_task('w')
+snapshots.add_task('u')
 
-# profiles = solver.evaluator.add_file_handler('profiles_nonoise', sim_dt=0.1, max_writes=100, mode=fh_mode)
-# profiles.add_task("P*integ(dz(b) - 1, 'x') / Lx", name='diffusive_flux')
-# profiles.add_task("integ(w*b, 'x') / Lx", name='adv_flux')
-# profiles.add_task("integ(integ(w**2 + u**2, 'x'), 'z') / Lx", name='ke')
-# profiles.add_task("integ(integ((dx(w) - uz)**2, 'x'), 'z') / Lx", name='enst')
+profiles = solver.evaluator.add_file_handler('profiles_noflow', sim_dt=0.1, max_writes=100, mode=fh_mode)
+profiles.add_task("P*integ(dz(b) - 1, 'x') / Lx", name='diffusive_flux')
+profiles.add_task("integ(w*b, 'x') / Lx", name='adv_flux')
+profiles.add_task("integ(integ(w**2 + u**2, 'x'), 'z') / Lx", name='ke')
+profiles.add_task("integ(integ((dx(w) - uz)**2, 'x'), 'z') / Lx", name='enst')
 
-checkpoints = solver.evaluator.add_file_handler('checkpoints_nonoise', sim_dt=0.1, max_writes=50, mode=fh_mode)
+checkpoints = solver.evaluator.add_file_handler('checkpoints_noflow', sim_dt=1, max_writes=25, mode=fh_mode)
 checkpoints.add_system(solver.state)
 # snapshots.add_task('b')
 
