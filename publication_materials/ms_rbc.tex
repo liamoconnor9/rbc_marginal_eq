@@ -142,7 +142,7 @@ Finally, we describe the results of simulations initialized with marginally-stab
  
 \section{Model Setup}\label{sec:model}
 We begin with the Boussinesq approximation for Rayleigh-Bénard Convection, nondimensionalized on the freefall timescale. 
-The domain $\mathcal{D}$ is 2-dimensional, rectangular, and horizontally periodic with spatial dimensions $0 < x < 4$ and $-1/2 < z < 1/2$. 
+The domain $\mathcal{D}$ is 2-dimensional, rectangular, and horizontally periodic with spatial dimensions $0 \leq x < 4$ and $-1/2 < z < 1/2$. 
 The fluid of interest is constrained between two flat boundaries at $z = -1/2$ and $z = 1/2$ with fixed temperatures $1/2$ and $-1/2$ respectively. 
 At both boundaries we specify impenetrable, no-slip conditions, such that the velocity $\vec{u} = u \hat{x} + w \hat{z} = \vec{0}$ at $z = \pm 1/2$, where $\hat{x}, \hat{z}$ are the unit vectors in the $x$ and $z$ directions. 
 The equations of motion are then given by
@@ -269,6 +269,10 @@ Ignoring the diffusive term and evolving according to advection tends the stabil
 The appropriate amplitude $A^2$ can then be approximated by
 \begin{equation}
     A^2 \approx -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}} \label{EQ:amp_approx}
+\end{equation}
+
+\begin{equation}
+    \partial_t\bar{T} = \langle w'T' \rangle_x
 \end{equation}
 where $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode.
 We illustrate these trends in Figure~\ref{fig:iteration_spectra}. 
@@ -414,8 +418,8 @@ For $\Ra \geq 10^6$, a second branch of marginal modes is shown in light green.
 Least-squares regression gives $\max\{k_x\} \propto \Ra^{0.300}$ with $R^2 = 0.998$ for this maximum branch.
 For large $\Ra$, the advective fluxes of this maximum branch opposes the strong diffusion of the thin MSTE boundary layers. 
 At $\Ra \geq 10^8$, a third branch appears (shown in blue), splitting the widening gap between the other two. 
-For these points regression gives $k_x \propto \Ra^{0.155}$ with $R^2 = 0.988$
-This development is associated with moderately wide advection profiles, filling a niche in the total flux by uniting the thin profiles of the maximum branch with those of the bulk-domain-oriented minimum branch.
+For these points regression gives $k_x \propto \Ra^{0.155}$ with $R^2 = 0.988$.
+The blue branch is associated with moderately wide advection profiles, filling a niche in the total flux by uniting the thin profiles of the maximum branch with those of the bulk-domain-oriented minimum branch.
 
 \begin{figure}
     \centering
