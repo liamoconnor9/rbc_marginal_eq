@@ -95,17 +95,16 @@ $^1$Department of Engineering Sciences and Applied Mathematics, Northwestern Uni
 $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, Northwestern University, Evanston, IL, 60201 USA}
 
 \begin{abstract}
-    Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive---particularly in the large Rayleigh number regime.
+    Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive---particularly in the turbulent regime.
     In this investigation, we derive and solve a quasilinear form of the Rayleigh-Bénard problem by representing the perturbations in terms of marginally stable eigenmodes.
     The amplitude of each eigenmode is determined by requiring that the background state maintains marginal stability.
     The background temperature profile evolves due to the advective flux of each eigenmode, as well as diffusion.
     The entire calculation is one-dimensional, and can be run on a workstation.
     We find the background temperature field evolves to an equilibrium state, where the advective flux from the marginally-stable eigenmodes and the diffusive flux sum to a constant.
-    These marginally-stable thermal equilibria are exact solutions of the quasilinear equations.
+    These marginally-stable thermal equilibria (MSTE) are exact solutions of the quasilinear equations.
     The mean temperature profile has thinner boundary layers and larger Nusselt numbers than thermally-equilibrated 2D and 3D simulations of the full nonlinear equations.
     We find the Nusselt number scales like $\Nu \sim\Ra^{1/3}$.
-    When initializing a 2D simulation with a marginally-stable thermal equilibrium, we find the simulation does not exhibit the initial burst of turbulence typical of simulations initialized with the conductive background state plus noise.
-    Although the $\Nu$ quickly equilibrates in these simulations, the kinetic energy evolves on a viscous timescale as domain-filling flywheel flows viscously attenuate.
+    When an MSTE is used as initial conditions for a 2D simulation, we find that Nu quickly equilibrates without the burst of turbulence often induced by purely conductive initial conditions, but we also find that the kinetic energy is too large and viscously attenuates on a long viscous timescale.
 \end{abstract}
 
 \maketitle
@@ -127,7 +126,7 @@ Should that be the case, it is crucial that we discover and classify such equili
 
 Others have turned to studying quasilinear systems.
 The quasilinear approximation starts with a decomposition of all variables into a background and perturbations about this background.
-The approximation is to neglect the influence of nonlinear interactions between the perturbations on the perturbations themselves \cite{marston2016}.
+This approximation neglects the influence of nonlinear interactions between the perturbations on the perturbations themselves \cite{marston2016}.
 This renders the perturbation equations linear.
 Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
 In \cite{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
@@ -241,41 +240,50 @@ Therefore the amplitude $A$ must satisfy
 \end{equation}
 
 For various $\Ra$ and fixed $\Pr = 1$, we seek marginally-stable thermal equilibria (MSTE) satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to \eq{EQ:T0_IVP}. 
-We employ the \texttt{Dedalus} pseudo-spectral python framework \cite{Dedalus_2020} to solve the EVP outlined in Section \ref{sec:model} as well as the IVP \eq{EQ:T0_IVP} by representing each field with Chebyshev polynomials.
-We use the 3/2 dealiasing rule to calculate the advective heat flux.
-The necessary number of basis functions varies, as eigenfunctions and temperature profiles associated with large $\Ra$ admit increasingly small-scale features. 
-A two-stage Runge-Kutta timestepper is implemented for the IVP.
+We employ the \texttt{Dedalus} pseudo-spectral python framework \cite{Dedalus_2020} to solve the EVP outlined in Section \ref{sec:model} as well as the IVP \eq{EQ:T0_IVP}.
+We represent each field with Chebyshev polynomials use the 3/2 dealiasing rule to calculate the advective heat flux.
+The necessary number of basis functions increases with $\Ra$ as the eigenfunctions include increasingly small-scale features. 
 We use the \texttt{Eigentools} package \cite{Eigentools} to manipulate the eigenfunctions and calculate the advective heat flux $\langle w' T' \rangle_x$.
 
-At $t = 0$, we begin with a marginally-stable initial profile $\bar{T}(z, 0)$ whose construction is outlined in appendix~\ref{sec:initial_profile}. 
-At some arbitrary time $t = t_0 \geq 0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to \eq{EQ:T0_IVP}, using backward Euler to evolve the diffusion term and forward Euler to evolve the advection term. 
-This requires us to determine the amplitude of the eigenfunction $A$.
-We will now illustrate our method of finding $A^2$ through an example.
+At iteration 0 we construct a marginally-stable initial temperature profile $\bar{T}(z, 0)$ whose equation is given in appendix~\ref{sec:initial_profile}. 
+At an arbitrary iteration beginning at $t = t_0$, we seek to evolve $\bar{T}(z, t_0)$ into a new marginally-stable profile $\bar{T}(z, t_0 + \Delta t)$ according to \eq{EQ:T0_IVP}. 
+To achieve this, we use a second-order, two-stage IMEX Runge-Kutta method.
+We initialize \eq{EQ:T0_IVP} with the previous iteration's solution to \eq{EQ:T0_IVP} and maintain marginal stability at each iteration.
+The eigenfunctions and amplitude are assumed to be constant over the timestep.
+Put simply, we can solve the IVP over long periods of time by stopping at each iteration to adjust the eigenfunctions and their amplitude $A$.
+It is essential that we pick the correct eigenfunction amplitude when calculating the advective term to maintain marginal stability.
+We will now illustrate our method of finding the appropriate $A^2$ through an example.
 
 \begin{figure}
     \includegraphics[width=3.4in]{EV_spectrum_ol.png}
     \caption{Eigenvalue spectra for $\Ra = 10^5$. The spectrum of an ``initial" marginally-stable mean temperature profile $\bar{T}(z, t_0)$ has a maximum eigenvalue of 0. 
     Given a small fixed timestep $\Delta t$, diffusion destabilizes the system, increasing its eigenvalues. 
     Advection tends to stabilize the system, decreasing its eigenvalues. 
-    We find the eigenfunction amplitude $A^2$ such that the combination of diffusion and advection yields a new, ``evolved,'' marginally-stable mean temperature profile $\bar{T}(z, t_0 + \Delta t)$.}
+    We find the eigenfunction amplitude $A^2$ such that the combination of diffusion and advection yields a new, ``evolved,'' marginally-stable mean temperature profile $\bar{T}(z, t_0 + \Delta t)$. In this case $A^2 \approx 1$ due to approximately equal magnitudes of the diffused and advected eigenvalues.}
     \label{fig:iteration_spectra} 
 \end{figure}
 
 An iteration is performed as follows.
 Consider a marginally-stable temperature profile $\bar{T}(z, t_0)$.
 By definition, its maximum eigenvalue is 0.
-Diffusing $\bar{T}(z, t_0)$ tends to increase its eigenvalues.
-Ignoring the diffusive term and evolving according to advection tends the stabilize the system.
-The appropriate amplitude $A^2$ can then be approximated by
+Diffusing $\bar{T}(z, t_0)$ tends to increase its eigenvalues while ignoring the diffusive term and evolving according to advection tends the stabilize the system.
+$A$ must be selected such that these two influences are equal and opposite.
+We can measure the effects of diffusion and advection on the maximum eigenvalue by solving two new IVPs
+\begin{align}
+    &\frac{\partial \bar{T}_{\rm{diff}}}{\partial t} = \mathcal{P} \frac{\partial^2 \bar{T}_{\rm{diff}}}{\partial z^2} \\
+    &\frac{\partial \bar{T}_{\rm{adv}}}{\partial t} + \frac{\partial}{\partial z} \langle w'T' \rangle_x = 0 
+\end{align}
+where $\bar{T}_{\rm{diff}}$ and $\bar{T}_{\rm{adv}}$ denote to the diffused and advected temperature profiles.
+We initialize these IVPs with the marginally stable temperature of the current iteration.
+Suppose $\tilde{k_x}$ is the wavenumber of the marginally-stable mode.
+Then from the diffused and advected profiles, we compute the associated maximum eigenvalues of $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ at $k_x = \tilde{k_x}$.
+The appropriate amplitude $A^2$ can then be approximated by 
 \begin{equation}
-    A^2 \approx -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}} \label{EQ:amp_approx}
+    A^2 \approx A^2_0 = -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}} \label{EQ:amp_approx}
 \end{equation}
-
-\begin{equation}
-    \partial_t\bar{T} = \langle w'T' \rangle_x
-\end{equation}
-where $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ refer to the diffused and advected eigenvalues of the initially marginal mode.
+where the square in $A^2_0$ is due to the quadratic nonlinearity of the eigenfunctions in the advective term and the minus sign is due to the fact that $\sigma_{\rm{adv}} < 0$ and $\sigma_{\rm{diff}} < 0$ in general.
 We illustrate these trends in Figure~\ref{fig:iteration_spectra}. 
+The subscript 0 denotes a preliminary estimate which we later refine.
 $\bar{T}(z, t)$ is then evolved according to \eq{EQ:T0_IVP} and another eigenvalue solve is performed. 
 Given a fixed timestep $\Delta t$, we assume the dominant eigenvalue can be described by a continuous function $\sigma_{\rm{max}} (A^2)$ which is locally differentiable. 
 We use Newton's method to find an amplitude which satisfies our marginal stability tolerance criterion $|\sigma_{\rm{max}} (A^2)| < 10^{-9}$.
@@ -286,25 +294,23 @@ In section \ref{sec:multiple_modes} we specify procedures for the treatment of m
 
 \subsection{Treatment of multiple marginally-stable modes} \label{sec:multiple_modes}
 In most cases, we encounter eigenvalue spectra with multiple simultaneously marginal modes.
-If ignored, we are forced to reduce the timestep and allow the modes to alternate which is marginally stable.
-Instead, we generalize the advective term in \eq{EQ:T0_IVP} to accommodate $N$ simultaneously marginal modes
+To accommodate this we generalize the advective term in \eq{EQ:T0_IVP} to accommodate $N$ simultaneously marginal modes
 \begin{equation}
     \langle w' T' \rangle_x = \sum_{n = 1}^{N} 4 A_n^2 \int \, \Re\left[ W_n \theta_n^* \right] \,dz
 \end{equation}
 where $W_n$ and $\theta_n$ are the eigenmodes associated with $k_x = \frac{n\pi}{2}$. 
-There are now $N$ amplitudes to solve for and $N$ eigenvalues to keep marginally-stable. 
+There are now $N$ modes, each having their own amplitude to solve for and eigenvalue to keep marginally-stable. 
 Given a small fixed time step $\Delta t$, let $\vec{A^2}$ be the amplitude vector and $\vec{\sigma}(\vec{A^2})$ be the dependent eigenvalues.
 We expect a function $\vec{\sigma} \, : \, \mathbb{R}^N \to  \mathbb{R}^N$ to have isolated roots $\vec{\tilde{A}^2}$ (should they exist). 
-A coarse approximation $\vec{A^2_0}$ for the appropriate amplitude vector $\vec{\tilde{A}^2}$ is given by a generalized form of \eq{EQ:amp_approx}:
+A preliminary approximation $\vec{A^2_0}$ for the appropriate amplitude vector $\vec{\tilde{A}^2}$ is given by a generalized form of \eq{EQ:amp_approx}:
 \begin{equation}
     \vec{\tilde{A}^2} \approx \vec{A^2_0} = -\Sigma_{\rm{adv}}^{-1} \vec{\sigma_{\rm{diff}}}.
     \label{EQ:AN_approx}
 \end{equation}
 Here $\vec{\sigma_{\rm{diff}}} = \vec{\sigma} (\vec{0})$ refers to the eigenvalues after a brief $\Delta t$ period of diffusion. 
-$\Sigma_{\rm{adv}} \in \mathbb{R}^{N \times N}$ is the matrix of eigenvalues after $N$ periods of advection (one for each mode).
-% The $k$th row of $J_0$ is then given by the gradient of the $k$th mode's eigenvalue $\nabla \sigma_k$.
-In this way, an arbitrary element of $\Sigma_{\rm{adv}}$ represents how a particular mode's eigenvalue responds to the advection of another mode. 
-At the point of our coarse estimate $\vec{A^2_0}$, we approximate the Jacobian matrix 
+We account for the influence f $N$ advection terms on $N$ eigenvalues (one for each mode) by constructing an eigenvalue matrix $\Sigma_{\rm{adv}} \in \mathbb{R}^{N \times N}$.
+For example, the element of $\Sigma_{\rm{adv}}$ at row $i$ and column $j$ is given by the $i$th mode's eigenvalue due to advection by the $j$th mode's eigenfunctions. 
+At the point of our preliminary estimate $\vec{A^2_0}$, we approximate the Jacobian matrix 
 \begin{equation}
     J = \begin{bmatrix}
         \nabla \sigma_1 (A_1, A_2, ..., A_N) \\
@@ -314,14 +320,16 @@ At the point of our coarse estimate $\vec{A^2_0}$, we approximate the Jacobian m
     \end{bmatrix}
 \end{equation}
 via first-order finite differences, requiring $N^2$ more individual EVP solves.
-A refined estimate is then given by
+A once-refined estimate $\vec{A^2_1}$ is then given by
+% The $k$th row of $J_0$ is then given by the gradient of the $k$th mode's eigenvalue $\nabla \sigma_k$.
 \begin{equation}
     \vec{\tilde{A}^2} \approx \vec{A^2_1} = -J^{-1} \vec{\sigma}(\vec{A^2_0}).
 \end{equation}
-Once constructed, we use each subsequent guess to adjust the Jacobian via Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
+We then use each subsequent guess to adjust the Jacobian via Broyden's method for root-finding in multi-dimensional functions \cite{Broyden}.
 We find $\vec{\sigma}(\vec{A^2})$ does indeed have a unique root provided the time step is not too large and there are no numerical instabilities, as outlined in appendix \ref{sec:timestep}.
 Presumably this is due to the coupling of $\langle w'T' \rangle_x$ with $\bar{T}$.
 Over the course of a large time step, $\bar{T}$ evolves according to \eq{EQ:T0_IVP} and eventually the original eigenfunctions cease to provide a stabilizing influence.
+It is precisely for this reason why we must halt the IVP regularly to adjust the eigenfunctions and their amplitudes.
 
 Difficulty arises when transitioning between different numbers of marginal modes, particularly when stable modes become marginally-stable mid-iteration.
 We facilitate these transitions by defining an adjustable candidate tolerance $\varepsilon_{\rm{cand}} \in [10^{-6}, 10^{-8}]$.
