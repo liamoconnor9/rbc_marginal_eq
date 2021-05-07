@@ -250,9 +250,9 @@ At an arbitrary iteration beginning at $t = t_0$, we seek to evolve $\bar{T}(z, 
 To achieve this, we use a second-order, two-stage IMEX Runge-Kutta method.
 We initialize \eq{EQ:T0_IVP} with the previous iteration's solution to \eq{EQ:T0_IVP} and maintain marginal stability at each iteration.
 The eigenfunctions and amplitude are assumed to be constant over the timestep.
-Put simply, we can solve the IVP over long periods of time by stopping at each iteration to adjust the eigenfunctions and their amplitude $A$.
+We can solve the IVP over long periods of time by stopping regularly (at each iteration) to adjust the eigenfunctions and their amplitude $A$.
 It is essential that we pick the correct eigenfunction amplitude when calculating the advective term to maintain marginal stability.
-We will now illustrate our method of finding the appropriate $A^2$ through an example.
+We will now illustrate our method of finding the appropriate $A$ through an example.
 
 \begin{figure}
     \includegraphics[width=3.4in]{EV_spectrum_ol.png}
@@ -276,12 +276,12 @@ We can measure the effects of diffusion and advection on the maximum eigenvalue 
 where $\bar{T}_{\rm{diff}}$ and $\bar{T}_{\rm{adv}}$ denote to the diffused and advected temperature profiles.
 We initialize these IVPs with the marginally stable temperature of the current iteration.
 Suppose $\tilde{k_x}$ is the wavenumber of the marginally-stable mode.
-Then from the diffused and advected profiles, we compute the associated maximum eigenvalues of $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ at $k_x = \tilde{k_x}$.
+Then, using the diffused and advected profiles, we compute the eigenvalues $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ at $k_x = \tilde{k_x}$.
 The appropriate amplitude $A^2$ can then be approximated by 
 \begin{equation}
-    A^2 \approx A^2_0 = -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}} \label{EQ:amp_approx}
+    A^2 \approx A^2_0 \equiv -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}} \label{EQ:amp_approx}
 \end{equation}
-where the square in $A^2_0$ is due to the quadratic nonlinearity of the eigenfunctions in the advective term and the minus sign is due to the fact that $\sigma_{\rm{adv}} < 0$ and $\sigma_{\rm{diff}} < 0$ in general.
+where the square in $A^2_0$ is due to the quadratic nonlinearity of the eigenfunctions in the advective term and the minus sign is due to the fact that $\sigma_{\rm{adv}} < 0$ and $\sigma_{\rm{diff}} > 0$ in general.
 We illustrate these trends in Figure~\ref{fig:iteration_spectra}. 
 The subscript 0 denotes a preliminary estimate which we later refine.
 $\bar{T}(z, t)$ is then evolved according to \eq{EQ:T0_IVP} and another eigenvalue solve is performed. 
@@ -594,14 +594,29 @@ Computations were conducted with support by the NASA High End Computing (HEC) Pr
 \appendix
 
 \section{Initial buoyancy profile} \label{sec:initial_profile}
-We initialize the thermal-equilibration algorithm with \cite{Shishkina}'s analytical thermal boundary layer equation for turbulent Rayleigh-B\'enard convection, given by 
+We initialize the thermal-equilibration algorithm with an analytical thermal boundary layer equation, derived by \cite{Shishkina} 
 \begin{align}
-    \bar{T}_0(\xi) &= \frac{\sqrt{3}}{4\pi} \log \frac{(1 + a\xi)^3}{1 + (a\xi)^3} + \frac{3}{2\pi} \arctan \Big( \frac{4\pi}{9}\xi - \frac{1}{\sqrt{3}} \Big) + \frac{1}{4} \nonumber \\
-    \xi &= \frac{z}{\delta_0}, \qquad a = \frac{2\pi}{3\sqrt{3}}\label{EQ:T0}
+    \bar{\mathcal{T}}_0(\xi) &= \frac{\sqrt{3}}{4\pi} \log \frac{(1 + a\xi)^3}{1 + (a\xi)^3} + \frac{3}{2\pi} \arctan \Big( \frac{4\pi}{9}\xi - \frac{1}{\sqrt{3}} \Big) + \frac{1}{4} \nonumber \\
+    \xi &= \frac{z + 1/2}{\delta_0} \geq 0, \qquad a = \frac{2\pi}{3\sqrt{3}}\label{EQ:T0}
 \end{align}
 where $\delta_0$ is the boundary layer height. 
-We expect that each $\Ra$ is associated with a unique $\delta_0$ for which $\bar{T}_0(z)$ is marginally-stable. 
-It should be noted that when experimenting with various initial profiles $(\tanh, \rm{erf}, \rm{etc.})$, we obtain indistinguishable equilibrated states, implying that solutions may be unique. 
+This function is meant to describe the temperature near $z = -1/2$.
+It does not pass through the origin and it is undefined for $z > 0$. 
+An appropriate initial mean temperature profile $\bar{T}_0$ must be odd-symmetric, i.e.~$\bar{T}_0(-z) = -\bar{T}_0(z)$.
+Due to continuity, this implies $\bar{T}_0(0) = 0$.
+Accordingly, we construct $\bar{T}_0(z)$ by translating $\bar{\mathcal{T}}_0(z)$ vertically to pass through the origin.
+We then take its odd-extension and include a unique scaling coefficient to satisfy the boundary conditions $\bar{T}_0(-1/2) = 1/2$ and $\bar{T}_0(1/2) = -1/2$.
+The initial mean temperature profile is therefore given by
+\begin{align*}
+    \bar{T}_0(z) &= \frac{1}{2} \begin{cases}
+        1 - \frac{\bar{\mathcal{T}}_0\big(\frac{z + 1/2}{\delta_0}\big)}{\bar{\mathcal{T}}_0\big(\frac{1}{2\delta_0}\big)} \quad -1/2 \leq z \leq 0 \\[0.5cm]
+        -1 + \frac{\bar{\mathcal{T}}_0\big(\frac{1/2 - z}{\delta_0}\big)}{\bar{\mathcal{T}}_0\big(\frac{1}{2\delta_0}\big)} \quad 0 < z \leq 1/2.
+    \end{cases}
+\end{align*} 
+ We expect each $\Ra$ to be associated with a unique $\delta_0$ for which $\bar{T}_0(z)$ is marginally-stable. 
+It should be noted that when experimenting with various initial profiles $(\tanh, \rm{erf}, \rm{etc.})$, we obtain indistinguishable equilibrated states.
+Therefore these initial states lie in the MSTE basin of attraction.
+This might also suggest that solutions are unique. 
 An example of \eq{EQ:T0} is given by the blue curve in Figure~\ref{fig:T0_profiles}.
 
 % \begin{multicols}{1}
