@@ -134,7 +134,7 @@ They assume the background velocity evolves on a slow timescale, and to determin
 A similar strategy is employed by \cite{michel_chini_2019} to studying acoustic streaming.
 In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
 
-In this paper we solve the Rayleigh-B\'{e}nard convection problem using an analogous strategy.
+In this paper we derive and solve a quasilinear form of the Rayleigh-B\'{e}nard convection problem using a similar time-scale separation argument.
 In section~\ref{sec:model} we recall the underlying equations, and in section~\ref{sec:evolution} we describe how we evolve the background temperature profile while maintaining marginal stability.
 Section~\ref{sec:properties} describes the properties of the marginally-stable thermal equilibria, in particular how the Nusselt number and characteristic wavenumbers vary with the Rayleigh number.
 Finally, we describe the results of simulations initialized with marginally-stable thermal equilibria in section~\ref{sec:sims}, and conclude in section~\ref{sec:Discussion}.
@@ -228,7 +228,7 @@ But the evolution of $\bar{T}$ also influences the perturbations, as equation~\r
 Thus, the mean temperature and perturbations fields are coupled.
 
 \section{Perturbation Evolution}\label{sec:evolution}
-The linearized system \eqss{EQ:linear1}{EQ:linear3} cannot determine the amplitude of the eigenmodes, $A$.
+The linearized system \eqss{EQ:linear1}{EQ:linear3} does not constrain the amplitude of the eigenmodes, $A$.
 However, the advective heat flux is proportional to $A^2$, so we need to specify the amplitude in order to solve equation~\ref{EQ:T0_IVP}.
 To evolve $\bar{T}$, we assume the perturbations evolve on a much faster timescale than the mean temperature, as in \cite{michel_chini_2019}.
 Stable modes $(\sigma < 0)$ decay away rapidly. 
@@ -292,11 +292,11 @@ This agrees with the conventional notion of exchange of stabilities \cite{drazin
 Crucially, we do not assume the $k_x$ of the marginally-stable mode is fixed.
 In section \ref{sec:multiple_modes} we specify procedures for the treatment of multiple simultaneously marginal modes.
 
-\subsection{Treatment of multiple marginally-stable modes} \label{sec:multiple_modes}
+\subsection{Treatment of Multiple Marginally-Stable Modes} \label{sec:multiple_modes}
 In most cases, we encounter eigenvalue spectra with multiple simultaneously marginal modes.
 To accommodate this we generalize the advective term in \eq{EQ:T0_IVP} to accommodate $N$ simultaneously marginal modes
 \begin{equation}
-    \langle w' T' \rangle_x = \sum_{n = 1}^{N} 4 A_n^2 \int \, \Re\left[ W_n \theta_n^* \right] \,dz
+    \langle w' T' \rangle_x = \sum_{n = 1}^{N} 2 A_n^2  \Re\left[ W_n \theta_n^* \right] 
 \end{equation}
 where $W_n$ and $\theta_n$ are the eigenmodes associated with $k_x = \frac{n\pi}{2}$. 
 There are now $N$ modes, each having their own amplitude to solve for and eigenvalue to keep marginally-stable. 
@@ -333,15 +333,15 @@ It is precisely for this reason why we must halt the IVP regularly to adjust the
 
 Difficulty arises when transitioning between different numbers of marginal modes, particularly when stable modes become marginally-stable mid-iteration.
 We facilitate these transitions by defining an adjustable candidate tolerance $\varepsilon_{\rm{cand}} \in [10^{-6}, 10^{-8}]$.
-We rely on $A^2 > 0$ by asserting that a mode which meets the candidate tolerance can be included as a candidate marginal mode.
-If the candidate mode's amplitude turns out to be positive, the candidate mode is now marginally-stable and can be regularly included in the subsequent iteration.
-If however we converge on a negative amplitude, the candidate mode must be discarded and the iteration is repeated. 
+A mode which meets the candidate tolerance can be included as a candidate marginal mode.
+Candidate modes are rejected when the root-finding algorithm converges on a negative amplitude $A^2 < 0$.
+Otherwise the mode becomes marginally-stable.
 
 After several time steps, $\bar{T}$ tends to asymmetrize due to numerical noise. 
 Though asymmetric pairs of solutions may exist, we further constrain $\bar{T}$ by setting the coefficients of its even Chebyshev basis functions to zero at the start of each iteration.
 
 \section{Properties of Thermally Equilibrated States}\label{sec:properties}
-We evolve $\bar{T}$ as described above until $\max\{|\partial_{t}\bar{T}|\} < 10^{-5}$.
+We evolve $\bar{T}$ as described above until $\max|\partial_{t}\bar{T}| < 10^{-5}$.
 In this marginally-stable thermal equilibrium, $\bar{T}$ does not evolve in time, and the perturbations also do not evolve in time, as they are marginally stable.
 Thus, these configurations are exact solutions to the quasilinear equations (equations~\ref{EQ:T0_IVP}--\ref{EQ:linear3}).
 They differ from the usual ECS in that ECS are fixed points of the full nonlinear problem \eqss{EQ:motion1}{EQ:motion3}. 
@@ -409,16 +409,17 @@ However, since we have fixed the horizontal size of our domain, we are left with
     \includegraphics[width=3.4in]{kx_m_ra1.png}
     \caption{Wavenumbers of marginally-stable modes in thermally equilibrated states. 
     Marginal modes often appear in adjacent pairs, which we denote with a common color. 
+    Within each of these pairs, the largest and smallest $k_x$ are denoted with an + and x respectively.
     For example, the spectrum corresponding to $\Ra = 10^5$ has adjacent marginal wavenumbers $k_x = \pi, \, 1.5\pi$. 
     The $\Ra = 10^9$ spectrum, shown in lower right corner of Figure~\ref{fig:flux}, has three groups of maxima, with a single marginal mode in the first group ($k_x = 1.5\pi$), two adjacent marginal modes in the second group ($k_x = 6\pi, \, 6.5\pi$), and two adjacent marginal modes in the third group ($k_x = 23.5\pi, \, 24\pi$). 
-    The largest wavenumbers of the green branch obey a power-law relationship with $\Ra$}
+    The largest wavenumbers of the green branch obey a power-law relationship $\max\{k_x\} \propto \Ra^{0.300}$ with $R^2 = 0.998$.}
     \label{fig:kx_marginals}
 \end{figure}
 
 MSTE for large $\Ra$ tend to have a diverse combination of marginal modes.
 In every case, the $k_x = 1.5\pi$ mode is included. 
 In Figure~\ref{fig:kx_marginals} we give the wavenumbers $k_x$ of marginal modes. 
-Sometimes we find two marginally-stable modes with wavenumbers separated by $\pi/2$.
+For some values of $\Ra$ we obtain states with pairs marginally-stable modes, with wavenumbers separated by $\pi/2$.
 Like $k_x = 6\pi, \, 6.5\pi$ and $k_x=23.5\pi, \, 24\pi$ for the $\Ra=10^9$ MSTE, these are due to the discretization of wavenumbers from our domain of width 4.
 We think of the pairs of modes as acting together as part of a single maximum of the growth rate as a function of the wavenumber.
 When wavenumbers are adjacent, we plot them in the same color and denote the larger mode with an x and the smaller with a +.
@@ -448,7 +449,7 @@ We define the boundary layer width $\delta$ as the distance from the boundary wh
 \left.\frac{\partial \bar{T}}{\partial z}\right|_{z=-\frac{1}{2}+\delta} = 0.
 \end{align}
 This height corresponds to the local extrema of the MSTE temperature profile, e.g., in Figure~\ref{fig:T0_profiles}.
-In Figure~\ref{fig:del_inv}, we show $\max \{ k_x\}$ is proportional to $\delta$ over our range of $\Ra$.
+In Figure~\ref{fig:del_inv}, we show $\max \{ k_x\}$ is proportional to $\delta^{-1}$ over our range of $\Ra$.
 Least-squares regression gives $\delta^{-1} = 1.71 \max \{ k_x \} - 2.13$ with $R^2 = 0.996$.
 We can assume from this length scale agreement that the mean-squared $x$ and $z$ components of the temperature and velocity gradients are proportional
 \begin{align}
@@ -529,7 +530,7 @@ This is due to a burst of turbulence which occurs when the convective motions fi
 A simulation initialized with the MSTE, however, does not exhibit this transient burst of turbulence, as the large-scale anatomy of convective cells exists on initialization. 
 Simulation of this transitional period is prohibitive \cite{Anders_AE}. 
 For high $\Ra$ experiments, researchers often ``bootstrap" data by initializing simulations with the results of similar $\Ra$ runs \cite{Verzicco, Johnston}. 
-MSTE can be perceived as a set of initial conditions, designed for avoiding the simulation of transitional high Reynolds number flows.
+MSTE can be perceived as a set of initial conditions, designed for avoiding the simulation of transient high Reynolds number flows.
 
 MSTE are laminar, lacking the small-scale structures associated with moderate to high $\Ra$ experiments. 
 This is an apparent consequence of the quasilinear assumptions. 
@@ -559,7 +560,7 @@ This suggests the MSTE background state perspective is partially flawed, as a mo
 \section{Discussion}\label{sec:Discussion}
 In this paper we describe a new way to study Rayleigh–Bénard convection. 
 We compute marginally-stable thermal equilibria (MSTE), which are equilibria of the quasilinear equations.
-To compute MSTE, we construct a marginally-stable mean temperature profile and evolved it according to the advective flux of its marginally-stable eigenfunctions, and its own diffusion. 
+To compute MSTE, we construct a marginally-stable mean temperature profile and evolve it according to the advective flux of its marginally-stable eigenfunctions, and its own diffusion. 
 We assume that at least some modes are always in a marginally-stable configuration. 
 The marginal stability constraint then fixes the ratio between advection and diffusion (eigenfunction amplitude $A^2$). 
 We use standard root-finding algorithms to solve for the appropriate $A^2$ at each iteration, until, the fixed combination of diffusion and advection sum to a constant flux.
@@ -568,13 +569,13 @@ Thus, they can be calculated on a single workstation.
 
 The MSTE retain several key features that are prevalent in experiments and simulations: $\Nu \sim\Ra^{1/3}$ scaling, large-scale convective cell structures, and minimum length scale agreement. 
 They also exhibit unique and unexpected features: mean temperature gradient-reversals/dips, high kinetic energy flows, and a larger $\Nu$ than other time-invariant solutions. 
-When initializing with different mean temperature profiles, we found the same MSTE, suggesting these equilibria might be unique.
+When initializing with different mean temperature profiles, we find the same MSTE, suggesting these equilibria might be unique.
 
 Simulations initialized with the MSTE \eq{EQ:mste_ic} do not undergo an early convective transient period, but have faster flows when compared with DNS.
 From a dynamical systems perspective, unstable orbits depart from MSTE and approach the global attractor on a viscous time-scale.
 This requires more computational effort to achieve relaxation when compared to the conventional conductive initial condition \eq{EQ:linear_ic}.
 
-As previously noted, using the mean temperature in a statistically-steady DNS as a background state for an eigenvalue problem yields positive eigenvalues: the system is in a perpetual state of instability. 
+Using the mean temperature in a statistically-steady DNS as a background state for an eigenvalue problem yields positive eigenvalues: the system is in a perpetual state of instability. 
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
 We might curtail the disagreement between MSTE and DNS by adjusting our marginal-stability criterion. 
 Should the fast and slow time scales not be entirely separate, we might anticipate the long-term persistance of moderately unstable modes. 
@@ -593,7 +594,7 @@ Computations were conducted with support by the NASA High End Computing (HEC) Pr
 
 \appendix
 
-\section{Initial buoyancy profile} \label{sec:initial_profile}
+\section{Initial Buoyancy Profile} \label{sec:initial_profile}
 We initialize the thermal-equilibration algorithm with an analytical thermal boundary layer equation, derived by \cite{Shishkina} 
 \begin{align}
     \bar{\mathcal{T}}_0(\xi) &= \frac{\sqrt{3}}{4\pi} \log \frac{(1 + a\xi)^3}{1 + (a\xi)^3} + \frac{3}{2\pi} \arctan \Big( \frac{4\pi}{9}\xi - \frac{1}{\sqrt{3}} \Big) + \frac{1}{4} \nonumber \\
@@ -619,86 +620,38 @@ Therefore these initial states lie in the MSTE basin of attraction.
 This might also suggest that solutions are unique. 
 An example of \eq{EQ:T0} is given by the blue curve in Figure~\ref{fig:T0_profiles}.
 
-% \begin{multicols}{1}
+\section{Timestep Management} \label{sec:timestep}
+Timesteps don't manage themselves! $\blacksquare$
+
+\onecolumngrid
 \section{MSTE Metrics}\label{sec:tables}
-\begin{longtable*}{cccccc}
+
+\begin{longtable*}{ccccl}
     %\begin{tabular}{cccccc}
     %\hline
     %\begin{longtable}[c]{@{}*{6}{>{\arraybackslash}p{0.15\linewidth}}@{}}
-    \quad\quad\quad Ra	\quad\quad\quad	&	\quad\quad\quad		Pr	\quad\quad\quad		&	\quad\quad\quad		$k=2\pi/\Gamma$	\quad\quad\quad		&	\quad\quad\quad		$N_x \times N_z$	\quad\quad\quad		&	\quad\quad\quad		Nu	\quad\quad\quad		&	\quad\quad\quad		Re	\quad\quad\quad\\
+    \quad\quad\quad $\Ra$	\quad\quad\quad	&	\quad\quad\quad		$N_z$	\quad\quad\quad		&	\quad\quad\quad		$\Nu$	\quad\quad\quad		&	\quad\quad\quad		$\delta_0$	\quad\quad\quad		&	\quad\quad		$k_x$ marginals	\quad\quad\quad\\
     %\hline
-    $10^{13/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.056590	&	1.617336\\
-    $1.9\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.145807	&	2.682155\\
-    $2\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.212037	&	3.317190\\
-    $2.25\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.355410	&	4.550975\\
-    $2.5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.474455	&	5.537770\\
-    $2.75\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.575599	&	6.391812\\
-    $3\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.663162	&	7.159844\\
-    $10^{14/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.714193	&	7.624400\\
-    $3.5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.808754	&	8.526064\\
-    $4\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	1.926775	&	9.740578\\
-    $4.5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.025985	&	10.85141\\
-    $5\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.111714	&	11.88534\\
-    $10^{15/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.204811	&	13.09152\\
-    $8\times10^3$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.476330	&	17.05494\\
-    $10^4$	&	1	&	$\pi$	&	128 $\times$ 65	&	2.648664	&	20.07400\\
-    $10^{17/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	3.122843	&	29.50047\\
-    $10^{18/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	3.665041	&	42.29585\\
-    $10^{19/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	4.287042	&	59.56858\\
-    $10^{5}$	&	1	&	$\pi$	&	128 $\times$ 65	&	4.994322	&	82.84462\\
-    $10^{21/4}$	&	1	&	$\pi$	&	128 $\times$ 65	&	5.795869	&	114.2355\\
-    $10^{22/4}$	&	1	&	$\pi$	&	128 $\times$ 97	&	6.703915	&	156.5252\\
-    $10^{23/4}$	&	1	&	$\pi$	&	128 $\times$ 97	&	7.732236	&	213.4031\\
-    $10^{6}$	&	1	&	$\pi$	&	128 $\times$ 97	&	8.896615	&	289.7982\\
-    $10^{25/4}$	&	1	&	$\pi$	&	256 $\times$ 97	&	10.21546	&	392.2837\\
-    $10^{26/4}$	&	1	&	$\pi$	&	256 $\times$ 129	&	11.71065	&	529.6372\\
-    $10^{27/4}$	&	1	&	$\pi$	&	256 $\times$ 129	&	13.40898	&	713.6005\\
-    $10^{7}$	&	1	&	$\pi$	&	512 $\times$ 129	&	15.34493	&	959.9367\\
-    $1.35\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 129	&	16.46456	&	1119.932\\
-    $1.5\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 129	&	16.87881	&	1182.172\\
-    $1.6\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.13944	&	1222.005\\
-    $1.65\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.26636	&	1241.484\\
-    $1.7\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.39216	&	1260.709\\
-    $1.736\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.48282	&	1274.414\\
-    $1.76\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.54351	&	1283.493\\
-    $10^{29/4}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.58987	&	1290.377\\
-    $1.786\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.60946	&	1293.277\\
-    $1.8\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.64500	&	1298.522\\
-    $1.85\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.77160	&	1317.122\\
-    $1.9\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	17.89693	&	1335.501\\
-    $1.95\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	18.02044	&	1353.657\\
-    $2\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	18.14193	&	1371.593\\
-    $2.4\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	19.04221	&	1507.890\\
-    $2.8\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	19.83413	&	1633.418\\
-    $10^{30/4}$	&	1	&	$\pi$	&	512 $\times$ 193	&	20.47798	&	1739.647\\
-    $4.5\times10^{7}$	&	1	&	$\pi$	&	512 $\times$ 193	&	22.44036	&	2087.182\\
-    $10^{31/4}$	&	1	&	$\pi$	&	512 $\times$ 193	&	23.76002	&	2340.822\\
-    $10^{8}$	&	1	&	$\pi$	&	768 $\times$ 257	&	27.50669	&	3144.931\\
-    $10^{33/4}$	&	1	&	$\pi$	&	768 $\times$ 257	&	31.81154	&	4220.616\\
-    $2.15\times10^{8}$	&	1	&	$\pi$	&	768 $\times$ 257	&	33.36657	&	4649.541\\
-    $10^{34/4}$	&	1	&	$\pi$	&	768 $\times$ 257	&	36.75427	&	5658.648\\
-    $4.64\times10^{8}$	&	1	&	$\pi$	&	896 $\times$ 321	&	40.44652	&	6875.704\\
-    $10^{35/4}$	&	1	&	$\pi$	&	896 $\times$ 321	&	42.42917	&	7580.057\\
-    $10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	48.94284	&	10145.79\\
-    $10^{37/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	56.42926	&	13571.10\\
-    $2.15\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	59.13988	&	14935.81\\
-    $2.5\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	61.38714	&	16116.94\\
-    $10^{38/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	65.06338	&	18145.61\\
-    $10^{153/16}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	67.42466	&	19511.79\\
-    $4\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	68.96487	&	20429.24\\
-    $4.64\times10^{9}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	71.58241	&	22019.93\\
-    $10^{39/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	75.09725	&	24262.22\\
-    $10^{10}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	86.68318	&	32430.06\\
-    $10^{41/4}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	100.0909	&	43339.02\\
-    $2\times10^{10}$	&	1	&	$\pi$	&	1024 $\times$ 321	&	103.0738	&	45995.60\\
-    $2.15\times10^{10}$ &	1	&	$\pi$	&	1024 $\times$ 321	&	104.9517	&	47705.08\vspace{0.1in}\\
+    1.00E+05 & 256   & 5.9343  & 0.15746 \;    &   \; 1$\pi$, 1.5$\pi$ \\
+    2.00E+05 & 256   & 7.45986 & 0.12341 \;    &   \; 1.5$\pi$ \\
+    4.00E+05 & 256   & 8.92597 & 0.10395 \;    &   \; 1.5$\pi$ \\
+    1.00E+06 & 256   & 11.6689 & 0.07922 \;    &   \; 1.5$\pi$, 2.5$\pi$, 3$\pi$ \\
+    2.00E+06 & 256   & 14.8463 & 0.06345 \;    &   \; 1.5$\pi$, 3.5$\pi$ \\
+    4.00E+06 & 256   & 18.9433 & 0.04933 \;    &   \; 1.5$\pi$, 4.5$\pi$ \\
+    1.00E+07 & 256   & 25.6821 & 0.03632 \;    &   \; 1.5$\pi$, 5.5$\pi$ \\
+    2.00E+07 & 256   & 32.4531 & 0.02820 \;    &   \; 1.5$\pi$, 6.5$\pi$, 7$\pi$\\
+    4.00E+07 & 512   & 40.7925 & 0.02289 \;    &   \; 1.5$\pi$, 8$\pi$, 8.5$\pi$ \\
+    1.00E+08 & 512   & 55.4383 & 0.01690 \;    &   \; 1.5$\pi$, 4.5$\pi$, 10.5$\pi$, 11$\pi$\\
+    2.00E+08 & 512   & 69.8349 & 0.01318 \;    &   \; 1.5$\pi$, 5$\pi$, 13.5$\pi$, 14$\pi$ \\
+    4.00E+08 & 512   & 87.8525 & 0.01053 \;    &   \; 1.5$\pi$, 5.5$\pi$,17.5$\pi$ \\
+    1.00E+09 & 768   & 119.318 & 0.00817 \;    &   \; 1.5$\pi$, 6.0$\pi$, 6.5$\pi$, 23.5$\pi$, 24$\pi$ \\\vspace{0.1in}\\
     %\hline
     %  \end{tabular}
-    \caption*{Table S1: Details for numerical solutions with $\Pran=1$ and $\Gamma=2$.  $N_x$ and $N_z$ represent the numbers of Fourier and Chebyshev modes, respectively.}
-    {\label{tab:Gamma2}}
+    \caption{Control parameters are given for the timestepping algorithm. $N_z$ denotes the number of Chebyshev basis functions employed. The remaining quantities are derived directly from MSTE solutions.}
+    {\label{tab:metrics}}
     \end{longtable*}
-% \end{multicols}
 
+\twocolumngrid
 
 % \bibliographystyle{plain}
 \bibliography{he}
