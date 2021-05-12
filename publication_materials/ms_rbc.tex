@@ -104,7 +104,7 @@ $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, North
     These marginally-stable thermal equilibria (MSTE) are exact solutions of the quasilinear equations.
     The mean temperature profile has thinner boundary layers and larger Nusselt numbers than thermally-equilibrated 2D and 3D simulations of the full nonlinear equations.
     We find the Nusselt number scales like $\Nu \sim\Ra^{1/3}$.
-    When an MSTE is used as initial conditions for a 2D simulation, we find that Nu quickly equilibrates without the burst of turbulence often induced by purely conductive initial conditions, but we also find that the kinetic energy is too large and viscously attenuates on a long viscous timescale.
+    When an MSTE is used as initial conditions for a 2D simulation, we find that Nu quickly equilibrates without the burst of turbulence often induced by purely conductive initial conditions, but we also find that the kinetic energy is too large and viscously attenuates on a long viscous time-scale.
 \end{abstract}
 
 \maketitle
@@ -130,7 +130,7 @@ This approximation neglects the influence of nonlinear interactions between the 
 This renders the perturbation equations linear.
 Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
 In \cite{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
-They assume the background velocity evolves on a slow timescale, and to determine the perturbation amplitudes they require marginal stability at each timestep.
+They assume the background velocity evolves on a slow time-scale, and to determine the perturbation amplitudes they require marginal stability at each timestep.
 A similar strategy is employed by \cite{michel_chini_2019} to studying acoustic streaming.
 In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
 
@@ -140,7 +140,7 @@ Section~\ref{sec:properties} describes the properties of the marginally-stable t
 Finally, we describe the results of simulations initialized with marginally-stable thermal equilibria in section~\ref{sec:sims}, and conclude in section~\ref{sec:Discussion}.
  
 \section{Model Setup}\label{sec:model}
-We begin with the Boussinesq approximation for Rayleigh-Bénard Convection, nondimensionalized on the freefall timescale. 
+We begin with the Boussinesq approximation for Rayleigh-Bénard Convection, nondimensionalized on the freefall time-scale. 
 The domain $\mathcal{D}$ is 2-dimensional, rectangular, and horizontally periodic with spatial dimensions $0 \leq x < 4$ and $-1/2 < z < 1/2$. 
 The fluid of interest is constrained between two flat boundaries at $z = -1/2$ and $z = 1/2$ with fixed temperatures $1/2$ and $-1/2$ respectively. 
 At both boundaries we specify impenetrable, no-slip conditions, such that the velocity $\vec{u} = u \hat{x} + w \hat{z} = \vec{0}$ at $z = \pm 1/2$, where $\hat{x}, \hat{z}$ are the unit vectors in the $x$ and $z$ directions. 
@@ -152,7 +152,7 @@ The equations of motion are then given by
 \end{align}
 where $p$ is pressure and $T$ is temperature. 
 For completeness, we specify a final boundary condition $p = p_0$ at $z = \pm 1/2$. 
-Any system of this form can be characterized by its dimensionless Rayleigh number $\Ra = \frac{g\alpha L^3 \Delta T}{\nu \kappa}$ and Prandtl number $\Pr = \frac{\nu}{\kappa}$, where $g, \, \alpha, \, L, \, \Delta T, \nu, \kappa$ are the gravitational acceleration, coefficient of thermal expansion, domain height, opposed temperature difference, kinematic viscosity, and thermal diffusivity respectively. 
+Any system of this form can be characterized by its dimensionless Rayleigh number $\Ra = \frac{g\alpha L^3 \Delta T}{\nu \kappa}$ and Prandtl number $\Pr = \frac{\nu}{\kappa}$, where $g, \, \alpha, \, L_z, \, \Delta T, \nu, \kappa$ are the gravitational acceleration, coefficient of thermal expansion, domain height, opposed temperature difference, kinematic viscosity, and thermal diffusivity respectively. 
 In this paper, we fix $\Pr = 1$.
 For convenience, we define
 \begin{equation}
@@ -230,10 +230,10 @@ Thus, the mean temperature and perturbations fields are coupled.
 \section{Perturbation Evolution}\label{sec:evolution}
 The linearized system \eqss{EQ:linear1}{EQ:linear3} does not constrain the amplitude of the eigenmodes, $A$.
 However, the advective heat flux is proportional to $A^2$, so we need to specify the amplitude in order to solve equation~\ref{EQ:T0_IVP}.
-To evolve $\bar{T}$, we assume the perturbations evolve on a much faster timescale than the mean temperature, as in \cite{michel_chini_2019}.
+To evolve $\bar{T}$, we assume the perturbations evolve on a much faster time-scale than the mean temperature, as in \cite{michel_chini_2019}.
 Stable modes $(\sigma < 0)$ decay away rapidly. 
-Unstable modes $(\sigma > 0)$ will not persist on the slow timescale because the advective term $\langle w'T' \rangle_x$ tends to stabilize $\bar{T}$, thereby creating a negative feedback loop.
-Only marginally stable modes can be maintained on the slow timescale.
+Unstable modes $(\sigma > 0)$ will not persist on the slow time-scale because the advective term $\langle w'T' \rangle_x$ tends to stabilize $\bar{T}$, thereby creating a negative feedback loop.
+Only marginally stable modes can be maintained on the slow time-scale.
 Therefore the amplitude $A$ must satisfy
 \begin{equation}
     \max_{k_x} \{ \sigma \} = 0.
@@ -241,7 +241,7 @@ Therefore the amplitude $A$ must satisfy
 
 For various $\Ra$ and fixed $\Pr = 1$, we seek marginally-stable thermal equilibria (MSTE) satisfying $\frac{\partial \bar{T}}{\partial t} = 0$ according to \eq{EQ:T0_IVP}. 
 We employ the \texttt{Dedalus} pseudo-spectral python framework \cite{Dedalus_2020} to solve the EVP outlined in Section \ref{sec:model} as well as the IVP \eq{EQ:T0_IVP}.
-We represent each field with Chebyshev polynomials use the 3/2 dealiasing rule to calculate the advective heat flux.
+We represent each field with Chebyshev polynomials and use the 3/2 dealiasing rule to calculate the advective heat flux.
 The necessary number of basis functions increases with $\Ra$ as the eigenfunctions include increasingly small-scale features. 
 We use the \texttt{Eigentools} package \cite{Eigentools} to manipulate the eigenfunctions and calculate the advective heat flux $\langle w' T' \rangle_x$.
 
@@ -259,7 +259,7 @@ We will now illustrate our method of finding the appropriate $A$ through an exam
     \caption{Eigenvalue spectra for $\Ra = 10^5$. The spectrum of an ``initial" marginally-stable mean temperature profile $\bar{T}(z, t_0)$ has a maximum eigenvalue of 0. 
     Given a small fixed timestep $\Delta t$, diffusion destabilizes the system, increasing its eigenvalues. 
     Advection tends to stabilize the system, decreasing its eigenvalues. 
-    We find the eigenfunction amplitude $A^2$ such that the combination of diffusion and advection yields a new, ``evolved,'' marginally-stable mean temperature profile $\bar{T}(z, t_0 + \Delta t)$. In this case $A^2 \approx 1$ due to approximately equal magnitudes of the diffused and advected eigenvalues.}
+    We find the eigenfunction amplitude $A^2$ such that the combination of diffusion and advection yields a new, ``evolved'', marginally-stable mean temperature profile $\bar{T}(z, t_0 + \Delta t)$. In this case $A^2 \approx 1$ due to approximately equal magnitudes of the diffused and advected eigenvalues.}
     \label{fig:iteration_spectra} 
 \end{figure}
 
@@ -436,8 +436,8 @@ The blue branch is associated with moderately wide advection profiles, filling a
     \caption{For $\Ra \geq 10^6$, the maximum marginally-stable wavenumber (corresponding to the green x markers in Figure~\ref{fig:kx_marginals}) are inversely related to the boundary layer height $\delta$. 
     $(\max \{ k_x \})^{-1}$ gives a minimum $x$ length scale for the perturbations, and consequently, the advection. 
     For large $\Ra$, the boundary layers admit small scale features, requiring more vertical basis functions (higher resolution).
-    The boundary layer width gives an estimate of the minimum vertical lengthscale in the problem.
-    This suggests that the minimum horizontal and vertical lengthscales are proportional to each other over a wide range of $\Ra$.}
+    The boundary layer width gives an estimate of the minimum vertical length-scale in the problem.
+    This suggests that the minimum horizontal and vertical length-scales are proportional to each other over a wide range of $\Ra$.}
     \label{fig:del_inv}
 \end{figure}
 
@@ -514,23 +514,26 @@ where $\theta_n(z), U_n(z), W_n(z), P_n(z); \, A_n; $ and $k_{x_n}$ refer to the
 Note that although the MSTE is an equilibrium of the quasilinear equations, it is not an equilibrium of the full nonlinear equations.
 Accordingly the simulation state would evolve on initialization absent a random noise term.
 Here we include noise as a source of asymmetries. 
+We also perform a simulation with MSTE absent any initial velocity ($\vec{u}(x, z)|_{t=0} = \vec{0}$). 
+This state is not in equilibrium but we refer to it as ``MSTE No Flow'' for clarity.
 
 \begin{figure}
-    \begin{minipage}{3.4in}
-        \centering
-        \includegraphics[width=3.4in]{sim_eq_nu.png}
-        \caption{Nusselt numbers of simulations performed at $\Ra = 10^8$, initialized with the conductive equilibrium plus thermal noise (black) and the MSTE (blue). 
-        MSTE simulations do not undergo a convective-transient period because the characteristic large-scale convective cell structure exists on initialization.}
-        \label{fig:nu_sim}
-    \end{minipage}
+    \centering
+    \includegraphics[width=3.4in]{sim_eq_nu_noflow.png}
+    \caption{Nusselt numbers of simulations performed at $\Ra = 10^8$, initialized with the conductive equilibrium plus thermal noise (black), the MSTE (blue), and the MSTE absent initial flow (green). 
+    The MSTE simulation does not undergo a convective-transient period because the characteristic large-scale convective cell structure exists on initialization.
+    The MSTE no flow simulation exhibits quasi-periodic oscillations in $\Nu$ which appear to persist for long times.}
+    \label{fig:nu_sim}
 \end{figure}
 
 Simulations initialized with the conductive equilibrium plus low-amplitude thermal noise have a large peak in $\Nu$ early on in their evolution (Figure~\ref{fig:nu_sim}).
 This is due to a burst of turbulence which occurs when the convective motions first become nonlinear.
+The MSTE no flow simulation undergoes a similar transient period, albeit less pronounced as denoted by the smaller peak in the green curve.
 A simulation initialized with the MSTE, however, does not exhibit this transient burst of turbulence, as the large-scale anatomy of convective cells exists on initialization. 
 Simulation of this transitional period is prohibitive \cite{Anders_AE}. 
 For high $\Ra$ experiments, researchers often ``bootstrap" data by initializing simulations with the results of similar $\Ra$ runs \cite{Verzicco, Johnston}. 
 MSTE can be perceived as a set of initial conditions, designed for avoiding the simulation of transient high Reynolds number flows.
+MSTE absent velocity achieve the same goal but give way to seemingly-persistent oscillations in $\Nu$. 
 
 MSTE are laminar, lacking the small-scale structures associated with moderate to high $\Ra$ experiments. 
 This is an apparent consequence of the quasilinear assumptions. 
@@ -539,21 +542,24 @@ This perspective agrees with conventional models of transitions to turbulent flo
 We could also attribute the diffuse DNS temperature profile in Figure~\ref{fig:T0_profiles} with unsteady boundary-layer penetration and mixing that MSTE do not exhibit.
 
 \begin{figure}
-    \begin{minipage}{3.4in}
-        \centering
-        \includegraphics[width=3.4in]{sim_eq_ke.png}
-        \caption{Average kinetic energies are reported for the same simulations illustrated in Figure~\ref{fig:nu_sim} ($\Ra = 10^8$). 
-        The eigenfunctions belonging to MSTE have significantly more kinetic energy than the statistically-steady state. 
-        Kinetic equilibrium is achieved on the viscous time-scale $t_{\nu} \sim \sqrt{\Ra / \Pr}$.}
-        \label{fig:ke_sim}
-    \end{minipage}
+    \centering
+    \includegraphics[width=3.4in]{sim_eq_ke_noflow.png}
+    \caption{Average kinetic energies are reported for the same simulations illustrated in Figure~\ref{fig:nu_sim} ($\Ra = 10^8$). 
+    The eigenfunctions belonging to MSTE have significantly more kinetic energy than the statistically-steady state. 
+    Kinetic equilibrium is achieved on the viscous time-scale.}
+    \label{fig:ke_sim}
 \end{figure}
 
-We also find that the average kinetic energies of simulations initialized with MSTE are significantly larger than those found in simulations initialized with the conductive state plus noise, as shown Figure~\ref{fig:ke_sim}. 
-This is because the MSTE contain strong large-scale flows, which decay on a viscous time-scale
-\begin{equation}
-    t_{\nu} \sim \sqrt{\frac{\Ra}{\Pr}}. \nonumber
-\end{equation}
+We also find that the average kinetic energies of simulations initialized with MSTE are significantly larger than those found in simulations initialized with no-flow MSTE and with the conductive state plus noise, as shown Figure~\ref{fig:ke_sim}. 
+This is because the MSTE contain strong large-scale flows, which decay on a viscous time-scale $t_{\nu}$. Two viscous time-scales can be derived for this problem: one for the boundary layer 
+\begin{align*}
+    t_{\nu,\delta} &= \frac{L_z}{\mathcal{P}} = 10^4
+\end{align*}
+\begin{align*}
+    \intertext{and another for the entire domain}
+    t_{\nu,\mathcal{D}} &= \frac{\delta^2_0}{\mathcal{P}} = 2.8561.
+\end{align*}
+Empirically, we find $t_{\nu} \approx 200$ suggesting the true kinetic energy decary time-scale is based on a length scale which is longer than the boundary layer weight $\delta_0$ but shorter than the domain height $L_z$.
 Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically-steady state---rather they increase it considerably!
 This suggests the MSTE background state perspective is partially flawed, as a more useful background state would approximate the kinetic energy with more fidelity.
 
@@ -616,12 +622,31 @@ The initial mean temperature profile is therefore given by
 \end{align*} 
  We expect each $\Ra$ to be associated with a unique $\delta_0$ for which $\bar{T}_0(z)$ is marginally-stable. 
 It should be noted that when experimenting with various initial profiles $(\tanh, \rm{erf}, \rm{etc.})$, we obtain indistinguishable equilibrated states.
-Therefore these initial states lie in the MSTE basin of attraction.
+Therefore these initial states lie in the MSTE basin of attraction with respect to the quasilinear system.
 This might also suggest that solutions are unique. 
 An example of \eq{EQ:T0} is given by the blue curve in Figure~\ref{fig:T0_profiles}.
 
-\section{Timestep Management} \label{sec:timestep}
-Timesteps don't manage themselves! $\blacksquare$
+\section{Numerical Instabilities and Timestep Management} \label{sec:timestep}
+A suitable timestep $\Delta t$ must be selected at the start of each iteration.
+For sufficiently large $\Delta t$, we find the advective flux terms fail to provide a stabilizing influence.
+This is due to coupling between the eigenfunctions $W(z)$, $\Theta(z)$ and the mean temperature profile $\bar{T}$.
+In the context of our algorithm, this effectively deletes the sought-after root of the maximum eigenvalue function $\sigma_{\rm{max}}(A^2)$ causing the root-finding methods to fail. 
+This is not a numerical instability, rather, it is a limitation of our timestepping algorithm.
+To curtail this, we halt the root-finding algorithms after 20 successive approximations in order to reduce the timestep by a factor of $1.1$.
+The iteration is then repeated.
+
+In general however, the timestep must be limited more strictly to avoid a numerical instability.
+We find that for large $\Delta t$, after several hundred iterations, highly concave features develop in the advective flux term $\langle w'T' \rangle$ near $z=0$. 
+Such features are undesired, as they are uncommon in similar calculations \cite{Malkus_1954} and we do not believe they accurately represent the problem's physics.
+Further, we expect our algorithm to converge to the analytic solution of \eq{EQ:T0_IVP} for small $\Delta t$.
+Therefore results obtained uniquely via the use of relatively large $\Delta t$ must not agree with the analytic solution.
+If ignored, the concave features grow in magnitude until they affect $\bar{T}$ on a readily apparent scale.
+Eventually $\bar{T}$ develops oscillations near $z = 0$ and the timestep must be reduced.
+Once these oscillations reach some amplitude, they cannot be eliminated via timestep reduction and the roots of $\sigma_{\rm{max}}(A^2)$ vanish as before.
+To avoid this, we measure the extent of the numerical instability preemptively by evaluating the concavity $\frac{\partial^2}{\partial z^2} \langle w'T' \rangle|_{z=0}$ of the dominant $k_x = 1.5\pi$ mode.
+We find that reducing the timestep $\Delta t$ by the same factor of 1.1 when this concavity measure exceeds $10^{-6}$ curtails the problem.
+Both of these issues appear to become more prominent as the boundary layers diffuse over the course of the algorithm's implementation (see Figure~\ref{fig:T0_profiles}).
+Thus there is never a practical opportunity to increase the timestep.
 
 \onecolumngrid
 \section{MSTE Metrics}\label{sec:tables}
@@ -630,21 +655,21 @@ Timesteps don't manage themselves! $\blacksquare$
     %\begin{tabular}{cccccc}
     %\hline
     %\begin{longtable}[c]{@{}*{6}{>{\arraybackslash}p{0.15\linewidth}}@{}}
-    \quad\quad\quad $\Ra$	\quad\quad\quad	&	\quad\quad\quad		$N_z$	\quad\quad\quad		&	\quad\quad\quad		$\Nu$	\quad\quad\quad		&	\quad\quad\quad		$\delta_0$	\quad\quad\quad		&	\quad\quad		$k_x$ marginals	\quad\quad\quad\\
-    %\hline
-    1.00E+05 & 256   & 5.9343  & 0.15746 \;    &   \; 1$\pi$, 1.5$\pi$ \\
-    2.00E+05 & 256   & 7.45986 & 0.12341 \;    &   \; 1.5$\pi$ \\
-    4.00E+05 & 256   & 8.92597 & 0.10395 \;    &   \; 1.5$\pi$ \\
-    1.00E+06 & 256   & 11.6689 & 0.07922 \;    &   \; 1.5$\pi$, 2.5$\pi$, 3$\pi$ \\
-    2.00E+06 & 256   & 14.8463 & 0.06345 \;    &   \; 1.5$\pi$, 3.5$\pi$ \\
-    4.00E+06 & 256   & 18.9433 & 0.04933 \;    &   \; 1.5$\pi$, 4.5$\pi$ \\
-    1.00E+07 & 256   & 25.6821 & 0.03632 \;    &   \; 1.5$\pi$, 5.5$\pi$ \\
-    2.00E+07 & 256   & 32.4531 & 0.02820 \;    &   \; 1.5$\pi$, 6.5$\pi$, 7$\pi$\\
-    4.00E+07 & 512   & 40.7925 & 0.02289 \;    &   \; 1.5$\pi$, 8$\pi$, 8.5$\pi$ \\
-    1.00E+08 & 512   & 55.4383 & 0.01690 \;    &   \; 1.5$\pi$, 4.5$\pi$, 10.5$\pi$, 11$\pi$\\
-    2.00E+08 & 512   & 69.8349 & 0.01318 \;    &   \; 1.5$\pi$, 5$\pi$, 13.5$\pi$, 14$\pi$ \\
-    4.00E+08 & 512   & 87.8525 & 0.01053 \;    &   \; 1.5$\pi$, 5.5$\pi$,17.5$\pi$ \\
-    1.00E+09 & 768   & 119.318 & 0.00817 \;    &   \; 1.5$\pi$, 6.0$\pi$, 6.5$\pi$, 23.5$\pi$, 24$\pi$ \\\vspace{0.1in}\\
+    \quad\quad\quad $\Ra$	\quad\quad\quad	&	\quad\quad\quad		$N_z$	\quad\quad\quad		&	\quad\quad\quad		$\Nu$	\quad\quad\quad		&	\quad\quad\quad		$\delta_0$	\quad\quad\quad		&	\quad\quad		$k_x$ marginals	\quad\quad\quad\\[0.03cm]
+    \hline
+    $10^5$ & 256   & 5.9343  & 0.15746 \;    &   \; 1$\pi$, 1.5$\pi$   \\[0.03cm]
+    $2 \times 10^5$ & 256   & 7.45986 & 0.12341 \;    &   \; 1.5$\pi$   \\[0.03cm]
+    $4 \times 10^5$ & 256   & 8.92597 & 0.10395 \;    &   \; 1.5$\pi$   \\[0.03cm]
+    $10^6$ & 256   & 11.6689 & 0.07922 \;    &   \; 1.5$\pi$, 2.5$\pi$, 3$\pi$   \\[0.03cm]
+    $2 \times 10^6$ & 256   & 14.8463 & 0.06345 \;    &   \; 1.5$\pi$, 3.5$\pi$   \\[0.03cm]
+    $4 \times 10^6$ & 256   & 18.9433 & 0.04933 \;    &   \; 1.5$\pi$, 4.5$\pi$   \\[0.03cm]
+    $10^7$ & 256   & 25.6821 & 0.03632 \;    &   \; 1.5$\pi$, 5.5$\pi$   \\[0.03cm]
+    $2 \times 10^7$ & 256   & 32.4531 & 0.02820 \;    &   \; 1.5$\pi$, 6.5$\pi$, 7$\pi$  \\[0.03cm]
+    $4 \times 10^7$ & 512   & 40.7925 & 0.02289 \;    &   \; 1.5$\pi$, 8$\pi$, 8.5$\pi$   \\[0.03cm]
+    $10^8$ & 512   & 55.4383 & 0.01690 \;    &   \; 1.5$\pi$, 4.5$\pi$, 10.5$\pi$, 11$\pi$  \\[0.03cm]
+    $2 \times 10^8$ & 512   & 69.8349 & 0.01318 \;    &   \; 1.5$\pi$, 5$\pi$, 13.5$\pi$, 14$\pi$   \\[0.03cm]
+    $4 \times 10^8$ & 512   & 87.8525 & 0.01053 \;    &   \; 1.5$\pi$, 5.5$\pi$,17.5$\pi$   \\[0.03cm]
+    $10^9$ & 768   & 119.318 & 0.00817 \;    &   \; 1.5$\pi$, 6.0$\pi$, 6.5$\pi$, 23.5$\pi$, 24$\pi$ \\\vspace{0.1in}\\
     %\hline
     %  \end{tabular}
     \caption{Control parameters are given for the timestepping algorithm. $N_z$ denotes the number of Chebyshev basis functions employed. The remaining quantities are derived directly from MSTE solutions.}
