@@ -545,7 +545,7 @@ MSTE are laminar, lacking the small-scale structures associated with moderate- t
 This is an apparent consequence of the quasilinear assumptions. 
 If we perceive MSTE as background states, DNS suggest that plumes, vortex sheets, and other unstable turbulent features inhibit total heat transfer. 
 This perspective agrees with conventional models of transitions to turbulent flows, such as Boussinesq's turbulent-viscosity hypothesis \cite{boussinesq_1877}. 
-The emergence of small-scale velocity structures is indicative of a Kolmogrov energy cascade, where kinetic energy is transferred to progressively smaller scales via inviscid processes until, at microscopic scales, energy is lost due to viscous shearing.
+The emergence of small-scale velocity structures is indicative of nonlinear energy transfer to small scales where energy is lost due to viscosity. 
 Buoyancy driven flows are therefore impeded and the advection in the bulk of the domain decreases in magnitude \cite{drazin_reid_2004, pope_2000}. 
 We could also attribute the diffuse DNS temperature profile in Figure~\ref{fig:T0_profiles} with unsteady boundary-layer penetration and mixing that MSTE do not exhibit.
 
@@ -593,8 +593,10 @@ These state could be excellent initial conditions for high-Rayleigh number DNS.
 
 Using the mean temperature in a statistically-steady DNS as a background state for an eigenvalue problem yields positive eigenvalues: the system is in a perpetual state of instability. 
 Unstable modes tend to stabilize the system rapidly, creating a negative feedback loop whose average state is linearly unstable. 
-We might curtail the disagreement between MSTE and DNS by adjusting our marginal-stability criterion. 
-Should the fast and slow time scales not be entirely separate, we might anticipate the long-term persistance of moderately unstable modes. 
+Future work could adjust the marginal-stability criterion to allow for moderately unstable modes.
+Should the fast and slow time scales not be entirely separate, these modes might persist for long times. 
+This might lead to greater agreement with DNS.
+
 % To find MSTE, we initialize the time-evolution algorithm with the analytic temperature profile derived by \cite{Shishkina}.
 % This involves modifying the boundary layer thickness $\delta_0$ to achieve marginal stability.
 
@@ -635,7 +637,7 @@ Therefore these initial states lie in the MSTE basin of attraction with respect 
 This might also suggest that solutions are unique. 
 An example of \eq{EQ:T0} is given by the blue curve in Figure~\ref{fig:T0_profiles}.
 
-\section{Numerical Instabilities and Timestep Management} \label{sec:timestep}
+\section{Timestep Management} \label{sec:timestep}
 To find MSTE, we advance $\bar{T}$ by timesteps of size $\Delta t$.
 For large $\Delta t$, we find the advective flux terms fail to provide a stabilizing influence.
 This is due to coupling between the eigenfunctions $W(z)$, $\Theta(z)$ and the mean temperature profile $\bar{T}$.
