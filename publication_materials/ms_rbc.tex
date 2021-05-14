@@ -186,7 +186,7 @@ Substituting \eq{EQ:reynolds_dc_p} into \eq{EQ:motion2} and taking the horizonta
     0 = -\frac{\partial \bar{p}}{\partial z} + \bar{T}\label{EQ:p_bar}
 \end{equation}
 
-To solve \eq{EQ:T0_IVP} numerically, we need an expression for the perturbation so we can calculate the advective heat flux.
+To solve \eq{EQ:T0_IVP} numerically, we need an expression for the perturbations so we can calculate the advective heat flux.
 Here we will make the quasilinear approximation, dropping the $\vec{u}'\vec{\cdot}\vec{\nabla}\vec{u}'$ and $\vec{u}'\vec{\cdot}\vec{\nabla}T'$ terms from the evolution equations for the perturbations.
 Substituting \eqss{EQ:reynolds_dc_u}{EQ:reynolds_dc_p} into \eqss{EQ:motion1}{EQ:motion3} followed by subtracting \eqs{EQ:T0_IVP}{EQ:p_bar} from the resulting temperature and $\hat{z}$ momentum equations gives
 \begin{align}
@@ -563,7 +563,7 @@ This is because the MSTE contain strong large-scale flows, which decay on a long
 Two viscous time-scales can be derived for this problem: one for the boundary layer 
 \begin{align*}
     t_{\nu,\delta} &= \frac{\delta^2}{\mathcal{P}} = 2.8561
-    \intertext{and another for entire domain}
+    \intertext{and another for the entire domain}
     t_{\nu,L} &= \frac{L_z}{\mathcal{P}} = 10^4.
 \end{align*}
 Empirically, we find $t_{\nu} \approx 200$ suggesting the true kinetic energy decay time-scale is based on a length scale which is longer than the boundary layer height $\delta$ but shorter than the domain height $L_z$.
@@ -651,7 +651,7 @@ Such features are undesired, as they are uncommon in similar calculations \cite{
 If ignored, the concave features grow in magnitude until they affect $\bar{T}$ on a readily apparent scale.
 Eventually $\bar{T}$ develops oscillations near $z = 0$ and the timestep must be reduced.
 Once these oscillations reach some amplitude, they cannot be eliminated via timestep reduction and the roots of $\sigma_{\rm{max}}(A^2)$ vanish.
-To avoid this, we measure the curvature of the advective flux $|\frac{\partial^2}{\partial z^2} \langle w'T' \rangle|_{z=0}|$ of the dominant $k_x = 1.5\pi$ mode.
+To avoid this, we measure the curvature of the advective flux $|\frac{\partial^2}{\partial z^2} \langle w'T' \rangle_x|_{z=0}|$ of the dominant $k_x = 1.5\pi$ mode.
 We find that reducing the timestep $\Delta t$ by the same factor of 1.1 whenever this curvature measure exceeds $10^{-6}$ curtails the problem.
 Both of these issues appear to become more prominent as the boundary layers diffuse over the course of the algorithm's implementation (see Figure~\ref{fig:T0_profiles}).
 Thus there is never a practical opportunity to increase the timestep.
