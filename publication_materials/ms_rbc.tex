@@ -106,7 +106,7 @@ $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, North
     These marginally-stable thermal equilibria (MSTE) are exact solutions of the quasilinear equations.
     The mean temperature profile has thinner boundary layers and larger Nusselt numbers than thermally-equilibrated 2D and 3D simulations of the full nonlinear equations.
     We find the Nusselt number scales like $\Nu \sim\Ra^{1/3}$.
-    When an MSTE is used as initial conditions for a 2D simulation, we find that Nu quickly equilibrates without the burst of turbulence often induced by purely conductive initial conditions, but we also find that the kinetic energy is too large and viscously attenuates on a long viscous time-scale.
+    When an MSTE is used as initial conditions for a 2D simulation, we find that Nu quickly equilibrates without the burst of turbulence often induced by purely conductive initial conditions, but we also find that the kinetic energy is too large and viscously attenuates on a long viscous time scale.
 \end{abstract}
 
 \maketitle
@@ -132,17 +132,17 @@ This approximation neglects the nonlinear interactions between perturbations whi
 This renders the perturbation equations linear.
 Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
 In \citet{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
-They assume the background velocity evolves on a slow time-scale, and, to determine the perturbation amplitudes, they require marginal stability at each timestep.
+They assume the background velocity evolves on a slow time scale, and, to determine the perturbation amplitudes, they require marginal stability at each timestep.
 A similar strategy is employed by \citet{michel_chini_2019} to study acoustic streaming.
 In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
 
-In this paper we derive and solve a quasilinear form of the Rayleigh-B\'{e}nard convection problem using a similar time-scale separation argument.
+In this paper we derive and solve a quasilinear form of the Rayleigh-B\'{e}nard convection problem using a similar time scale separation argument.
 In section~\ref{sec:model} we recall the underlying equations, and in section~\ref{sec:evolution} we describe how we evolve the background temperature profile while maintaining marginal stability.
 Section~\ref{sec:properties} describes the properties of the marginally-stable thermal equilibria, in particular how the Nusselt number and characteristic wavenumbers vary with the Rayleigh number.
 Finally, we describe the results of simulations initialized with marginally-stable thermal equilibria in section~\ref{sec:sims}, and conclude in section~\ref{sec:Discussion}.
  
 \section{Model Setup}\label{sec:model}
-We begin with the Boussinesq approximation for Rayleigh-Bénard Convection, nondimensionalized on the freefall time-scale. 
+We begin with the Boussinesq approximation for Rayleigh-Bénard Convection, nondimensionalized on the freefall time scale. 
 The domain $\mathcal{D}$ is 2-dimensional, rectangular, and horizontally periodic with cartesian spatial coordinates $0 \leq x < 4$ and $-1/2 < z < 1/2$. 
 The fluid of interest is constrained between two flat boundaries at $z = -1/2$ and $z = 1/2$ with fixed temperatures $1/2$ and $-1/2$ respectively. 
 At both boundaries we specify impenetrable, no-slip conditions, such that the velocity $\vec{u} = u \hat{x} + w \hat{z} = \vec{0}$ at $z = \pm 1/2$, where $\hat{x}, \hat{z}$ are the unit vectors in the $x$ and $z$ directions. 
@@ -232,10 +232,10 @@ Thus, the mean temperature and perturbation fields are coupled.
 \section{Perturbation Evolution}\label{sec:evolution}
 The linearized system \eqss{EQ:linear1}{EQ:linear3} does not constrain the amplitude of the eigenmodes, $A$.
 However, the advective heat flux is proportional to $A^2$, so we need to specify the amplitude in order to solve equation~\ref{EQ:T0_IVP}.
-To evolve $\overline{T}$, we assume the perturbations evolve on a much faster time-scale than the mean temperature, as in \cite{michel_chini_2019}.
+To evolve $\overline{T}$, we assume the perturbations evolve on a much faster time scale than the mean temperature, as in \cite{michel_chini_2019}.
 Stable modes $(\sigma < 0)$ decay away rapidly. 
-Unstable modes $(\sigma > 0)$ will not persist on the slow time-scale because the advective term $\langle w'T' \rangle_x$ tends to stabilize $\overline{T}$, thereby creating a negative feedback loop.
-Only marginally stable modes can be maintained on the slow time-scale.
+Unstable modes $(\sigma > 0)$ will not persist on the slow time scale because the advective term $\langle w'T' \rangle_x$ tends to stabilize $\overline{T}$, thereby creating a negative feedback loop.
+Only marginally stable modes can be maintained on the slow time scale.
 Therefore the amplitude $A$ must satisfy
 \begin{equation}
     \max_{k_x} \{ \sigma \} = 0.
@@ -566,20 +566,20 @@ We could also attribute the diffuse DNS temperature profile in Figure~\ref{fig:T
     \includegraphics[width=3.4in]{sim_eq_ke_noflow.png}
     \caption{Average kinetic energies are reported for the same simulations illustrated in Figure~\ref{fig:nu_sim} ($\Ra = 10^8$). 
     The eigenfunctions belonging to MSTE have significantly more kinetic energy than the statistically-steady state. 
-    Kinetic equilibrium is achieved on a long viscous time-scale.}
+    Kinetic equilibrium is achieved on a long viscous time scale.}
     \label{fig:ke_sim}
 \end{figure}
 
 We also find that the average kinetic energy of the simulation initialized with MSTE is significantly larger than those found in either of the other cases, as shown Figure~\ref{fig:ke_sim}. 
-This is because the MSTE contain strong large-scale flows, which decay on a long viscous time-scale $t_{\nu}$. 
+This is because the MSTE contain strong large-scale flows, which decay on a long viscous time scale $t_{\nu}$. 
 Fluid in the other cases is initialized at rest. 
-Two viscous time-scales can be derived for this problem: one for the boundary layer 
+Two viscous time scales can be derived for this problem: one for the boundary layer 
 \begin{align*}
     t_{\nu,\delta} &= \frac{\delta^2}{\mathcal{P}} = 2.86
     \intertext{and another for the entire domain}
     t_{\nu,L} &= \frac{L^2_z}{\mathcal{P}} = 10^4.
 \end{align*}
-Empirically, we find $t_{\nu} \approx 200$ suggesting the true kinetic energy decay time-scale is based on a length scale $\ell \approx 0.14$ which is longer than the boundary layer height $\delta$ but shorter than the domain height $L_z$.
+Empirically, we find $t_{\nu} \approx 200$ suggesting the true kinetic energy decay time scale is based on a length scale $\ell \approx 0.14$ which is longer than the boundary layer height $\delta$ but shorter than the domain height $L_z$.
 Consequently, MSTE initial conditions do not reduce the simulation time required to achieve a statistically-steady state---rather they increase it considerably!
 This is alleviated by using no-flow MSTE initial conditions.
 The MSTE temperature state is a promising candidate initial condition for high-Rayleigh number convection simulations.
@@ -599,7 +599,7 @@ They also exhibit unique and unexpected features: mean temperature gradient-reve
 When initializing with different mean temperature profiles, we find the same MSTE, suggesting these equilibria might be unique.
 
 Simulations initialized with the MSTE \eq{EQ:mste_ic} do not undergo an early convective transient period, but have faster flows when compared with DNS.
-From a dynamical systems perspective, unstable orbits depart from MSTE and approach the global attractor on a viscous time-scale.
+From a dynamical systems perspective, unstable orbits depart from MSTE and approach the global attractor on a viscous time scale.
 This requires more computational effort to achieve relaxation when compared to the conventional conductive initial condition \eq{EQ:linear_ic}.
 Initializing with only the temperature state of the MSTE avoids an early convective transient, but does not have excessive large-scale flows.
 These state could be excellent initial conditions for high-Rayleigh number DNS.
