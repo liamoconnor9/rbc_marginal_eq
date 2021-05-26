@@ -491,17 +491,6 @@ We find the MSTE can be characterized by their boundary layer height.
 In Figure~\ref{fig:bl_ra}, we illustrate the scaling behavior of the boundary layer height $\delta = \Ra^{-1/3}$. 
 This is consistent with Malkus' classical marginal-stability theory, a scaling argument which perceives the boundary regions as subdomains which are themselves marginally-stable \cite{Malkus_1954}.
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=7.1in]{nu_ra.pdf}
-    \caption{Nusselt numbers are shown for MSTE, aspect-ratio-optimized ``steady rolls'' ECS \cite{Wen}, as well as statistically-steady 2D and 3D DNS \cite{Johnston, Scheel_2016}.
-    All datasets obey power-law relationships, with the MSTE and ECS scaling like $\Nu \sim\Ra^{1/3}$. 
-    MSTE have greater $\Nu$ than the ECS, which in turn, have greater $\Nu$ than the DNS. 
-    This can be explained by the contrasting boundary layer geometries shown in Figure~\ref{fig:T0_profiles}.}%
-    \label{fig:nu_vs_ra}%
-\end{figure*}
-
-
 The temperature boundary layers of MSTE with various $\Ra$ exhibit self-similarity. 
 We illustrate this in Figure~\ref{fig:b0_delta} where the mean temperature $\overline{T}$ is plotted along a re-scaled $z$-coordinate.
 $\Delta$ denotes the minimum $z$-offset from the boundary layer which satisfies
@@ -519,6 +508,16 @@ This suggests the re-scaled boundary layer geometry is intrinsic to MSTE, possib
     Rescaling according to this quantity reveals self-similarity in the temperature boundary layers despite large changes in $\Ra$.}
     \label{fig:b0_delta}
 \end{figure}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=7.1in]{nu_ra.pdf}
+    \caption{Nusselt numbers are shown for MSTE, aspect-ratio-optimized ``steady rolls'' ECS \cite{Wen}, as well as statistically-steady 2D and 3D DNS \cite{Johnston, Scheel_2016}.
+    All datasets obey power-law relationships, with the MSTE and ECS scaling like $\Nu \sim\Ra^{1/3}$. 
+    MSTE have greater $\Nu$ than the ECS, which in turn, have greater $\Nu$ than the DNS. 
+    This can be explained by the contrasting boundary layer geometries shown in Figure~\ref{fig:T0_profiles}.}%
+    \label{fig:nu_vs_ra}%
+\end{figure*}
 
 
 The Nusselt number, which measures convective performance is given by
@@ -716,7 +715,7 @@ Thus there is never a practical opportunity to increase the timestep.
     %\begin{tabular}{cccccc}
     %\hline
     %\begin{longtable}[c]{@{}*{6}{>{\arraybackslash}p{0.15\linewidth}}@{}}
-    \quad\quad\quad $\Ra$	\quad\quad\quad	&	\quad\quad\quad		$N_z$	\quad\quad\quad		&	\quad\quad\quad		$\Nu$	\quad\quad\quad		&	\quad\quad\quad		$\delta_0$	\quad\quad\quad		&	\quad\quad	marginal $k_x$	\quad\quad\quad\\[0.03cm]
+    \quad\quad\quad $\Ra$	\quad\quad\quad	&	\quad\quad\quad		$N_z$	\quad\quad\quad		&	\quad\quad\quad		$\Nu$	\quad\quad\quad		&	\quad\quad\quad		$\delta$	\quad\quad\quad		&	\quad\quad	marginal $k_x$	\quad\quad\quad\\[0.03cm]
     \hline
     $10^5$ & 256   & 5.9343  & 0.15746 \;    &   \; 1$\pi$, 1.5$\pi$   \\[0.03cm]
     $2 \times 10^5$ & 256   & 7.45986 & 0.12341 \;    &   \; 1.5$\pi$   \\[0.03cm]
