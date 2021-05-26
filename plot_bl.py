@@ -38,17 +38,21 @@ for i in range(len(ra_vec)):
     b0z_f['g'] = b0z
     b0_f = b0z_f.antidifferentiate(z_basis0, ('left', 0.5))
     b0_f.set_scales(Nevp)
+    b0z_f.set_scales(Nevp)
     b0 = b0_f['g'].copy()
+    b0z = b0z_f['g'].copy()
 
     ind = 0;
     xtra = 2.1
     endind = 0;
     for k in range(1023):
-        if (b0[k] > 0 and b0[k + 1] < 0 and ind == 0):
-            if (abs(b0z[k]) > abs(b0z[k + 1])):
-                ind = k + 1
-            else:
-                ind = k
+        if (b0z[k] < 0 and b0z[k + 1] > 0 and ind == 0):
+            ind = k + 1
+            # if (abs(b0z[k]) > abs(b0z[k + 1])):
+            #     ind = k + 1
+            # else:
+            #     ind = k
+            print(0.5 + z[ind])
 
         if (ind != 0 and z[k] + 0.5 > xtra * (z[ind] + 0.5)):
             endind = k;
@@ -70,7 +74,7 @@ for i in range(len(ra_vec)):
     else:
         plt.plot(z_bl / z_bl[ind], b0_bl, linewidth = 3.5, color = colors[3], label = ra_strs[i])
 
-plt.xlabel(r'$\frac{z + 0.5}{\Delta}$')
+plt.xlabel(r'$\frac{z + 0.5}{\delta}$')
 plt.ylabel(r'$\overline{T}$')
 plt.legend()
 plt.xlim(0, xtra - 0.1)
