@@ -59,7 +59,7 @@ for i in range(len(ra_vec)):
     else:
         plt.plot(z_bl / z_bl[-1], b0_bl, linewidth = 5, color = colors[3], label = ra_strs[i])
 
-plt.xlabel(r'$(z + 0.5) / \Delta$')
+plt.xlabel(r'$\frac{z + 0.5}{\Delta}$')
 plt.ylabel(r'$\overline{T}$')
 plt.legend()
 plt.xlim(0, 1)
