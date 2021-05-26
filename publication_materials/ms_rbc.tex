@@ -133,10 +133,12 @@ This renders the perturbation equations linear.
 Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
 In \citet{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
 They assume the background velocity evolves on a slow time scale, and, to determine the perturbation amplitudes, they require marginal stability at each timestep.
-A similar strategy is employed by \citet{michel_chini_2019} to study acoustic streaming.
-In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
+% A similar strategy is employed by \citet{michel_chini_2019} to study acoustic streaming.
+% In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
+This quasilinear approach, which relies on multiple scales arguments in conjunction with a marginal stability constraint, is generalized by \cite{Chini_ql}.
+Studying two somewhat generic systems, researchers observe interdependent evolution of a background state and its perturbations within a marginally-stable manifold.
 
-In this paper we derive and solve a quasilinear form of the Rayleigh-B\'{e}nard convection problem using a similar time scale separation argument.
+In this paper employ the same strategy to the more complicated Rayleigh-B\'{e}nard convection problem.
 In section~\ref{sec:model} we recall the underlying equations, and in section~\ref{sec:evolution} we describe how we evolve the background temperature profile while maintaining marginal stability.
 Section~\ref{sec:properties} describes the properties of the marginally-stable thermal equilibria, in particular how the Nusselt number and characteristic wavenumbers vary with the Rayleigh number.
 Finally, we describe the results of simulations initialized with marginally-stable thermal equilibria in section~\ref{sec:sims}, and conclude in section~\ref{sec:Discussion}.
@@ -268,7 +270,7 @@ It is essential that we pick the correct eigenfunction amplitude when calculatin
 We will now illustrate our method of finding the appropriate $A$ through an example.
 
 \begin{figure}
-    \includegraphics[width=3.4in]{EV_spectrum_ol.png}
+    \includegraphics[width=3.4in]{EV_spectrum_ol.pdf}
     \caption{Eigenvalue spectra for $\Ra = 10^5$. The spectrum of an ``initial" marginally-stable mean temperature profile $\overline{T}(z, t_0)$ has a maximum eigenvalue of 0. 
     Given a small fixed timestep $\Delta t$, diffusion destabilizes the system, increasing $\sigma$. 
     Advection tends to stabilize the system, decreasing $\sigma$. 
@@ -366,7 +368,7 @@ We compute symmetric MSTE for $\Ra$ in the range $10^5 - 10^9$.
 
 \begin{figure}
     \centering
-    \includegraphics[width=3.4in]{T_profs_na.png}
+    \includegraphics[width=3.4in]{T_profs_na.pdf}
     \caption{Mean temperature profiles $\overline{T}$ for $\Ra = 10^8$. 
     The initial profile is given by \eq{EQ:T0}. 
     We evolve this background temperature profile according to section~\ref{sec:evolution} until we reach a marginally-stable thermal equilibrium (MSTE).
@@ -387,10 +389,10 @@ This suggests that MSTE might maximize boundary layer thickness, subject to the 
 \begin{figure*}
     \centering
     \begin{tabular}{@{}c@{}}
-        \includegraphics[width=3.4in]{flux_sup_n.png}
+        \includegraphics[width=3.4in]{flux_sup_n.pdf}
     \end{tabular}
     \begin{tabular}{@{}c@{}}
-        \includegraphics[width=3.4in]{EV_spectra_2ra.png}
+        \includegraphics[width=3.4in]{EV_spectra_2ra.pdf}
     \end{tabular}
     \caption{Heat fluxes (left) and eigenvalue spectra (right) of equilibrated states with $\Ra = 2 \times 10^5$ (top) and $\Ra = 10^9$ (bottom). 
     The heat flux profiles are symmetric about $z=0$, so we only plot for $z<0$.
@@ -422,7 +424,7 @@ However, since we have fixed the horizontal size of our domain, we are left with
 
 \begin{figure}
     \centering
-    \includegraphics[width=3.4in]{kx_m_ra1.png}
+    \includegraphics[width=3.4in]{kx_m_ra1.pdf}
     \caption{Wavenumbers of marginally-stable modes in thermally equilibrated states. 
     Marginal modes often appear in adjacent pairs, which we denote with a common color. 
     Within each of these pairs, the largest and smallest $k_x$ are denoted with an x and a + respectively.
@@ -449,7 +451,7 @@ The blue branch is associated with moderately wide advection profiles, filling a
 
 \begin{figure}
     \centering
-    \includegraphics[width=3.4in]{del_kx_inv.png}
+    \includegraphics[width=3.4in]{del_kx_inv.pdf}
     \caption{For $\Ra \geq 10^6$, the maximum marginally-stable wavenumber (corresponding to the green x markers in Figure~\ref{fig:kx_marginals}) are inversely related to the boundary layer height $\delta$. 
     $(\max \{ k_x \})^{-1}$ gives a minimum $x$ length scale for the perturbations, and consequently, the advection. 
     For large $\Ra$, the boundary layers admit small scale features, requiring more vertical basis functions (higher resolution, see Appendix \ref{sec:tables} for specifications).
@@ -478,7 +480,7 @@ Least-squares regression gives $\delta^{-1} = 1.71 \max \{ k_x \} - 2.13$ with $
 
 \begin{figure}
     \centering
-    \includegraphics[width=3.4in]{del_ra.PNG}
+    \includegraphics[width=3.4in]{del_ra.pdf}
     \caption{Boundary layer height $\delta$ of MSTE. 
     We define the boundary layer height based off the location where $\frac{\partial \overline{T}}{\partial z} = 0$ (see equation~\ref{eqn:delta}). 
     Plotting on a log-log scale, we find that $\delta$ and $\Ra$ obey a power-law relationship. We also demonstrate that $\Ra^{1/3}\delta$ is approximately constant with respect to $\Ra$ which is consistent with \cite{Malkus_1954}}
@@ -491,13 +493,33 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
 
 \begin{figure*}
     \centering
-    \includegraphics[width=7.1in]{nu_ra.PNG}
+    \includegraphics[width=7.1in]{nu_ra.pdf}
     \caption{Nusselt numbers are shown for MSTE, aspect-ratio-optimized ``steady rolls'' ECS \cite{Wen}, as well as statistically-steady 2D and 3D DNS \cite{Johnston, Scheel_2016}.
     All datasets obey power-law relationships, with the MSTE and ECS scaling like $\Nu \sim\Ra^{1/3}$. 
     MSTE have greater $\Nu$ than the ECS, which in turn, have greater $\Nu$ than the DNS. 
     This can be explained by the contrasting boundary layer geometries shown in Figure~\ref{fig:T0_profiles}.}%
     \label{fig:nu_vs_ra}%
 \end{figure*}
+
+
+The temperature boundary layers of MSTE with various $\Ra$ exhibit self-similarity. 
+We illustrate this in Figure~\ref{fig:b0_delta} where the mean temperature $\overline{T}$ is plotted along a re-scaled $z$-coordinate.
+$\Delta$ denotes the minimum $z$-offset from the boundary layer which satisfies
+\begin{equation*}
+    \overline{T}|_{z = \Delta} = 0.
+\end{equation*}
+However $\Delta$ depends only on $\Ra$, effectively being constrained by marginal-stability.
+This suggests the re-scaled boundary layer geometry is intrinsic to MSTE, possibly minimizing diffusion as previously hypothesized.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.4in]{b0_delta.pdf}
+    \caption{Temperature boundary layer geometries of various MSTE. 
+    $\Delta$ denotes the minimum $z$-offset away from the boundary at which the mean temperature changes sign, i.e.~$\overline{T}(1/2 + \Delta) = 0$. 
+    Rescaling according to this quantity reveals self-similarity in the temperature boundary layers despite large changes in $\Ra$.}
+    \label{fig:b0_delta}
+\end{figure}
+
 
 The Nusselt number, which measures convective performance is given by
 \begin{equation}
@@ -536,7 +558,7 @@ This state is not in equilibrium but we refer to it as ``MSTE No Flow'' for clar
 
 \begin{figure}
     \centering
-    \includegraphics[width=3.4in]{sim_eq_nu_noflow.png}
+    \includegraphics[width=3.4in]{sim_eq_nu_noflow.pdf}
     \caption{Nusselt numbers of simulations performed at $\Ra = 10^8$, initialized with the conductive equilibrium plus thermal noise (black), the MSTE (blue), and the MSTE absent initial flow (green). 
     The MSTE simulation does not undergo a convective-transient period because the characteristic large-scale convective cell structure exists on initialization.
     The MSTE no flow simulation exhibits quasi-periodic oscillations in $\Nu$ which appear to persist for long times.
@@ -563,7 +585,7 @@ We could also attribute the diffuse DNS temperature profile in Figure~\ref{fig:T
 
 \begin{figure}
     \centering
-    \includegraphics[width=3.4in]{sim_eq_ke_noflow.png}
+    \includegraphics[width=3.4in]{sim_eq_ke_noflow.pdf}
     \caption{Average kinetic energies are reported for the same simulations illustrated in Figure~\ref{fig:nu_sim} ($\Ra = 10^8$). 
     The eigenfunctions belonging to MSTE have significantly more kinetic energy than the statistically-steady state. 
     Kinetic equilibrium is achieved on a long viscous time scale.}
@@ -688,7 +710,7 @@ Both of these issues appear to become more prominent as the boundary layers diff
 Thus there is never a practical opportunity to increase the timestep.
 
 \onecolumngrid
-\section{MSTE Parameters and Results}\label{sec:tables}
+\section{MSTE Properties, Parameters, and Results}\label{sec:tables}
 
 \begin{longtable*}{ccccl}
     %\begin{tabular}{cccccc}
@@ -719,8 +741,19 @@ Thus there is never a practical opportunity to increase the timestep.
     {\label{tab:metrics}}
     \end{longtable*}
 
-\twocolumngrid
+% \section{MSTE Eigenfunctions}\label{sec:eigenfunctions}
+\begin{figure}
+    \centering
+    \includegraphics[width=7.1in]{grid_vars.pdf}
+    \caption{The real and imaginary components of the temperature and pressure MSTE eigenfunctions are illustrated in separate plots for various marginally-stable modes. 
+    For the large-scale $k_x = 1.5\pi$ mode, we find the vertical velocity eigenfunction $W$ is maximized near the center of the domain.
+    In both other cases ($k_x = 5.5\pi, \, 17.5\pi$) the vertical velocity is localized near the boundaries.
+    In the temperature eigenfunction $\Theta$, small-scale zig-zags appear near the boundaries at $k_x = 1.5\pi$, subsiding as $k_x$ increases.}%
+    \label{fig:eigenfunctions}%
+\end{figure}
 
+\twocolumngrid
+\clearpage
 % \bibliographystyle{plain}
 \bibliography{he}
 
