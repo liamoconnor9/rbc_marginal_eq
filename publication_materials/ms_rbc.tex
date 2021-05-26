@@ -133,10 +133,12 @@ This renders the perturbation equations linear.
 Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
 In \citet{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
 They assume the background velocity evolves on a slow time scale, and, to determine the perturbation amplitudes, they require marginal stability at each timestep.
-A similar strategy is employed by \citet{michel_chini_2019} to study acoustic streaming.
-In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
+% A similar strategy is employed by \citet{michel_chini_2019} to study acoustic streaming.
+% In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
+This quasilinear approach, which relies on multiple scales arguments in conjunction with a marginal stability constraint, is generalized by \cite{Chini_ql}.
+Studying two somewhat generic systems, researchers observe interdependent evolution of a background state and its perturbations within a marginally-stable manifold.
 
-In this paper we derive and solve a quasilinear form of the Rayleigh-B\'{e}nard convection problem using a similar time scale separation argument.
+In this paper employ the same strategy to the more complicated Rayleigh-B\'{e}nard convection problem.
 In section~\ref{sec:model} we recall the underlying equations, and in section~\ref{sec:evolution} we describe how we evolve the background temperature profile while maintaining marginal stability.
 Section~\ref{sec:properties} describes the properties of the marginally-stable thermal equilibria, in particular how the Nusselt number and characteristic wavenumbers vary with the Rayleigh number.
 Finally, we describe the results of simulations initialized with marginally-stable thermal equilibria in section~\ref{sec:sims}, and conclude in section~\ref{sec:Discussion}.
@@ -499,6 +501,26 @@ This is consistent with Malkus' classical marginal-stability theory, a scaling a
     \label{fig:nu_vs_ra}%
 \end{figure*}
 
+
+The temperature boundary layers of MSTE with various $\Ra$ exhibit self-similarity. 
+We illustrate this in Figure~\ref{fig:b0_delta} where the mean temperature $\overline{T}$ is plotted along a re-scaled $z$-coordinate.
+$\Delta$ denotes the minimum $z$-offset from the boundary layer which satisfies
+\begin{equation*}
+    \overline{T}|_{z = \Delta} = 0.
+\end{equation*}
+However $\Delta$ depends only on $\Ra$, effectively being constrained by marginal-stability.
+This suggests the re-scaled boundary layer geometry is intrinsic to MSTE, possibly minimizing diffusion as previously hypothesized.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.4in]{b0_delta.pdf}
+    \caption{Temperature boundary layer geometries of various MSTE. 
+    $\Delta$ denotes the minimum $z$-offset away from the boundary at which the mean temperature changes sign, i.e.~$\overline{T}(1/2 + \Delta) = 0$. 
+    Rescaling according to this quantity reveals self-similarity in the temperature boundary layers despite large changes in $\Ra$.}
+    \label{fig:b0_delta}
+\end{figure}
+
+
 The Nusselt number, which measures convective performance is given by
 \begin{equation}
     \Nu = \frac{\langle \langle w'T' \rangle_x - \mathcal{P}\frac{\partial \overline{T}}{\partial z} \rangle_z}{\langle- \mathcal{P}\frac{\partial \overline{T}}{\partial z} \rangle_z}.
@@ -688,7 +710,7 @@ Both of these issues appear to become more prominent as the boundary layers diff
 Thus there is never a practical opportunity to increase the timestep.
 
 \onecolumngrid
-\section{MSTE Parameters and Results}\label{sec:tables}
+\section{MSTE Properties, Parameters, and Results}\label{sec:tables}
 
 \begin{longtable*}{ccccl}
     %\begin{tabular}{cccccc}
@@ -719,16 +741,19 @@ Thus there is never a practical opportunity to increase the timestep.
     {\label{tab:metrics}}
     \end{longtable*}
 
-\section{MSTE Eigenfunctions}\label{sec:eigenfunctions}
-\begin{figure}[h]
+% \section{MSTE Eigenfunctions}\label{sec:eigenfunctions}
+\begin{figure}
     \centering
     \includegraphics[width=7.1in]{grid_vars.pdf}
-    \caption{}%
-    \label{fig:nu_vs_ra}%
+    \caption{The real and imaginary components of the temperature and pressure MSTE eigenfunctions are illustrated in separate plots for various marginally-stable modes. 
+    For the large-scale $k_x = 1.5\pi$ mode, we find the vertical velocity eigenfunction $W$ is maximized near the center of the domain.
+    In both other cases ($k_x = 5.5\pi, \, 17.5\pi$) the vertical velocity is localized near the boundaries.
+    In the temperature eigenfunction $\Theta$, small-scale zig-zags appear near the boundaries at $k_x = 1.5\pi$, subsiding as $k_x$ increases.}%
+    \label{fig:eigenfunctions}%
 \end{figure}
 
 \twocolumngrid
-
+\clearpage
 % \bibliographystyle{plain}
 \bibliography{he}
 
