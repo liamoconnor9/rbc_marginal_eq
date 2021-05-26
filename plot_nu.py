@@ -121,4 +121,4 @@ if __name__ == "__main__":
         plt.ylabel(r'$\mathrm{Nu}$')
         plt.title(r'$\rm{Ra} \, = \, 10^8$')
         # plt.savefig(path + '/pubfigs/sim_eq_nu')
-        plt.savefig(path + '/publication_materials/sim_eq_nu_noflow')
+        plt.savefig(path + '/publication_materials/sim_eq_nu_noflow.pdf')

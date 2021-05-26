@@ -68,7 +68,7 @@ def plot_EVs(evs_mat, labels):
     # plt.legend(loc='lower right')
     # fig.text(0.00, 0.5, r'$\omega$', ha='center', va='center', rotation='vertical', fontsize=10)
     plt.savefig(path + '/pubfigs/EV_spectra_2ra', bbox_inches='tight')
-    plt.savefig(path + '/publication_materials/EV_spectra_2ra', bbox_inches='tight')
+    plt.savefig(path + '/publication_materials/EV_spectra_2ra.pdf', bbox_inches='tight')
 
 # fig = plt.figure()
 path = os.path.dirname(os.path.abspath(__file__))

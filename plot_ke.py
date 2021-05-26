@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     global path 
     path = os.path.dirname(os.path.abspath(__file__))
-    write_data = False
+    write_data = True
     plot = True
     if (write_data):
         args = docopt(__doc__)
@@ -91,4 +91,4 @@ if __name__ == "__main__":
         plt.ylabel(r'$\langle |\mathbf{u}|^2 \rangle_{\mathcal{D}}$')
         plt.title(r'$\rm{Ra} \, = \, 10^8$')
         # plt.savefig(path + '/publication_materials/sim_eq_ke_nonoise')
-        plt.savefig(path + '/publication_materials/sim_eq_ke_noflow')
+        plt.savefig(path + '/publication_materials/sim_eq_ke_noflow.pdf')
