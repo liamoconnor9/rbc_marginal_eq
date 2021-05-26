@@ -33,35 +33,50 @@ for i in range(len(ra_vec)):
     domain0 = de.Domain([z_basis0], grid_dtype=np.complex128, comm=MPI.COMM_SELF)
     domain = de.Domain([z_basis], grid_dtype=np.complex128, comm=MPI.COMM_SELF)
     z = domain.grid(0)
+    z0 = domain0.grid(0)
     b0z_f = domain0.new_field()
     b0z_f['g'] = b0z
     b0_f = b0z_f.antidifferentiate(z_basis0, ('left', 0.5))
     b0_f.set_scales(Nevp)
+    b0z_f.set_scales(Nevp)
     b0 = b0_f['g'].copy()
+    b0z = b0z_f['g'].copy()
 
     ind = 0;
-    for k in range(N - 1):
-        if (b0[k] > 0 and b0[k + 1] < 0):
-            if (abs(b0z[k]) > abs(b0z[k + 1])):
-                ind = k + 1
-            else:
-                ind = k
-            break
+    xtra = 2.1
+    endind = 0;
+    for k in range(1023):
+        if (b0z[k] < 0 and b0z[k + 1] > 0 and ind == 0):
+            ind = k + 1
+            # if (abs(b0z[k]) > abs(b0z[k + 1])):
+            #     ind = k + 1
+            # else:
+            #     ind = k
+            print(0.5 + z[ind])
 
-    z_bl = z[:ind] + 0.5
-    b0_bl = b0[:ind]
-    b0_bl = (b0_bl - b0_bl[-1]) / (1 - 2 * b0_bl[-1])
+        if (ind != 0 and z[k] + 0.5 > xtra * (z[ind] + 0.5)):
+            endind = k;
+            break;
+
+            
+            
+
+    z_bl = z[:endind] + 0.5
+    b0_bl = b0[:endind]
+    b0_bl = (b0_bl - b0_bl[ind]) / (1 - 2 * b0_bl[ind])
 
     if (i == 2):
-        plt.plot(z_bl / z_bl[-1], b0_bl, linestyle = 'dotted', linewidth = 3, label = ra_strs[i])
+        plt.plot(z_bl / z_bl[ind], b0_bl, linestyle = 'dashed', linewidth = 0.8, label = ra_strs[i])
+        # plt.plot(z_bl / z_bl[ind], b0_bl, linewidth = 2, label = ra_strs[i])
     elif (i == 1):
-        plt.plot(z_bl / z_bl[-1], b0_bl, linestyle = '-.', color = 'black', linewidth = 4, label = ra_strs[i])
+        # plt.plot(z_bl / z_bl[-1], b0_bl, linestyle = '-.', color = 'black', linewidth = 4, label = ra_strs[i])
+        plt.plot(z_bl / z_bl[ind], b0_bl, color = 'black', linewidth = 2.0, label = ra_strs[i])
     else:
-        plt.plot(z_bl / z_bl[-1], b0_bl, linewidth = 5, color = colors[3], label = ra_strs[i])
+        plt.plot(z_bl / z_bl[ind], b0_bl, linewidth = 3.5, color = colors[3], label = ra_strs[i])
 
-plt.xlabel(r'$\frac{z + 0.5}{\Delta}$')
+plt.xlabel(r'$\frac{z + 0.5}{\delta}$')
 plt.ylabel(r'$\overline{T}$')
 plt.legend()
-plt.xlim(0, 1)
-plt.ylim(0, 0.5)
-plt.savefig(path + '/publication_materials/b0_delta.pdf')
+plt.xlim(0, xtra - 0.1)
+# plt.ylim(0, 0.5)
+plt.savefig(path + '/publication_materials/b0_delta_solid.pdf')
