@@ -66,13 +66,13 @@ for file in os.listdir(iteration_path + '/data'):
     plt.plot(z, C * T['g'].imag)
     plt.xlim(-0.5, 0.5)
     plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Im[T\']$', rotation=90)
+    plt.ylabel(r'$\Im[\Theta]$', rotation=90)
 
     plt.subplot(2, 2, 1)
     plt.plot(z, C * T['g'].real, label = pi_mult_str)
     plt.xlim(-0.5, 0.5)
     plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Re[T\']$', rotation=90)
+    plt.ylabel(r'$\Re[\Theta]$', rotation=90)
 
 handles, labels = plt.gca().get_legend_handles_labels()
 # order = [4, 2, 3, 0, 1]
@@ -109,14 +109,14 @@ for file in os.listdir(iteration_path + '/data'):
     plt.plot(z, C * w['g'].real)
     plt.xlim(-0.5, 0.5)
     plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Re[w\']$', rotation=90)
+    plt.ylabel(r'$\Re[W]$', rotation=90)
 
     plt.subplot(nrow, ncol, 4)
     plt.plot(z, C * w['g'].imag)
 
     plt.xlim(-0.5, 0.5)
     plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Im[w\']$', rotation=90)
+    plt.ylabel(r'$\Im[W]$', rotation=90)
 
 plt.suptitle('Eigenfunctions: ' + r'$\rm{Ra} = 4 \times 10^8$')
     
