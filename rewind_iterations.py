@@ -2,8 +2,8 @@ import os
 import sys
 import pickle
 
-rewind_iterations = 50
-path = os.path.dirname(os.path.abspath(__file__)) + '/RA1E9/results'
+rewind_iterations = 2
+path = os.path.dirname(os.path.abspath(__file__)) + '/RA1E6/results_conv'
 
 profiles = pickle.load(open(path + '/rbc_profiles_grid.pick', "rb"))[:-rewind_iterations]
 sim_times = pickle.load(open(path + '/sim_times.pick', 'rb'))[:-rewind_iterations]

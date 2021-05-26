@@ -684,7 +684,7 @@ class Simulation():
             #     plt.title(r'$<wb>_{zz}$' + ', ' + r'$k_x = $' + str(pi_mult) + r'$\pi$')
             #     plt.savefig(self.iteration_path + '/figures/' + str(int(pi_mult)) + 'p' + str(int(10*(pi_mult - int(pi_mult)))) + 'pi_wbzz')
             #     plt.close()
-            wb_zz_ar[i] = wb_zz.real
+            wb_zz_ar[i] = 0.5 * wb_zz.real
             logger.warning('Approximate unstable growth: ' + str(growth_m) + ' at kx: ' + str(kx))
         if CW.rank == 0:
             CW.Reduce(MPI.IN_PLACE, wb_zz_ar, op=MPI.SUM, root=0)
@@ -1027,10 +1027,12 @@ class Simulation():
             del_t = conv_data['del_t']
             kx1 = conv_data['kx1']
             kx2 = conv_data['kx2']
-            kx3 = conv_data['kx3']
             amp1 = conv_data['amp1']            
             amp2 = conv_data['amp2']
-            amp3 = conv_data['amp3']
+            threemodes = 'kx3' in conv_data.keys()
+            if (threemodes):
+                kx3 = conv_data['kx3']
+                amp3 = conv_data['amp3']
             delta_T += del_t
             for file in os.listdir(iteration_i_path + 'data'):
                 if (not file.endswith('.pick')):
@@ -1042,7 +1044,7 @@ class Simulation():
                     amp = np.sqrt(amp1)
                 elif (abs(kx - kx2) < 1e-8):
                     amp = np.sqrt(amp2)
-                elif (abs(kx - kx3) < 1e-8):
+                elif (threemodes and abs(kx - kx3) < 1e-8):
                     amp = np.sqrt(amp3)
                 else:
                     raise ValueError('Wavenumber in data file matches none of the converged wavenumbers!')

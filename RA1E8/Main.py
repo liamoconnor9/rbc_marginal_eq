@@ -376,7 +376,7 @@ else:
         sim.ev_dict = dict(sim.evs)
         pickle.dump(sim.evs, open(sim.iteration_path + '/evs.pick', 'wb'))
 
-# sim.store_avg_eigenfunctions(2)
+sim.store_avg_eigenfunctions(2)
 print_nu_del()
 
 ##################################################

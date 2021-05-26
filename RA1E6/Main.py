@@ -20,7 +20,7 @@ from Simulation import *     # pylint: disable=unused-wildcard-import
 # Settings/options
 restart = False
 load_profile = False
-subDir = '/results_conv'
+subDir = '/results_sqrt2'
 profile_file_name = os.path.dirname(os.path.abspath(__file__)) + '/avg_profs/averaged_avg_profs_ra1e8.h5'
 path = os.path.dirname(os.path.abspath(__file__)) + subDir
 if (not os.path.exists(path)):

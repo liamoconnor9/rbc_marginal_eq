@@ -1013,10 +1013,12 @@ class Simulation():
             del_t = conv_data['del_t']
             kx1 = conv_data['kx1']
             kx2 = conv_data['kx2']
-            kx3 = conv_data['kx3']
             amp1 = conv_data['amp1']            
             amp2 = conv_data['amp2']
-            amp3 = conv_data['amp3']
+            threemodes = 'kx3' in conv_data.keys()
+            if (threemodes):
+                kx3 = conv_data['kx3']
+                amp3 = conv_data['amp3']
             delta_T += del_t
             for file in os.listdir(iteration_i_path + 'data'):
                 if (not file.endswith('.pick')):
@@ -1028,7 +1030,7 @@ class Simulation():
                     amp = np.sqrt(amp1)
                 elif (abs(kx - kx2) < 1e-8):
                     amp = np.sqrt(amp2)
-                elif (abs(kx - kx3) < 1e-8):
+                elif (threemodes and abs(kx - kx3) < 1e-8):
                     amp = np.sqrt(amp3)
                 else:
                     raise ValueError('Wavenumber in data file matches none of the converged wavenumbers!')

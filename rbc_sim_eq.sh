@@ -1,7 +1,7 @@
 #PBS -S /bin/bash
 #PBS -N rbc_sim_eq
 #PBS -l select=4:ncpus=28:mpiprocs=28:model=bro
-#PBS -l walltime=24:00:00
+#PBS -l walltime=48:00:00
 #PBS -j oe
 module load mpi-sgi/mpt
 module load comp-intel

@@ -92,7 +92,8 @@ if not pathlib.Path('restart.h5').exists():
 
     # Accomodate differing resolutions in EVP and IVP processes
     N_evp = len(b0z_g)
-    evp_scale = int(N_evp / Nz)
+    evp_scale = N_evp / Nz
+    print(N_evp)
     x_evp, z_evp = domain.all_grids(scales=evp_scale)
     
     # Random perturbations, initialized globally for same results in parallel
@@ -169,7 +170,7 @@ else:
 
     # Timestepping and output
     dt = last_dt
-    stop_sim_time = 100
+    stop_sim_time = 400
     fh_mode = 'append'
 
 # Integration parameters
@@ -177,10 +178,10 @@ solver.stop_sim_time = stop_sim_time
 # solver.stop_iteration = 20
 
 # Analysis
-snapshots = solver.evaluator.add_file_handler('snapshots_eq', sim_dt=0.1, max_writes=50, mode=fh_mode)
-snapshots.add_task('b')
-snapshots.add_task('w')
-snapshots.add_task('u')
+# snapshots = solver.evaluator.add_file_handler('snapshots_eq_noflow', sim_dt=0.1, max_writes=50, mode=fh_mode)
+# snapshots.add_task('b')
+# snapshots.add_task('w')
+# snapshots.add_task('u')
 
 profiles = solver.evaluator.add_file_handler('profiles_noflow', sim_dt=0.1, max_writes=100, mode=fh_mode)
 profiles.add_task("P*integ(dz(b) - 1, 'x') / Lx", name='diffusive_flux')
