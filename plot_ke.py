@@ -82,9 +82,9 @@ if __name__ == "__main__":
         sim_times_ar = ke_data['sim_times_ar']
         colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
         plt.plot(sim_times_ar_eq_noflow, ke_ar_eq_noflow, color=colors[0])
-        plt.plot(sim_times_ar, ke_ar, color='black', label = 'Linear IC')
-        plt.plot(sim_times_ar_eq, ke_ar_eq, color=colors[-1], label = 'MSTE IC')
-        plt.plot(sim_times_ar_eq_noflow, ke_ar_eq_noflow, color=colors[0], label = 'MSTE No Flow IC')
+        plt.plot(sim_times_ar, ke_ar, color='black', label = 'Linear IC', linewidth = 3)
+        plt.plot(sim_times_ar_eq, ke_ar_eq, color=colors[-1], label = 'MSTE IC', linewidth = 2)
+        plt.plot(sim_times_ar_eq_noflow, ke_ar_eq_noflow, color=colors[0], label = 'MSTE No Flow IC', linewidth = 1.3)
         plt.xlim(0, 400)
         plt.legend(frameon=False)
         plt.xlabel(r'$t$')
