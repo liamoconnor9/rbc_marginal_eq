@@ -49,12 +49,16 @@ for file in sorted(os.listdir(iteration_path + '/data')):
 
     mid_re = T['g'].real[nb]
     mid_im = T['g'].imag[nb]
-    r = np.sqrt(mid_re * mid_re + mid_im * mid_im)
+    # r = np.sqrt(mid_re * mid_re + mid_im * mid_im)
     theta = np.arctan(mid_im / mid_re)
     if ((mid_im < 0 and mid_re < 0) or (mid_im < 0 and mid_re > 0)):
         theta += 2 * np.pi
 
-    ZC = np.exp(-1j * theta) / r
+
+    ZC = np.exp(-1j * theta)
+    A = de.operators.integrate((ZC * T) * (ZC * T), 'z').evaluate()['g'].real[0]
+    print("A = " + str(A))
+    ZC /= np.sqrt(2 * A)
     # ZC = 1.0
     kx = data['kx']
     z_ar[kx] = ZC
@@ -73,18 +77,19 @@ for file in sorted(os.listdir(iteration_path + '/data')):
 
     nr = len(z) // 2
     plt.subplot(3, 2, spi)
+    print("volume integral = " + str(2 * de.operators.integrate((T * ZC) * (T * ZC)).evaluate()['g'].real[0]))
     if (mode == 2 or mode == 4):
         plt.plot(z[:nr], (T['g'] * ZC).real[:nr], color = colors[0], linestyle = 'dashed', linewidth = 2, label=pi_mult_str)
     else:
-        plt.vlines(0.01053 - 0.5, -1, 2, linestyle = 'solid', label=r'$z = \delta - 0.5$', color = 'black', alpha = 0.6, linewidth = 2)
+        # plt.vlines(0.00817 - 0.5, -1, 2, linestyle = 'solid', label=r'$z = \delta - 0.5$', color = 'black', alpha = 0.6, linewidth = 2)
         plt.plot(z[:nr], (T['g'] * ZC).real[:nr], color = colors[-1], linewidth = 5, label=pi_mult_str)
     plt.xlim(-0.5, 0.0)
-    plt.ylim(-0.1, 1.1)
+    # plt.ylim(-0.1, 1.1)
     plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Theta$', rotation=90)
+    plt.ylabel(r'$\theta$', rotation=90)
     plt.legend()
-    if (mode == 0):
-        plt.title('Temperature')
+    # if (mode == 0):
+    #     plt.title('Temperature')
     
     if (mode != 1 and mode != 3):
         spi += 2
@@ -95,7 +100,7 @@ for file in sorted(os.listdir(iteration_path + '/data')):
     # plt.xlim(-0.5, 0.0)
     # plt.ylim(-0.05, 1.05)
     # plt.xlabel(r'$z$')
-    # plt.ylabel(r'$\Re[\Theta]$', rotation=90)
+    # plt.ylabel(r'$\Re[\theta]$', rotation=90)
 
 handles, labels = plt.gca().get_legend_handles_labels()
 # order = [4, 2, 3, 0, 1]
@@ -144,8 +149,8 @@ for file in sorted(os.listdir(iteration_path + '/data')):
     plt.xlabel(r'$z$')
     plt.ylabel(r'$W$', rotation=90)
     plt.legend()
-    if (mode == 1):
-        plt.title('Pressure')
+    # if (mode == 1):
+    #     plt.title('Ver')
 
     # plt.subplot(nrow, ncol, 4)
     # plt.plot(z[:nr], (w['g'] * ZC).imag[:nr])
@@ -157,7 +162,7 @@ for file in sorted(os.listdir(iteration_path + '/data')):
 
 
 
-plt.suptitle('Eigenfunctions: ' + r'$\rm{Ra} = 10^9$')
+plt.suptitle(r'$\rm{Ra} = 10^9$')
     
 plt.savefig(path + '/publication_materials/grid_vars.pdf')
 plt.legend()
