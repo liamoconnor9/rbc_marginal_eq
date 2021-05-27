@@ -687,7 +687,7 @@ An example of \eq{EQ:T0} is given by the blue curve in Figure~\ref{fig:T0_profil
 \section{Timestep Management} \label{sec:timestep}
 To find MSTE, we advance $\overline{T}$ by timesteps of size $\Delta t$.
 For large $\Delta t$, we find the advective flux terms fail to provide a stabilizing influence.
-This is due to coupling between the eigenfunctions $W(z)$, $\Theta(z)$ and the mean temperature profile $\overline{T}$.
+This is due to coupling between the eigenfunctions $W(z)$, $\theta(z)$ and the mean temperature profile $\overline{T}$.
 In the context of our algorithm, this effectively deletes the sought-after root of the maximum eigenvalue function $\sigma_{\rm{max}}(A^2)$, causing the root-finding methods to fail. 
 This is not a numerical instability, rather, it is an inherent limitation of our timestepping algorithm.
 To curtail this, we halt the root-finding algorithms after 20 successive approximations, and reduce the timestep by a factor of 1.1, and try again.
@@ -706,7 +706,7 @@ Both of these issues appear to become more prominent as the boundary layers diff
 Thus there is never a practical opportunity to increase the timestep.
 
 \onecolumngrid
-\section{MSTE Properties, Parameters, and Results}\label{sec:tables}
+\section{MSTE Parameters, and Results}\label{sec:tables}
 
 \begin{longtable*}{ccccl}
     %\begin{tabular}{cccccc}
@@ -737,14 +737,19 @@ Thus there is never a practical opportunity to increase the timestep.
     {\label{tab:metrics}}
     \end{longtable*}
 
-% \section{MSTE Eigenfunctions}\label{sec:eigenfunctions}
-\begin{figure}
+\clearpage
+\section{MSTE Eigenfunctions}\label{sec:eigenfunctions}
+\begin{figure}[H]
     \centering
     \includegraphics[width=7.1in]{grid_vars.pdf}
-    \caption{The real and imaginary components of the temperature and pressure MSTE eigenfunctions are illustrated in separate plots for various marginally-stable modes. 
+    \caption{The temperature and pressure MSTE eigenfunctions are shown in separate plots for various marginally-stable modes. 
+    Adjacent modes, whose wavenumbers only differ by $\pi/2$, are superimposed to illustrate their similarity.
     For the large-scale $k_x = 1.5\pi$ mode, we find the vertical velocity eigenfunction $W$ is maximized near the center of the domain.
-    In both other cases ($k_x = 5.5\pi, \, 17.5\pi$) the vertical velocity is localized near the boundaries.
-    In the temperature eigenfunction $\Theta$, small-scale zig-zags appear near the boundaries at $k_x = 1.5\pi$, subsiding as $k_x$ increases.}%
+    As $k_x$ increases, the vertical velocity is becomes more localized to the boundaries.
+    This trend is also apparent in the two pairs of adjacent modes.
+    In the temperature eigenfunctions $\theta$, small-scale zig-zags appear near the boundaries at $k_x = 1.5\pi$, subsiding as $k_x$ increases.
+    The left-most peaks of these profiles approximately coincide with the previously-defined boundary layer height $\delta$.
+    }%
     \label{fig:eigenfunctions}%
 \end{figure}
 
