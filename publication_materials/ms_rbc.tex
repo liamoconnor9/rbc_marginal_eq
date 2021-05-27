@@ -420,6 +420,7 @@ We do not understand the source of these dips, but similar temperature gradient 
 In that case, the reversals were due to nonlinear advection, which is not present in our quasilinear model. 
 
 In Figure~\ref{fig:flux}, we give heat flux profiles and eigenvalue spectra for two cases: $\Ra = 2 \times 10^5$ (top) and $\Ra = 10^9$ (bottom). 
+Appendix~\ref{sec:eigenfunctions} shows representative vertical velocity and temperature perturbation eigenfunctions.
 For $\Ra = 2 \times 10^5$, there is a single marginal mode at $k_x = 1.5\pi$ whose advective flux occupies the bulk of the domain. 
 These states have wide boundary layers, with diffusive fluxes which gradually subside as advection becomes the dominant flux component. 
 Transitional regions occur over a smaller length scale for $\Ra = 10^9$ where the shift from diffusion to advection is sharp.
@@ -746,22 +747,27 @@ Thus there is never a practical opportunity to increase the timestep.
     {\label{tab:metrics}}
     \end{longtable*}
 
-\clearpage
 \section{MSTE Eigenfunctions}\label{sec:eigenfunctions}
+
+In Figure~\ref{fig:eigenfunctions} we plot the velocity and temperature perturbation eigenfunctions for the marginally stable modes in the $\Ra =10^9$ MSTE.
+Though the eigenfunctions are in general complex, the linear system \eqss{EQ:linear1}{EQ:linear3} obeys phase-shift symmetry.
+Any set of solutions can be phase-shifted by multiplying the perturbations by an arbitrary complex quantity $e^{i\phi}$.
+In this particular case, we can eliminate the perturbations' imaginary components by selecting the proper $\phi$.
+This is due to the exchange of stabilities mentioned previously: $\omega = 0$ at marginal stability implies that the system admits a set of real solutions.
+Adjacent modes, whose wavenumbers only differ by $\pi/2$, are superimposed to illustrate their similarity.
+For the large-scale $k_x = 1.5\pi$ mode, we find the vertical velocity eigenfunction $W$ is maximized near the center of the domain.
+As $k_x$ increases, the vertical velocity is becomes more localized to the boundaries.
+However, in all cases, the temperature perturbations are more concentrated at the boundaries than the vertical velocity.
+This trend is also apparent in the two pairs of adjacent modes.
+In the temperature eigenfunctions $\theta$, small-scale zig-zags appear near the boundaries at $k_x = 1.5\pi$, subsiding as $k_x$ increases.
+The left-most peaks of these temperature perturbation profiles approximately coincide with the previously-defined boundary layer height $\delta$.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=7.1in]{grid_vars.pdf}
     \caption{The temperature and pressure MSTE eigenfunctions are shown in separate plots for various marginally-stable modes. 
-    Though the eigenfunctions are allowed to be complex, the linear system \eqss{EQ:linear1}{EQ:linear3} obeys phase-shift symmetry.
-    Any set of solutions can be phase-shifted by multiplying the perturbations by an arbitrary complex quantity $e^{i\phi}$.
-    In this particular case, we can eliminate the perturbations' imaginary components by selecting the proper $\phi$.
-    This is due to the exchange of stabilities mentioned previously: $\omega = 0$ at marginal stability implies that the system admits a set of real solutions.
-    Adjacent modes, whose wavenumbers only differ by $\pi/2$, are superimposed to illustrate their similarity.
-    For the large-scale $k_x = 1.5\pi$ mode, we find the vertical velocity eigenfunction $W$ is maximized near the center of the domain.
-    As $k_x$ increases, the vertical velocity is becomes more localized to the boundaries.
-    This trend is also apparent in the two pairs of adjacent modes.
-    In the temperature eigenfunctions $\theta$, small-scale zig-zags appear near the boundaries at $k_x = 1.5\pi$, subsiding as $k_x$ increases.
-    The left-most peaks of these profiles approximately coincide with the previously-defined boundary layer height $\delta$.
+    The eigenfunctions are normalized such that $\langle |\theta|^2\rangle_{\mathcal{D}}=1$.
+    We select a phase such that the eigenfunctions are real.
     }%
     \label{fig:eigenfunctions}%
 \end{figure}
