@@ -311,15 +311,15 @@ If we initialize both \eqs{eqn:diffusion_only}{eqn:advection_only} with a margin
 where the $A^2$ factor is meant to reconcile the different advective terms in \eqs{EQ:T0_IVP}{eqn:advection_only}.
 
 This approximation is valid in equilibrium, but in general, we would obtain undesired $z$-dependence in $A^2$.
-Though we might be tempted to take a norm, the best way to account for this $z$-dependence, is to make an analogous argument with respect to the growth rates
+Though we might be tempted to take a norm, the best way to account for this $z$-dependence, is to make an analogous argument with the growth rates
 \begin{align}
     \sigma_{\rm{diff}} - \sigma &\approx -A^2(\sigma_{\rm{adv}} - \sigma).
 \end{align}
-where $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ are the growth rates computed from $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ respectively.
+where $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ are computed from $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ respectively.
 $\sigma$ vanishes due to marginal stability.
 Later we will see that this approach can be easily generalized to account for multiple simultaneously marginal modes.
 
-In practice, we initialize $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ with $\overline{T}(z, t_0)$, and evolve the equations to $t=t_0+\Delta t$.
+In practice, we initialize $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ at $t = t_0$, and evolve the equations to $t=t_0+\Delta t$.
 Suppose $k_0$ is the wavenumber of the marginally-stable mode.
 Then we compute $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ at $k_x = k_0$ and $t=t_0+\Delta t$.
 A preliminary approximation $\Lambda^2_0$ of the appropriate amplitude $A^2$ is given by
