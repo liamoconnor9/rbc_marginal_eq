@@ -14,15 +14,14 @@ import publication_settings2
 matplotlib.rcParams.update(publication_settings2.params)
 plt.rcParams.update({'figure.autolayout': True})
 golden_mean = (np.sqrt(5)-1.0)/2.0
-plt.rcParams.update({'figure.figsize': [2*3.4, 2*3.4*golden_mean]})
+plt.rcParams.update({'figure.figsize': [2*3.4, 3*3.4*golden_mean]})
 path = os.path.dirname(os.path.abspath(__file__))
 colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
 Prandtl = 1
-Rayleigh = 4e8
+Rayleigh = 1e9
 P = (Rayleigh * Prandtl)**(-1/2)
-iteration = 7471
-iteration_path = path + '/RA4E8/results_conv/Iteration' + str(iteration)
+iteration_path = path + '/RA1E9/results/Iteration00000'
 
 z_basis = de.Chebyshev('z', 512, interval=(-1/2, 1/2))
 d = de.Domain([z_basis], grid_dtype=np.complex128, comm=MPI.COMM_SELF)
@@ -34,7 +33,9 @@ w = d.new_field()
 kxs = []
 labels = []
 z_ar = dict()
-for file in os.listdir(iteration_path + '/data'):
+spi = 1
+mode = 0
+for file in sorted(os.listdir(iteration_path + '/data')):
     if (not file.endswith('.pick')):
         continue
     f = open(iteration_path + '/data/' + file, 'rb')
@@ -69,32 +70,41 @@ for file in os.listdir(iteration_path + '/data'):
     kxs.append(kx)
     labels.append(pi_mult_str)
 
-    nrow = 2
-    ncol = 2
 
     nr = len(z) // 2
-    plt.subplot(2, 2, 3)
-    plt.plot(z[:nr], (T['g'] * ZC).imag[:nr])
+    plt.subplot(3, 2, spi)
+    if (mode == 2 or mode == 4):
+        plt.plot(z[:nr], (T['g'] * ZC).real[:nr], color = colors[0], linestyle = 'dashed', linewidth = 2, label=pi_mult_str)
+    else:
+        plt.vlines(0.01053 - 0.5, -1, 2, linestyle = 'solid', label=r'$z = \delta - 0.5$', color = 'black', alpha = 0.6, linewidth = 2)
+        plt.plot(z[:nr], (T['g'] * ZC).real[:nr], color = colors[-1], linewidth = 5, label=pi_mult_str)
     plt.xlim(-0.5, 0.0)
+    plt.ylim(-0.1, 1.1)
     plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Im[\Theta]$', rotation=90)
+    plt.ylabel(r'$\Theta$', rotation=90)
+    plt.legend()
+    if (mode == 0):
+        plt.title('Temperature')
+    
+    if (mode != 1 and mode != 3):
+        spi += 2
+    mode += 1
 
-    plt.subplot(2, 2, 1)
-    plt.plot(z[:nr], (T['g'] * ZC).real[:nr], label = pi_mult_str)
-    plt.xlim(-0.5, 0.0)
-    plt.ylim(-0.05, 1.05)
-    plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Re[\Theta]$', rotation=90)
-
-plt.vlines(0.01053 - 0.5, -0.1, 1.1, linestyle = 'dashed', label=r'$z = \delta$', color = 'black')
+    # plt.subplot(2, 2, 1)
+    # plt.plot(z[:nr], (T['g'] * ZC).real[:nr], label = pi_mult_str)
+    # plt.xlim(-0.5, 0.0)
+    # plt.ylim(-0.05, 1.05)
+    # plt.xlabel(r'$z$')
+    # plt.ylabel(r'$\Re[\Theta]$', rotation=90)
 
 handles, labels = plt.gca().get_legend_handles_labels()
 # order = [4, 2, 3, 0, 1]
-order = [2, 1, 0, 3]
-plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order], loc = 'upper right', frameon = False)
+# order = [2, 1, 0, 3]
+# plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order], loc = 'upper right', frameon = False)
 
-
-for file in os.listdir(iteration_path + '/data'):
+spi = 2
+mode = 0
+for file in sorted(os.listdir(iteration_path + '/data')):
     if (not file.endswith('.pick')):
         continue
     f = open(iteration_path + '/data/' + file, 'rb')
@@ -111,29 +121,43 @@ for file in os.listdir(iteration_path + '/data'):
 
     pi_mult_str = r'$k_x = $' + str(round(kx/np.pi, 1)) + r'$\pi$'
 
-    nrow = 2
+    nrow = 3
     ncol = 2
 
     ZC = z_ar[kx]
 
     nr = len(z) // 2
-    plt.subplot(nrow, ncol, 2)
-    plt.plot(z[:nr], (w['g'] * ZC).real[:nr])
+    plt.subplot(nrow, ncol, spi)
+
+    if (mode == 2 or mode == 4):
+        plt.plot(z[:nr], (w['g'] * ZC).real[:nr], color = colors[0], linestyle = 'dashed', linewidth = 2, label=pi_mult_str)
+    else:
+        plt.plot(z[:nr], (w['g'] * ZC).real[:nr], color = colors[-1], linewidth = 5, label=pi_mult_str)
+        # plt.vlines(0.01053 - 0.5, -1, 2, linestyle = 'solid', label=r'$z = \delta - 0.5$', color = 'black', alpha = 0.6, linewidth = 2)
+
+    if (mode != 1 and mode != 3):
+        spi += 2
+    print(mode)
+    mode += 1
+    # plt.plot(z[:nr], (w['g'] * ZC).real[:nr])
     plt.xlim(-0.5, 0.0)
     plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Re[W]$', rotation=90)
+    plt.ylabel(r'$W$', rotation=90)
+    plt.legend()
+    if (mode == 1):
+        plt.title('Pressure')
 
-    plt.subplot(nrow, ncol, 4)
-    plt.plot(z[:nr], (w['g'] * ZC).imag[:nr])
+    # plt.subplot(nrow, ncol, 4)
+    # plt.plot(z[:nr], (w['g'] * ZC).imag[:nr])
 
-    plt.xlim(-0.5, 0.0)
-    plt.xlabel(r'$z$')
-    plt.ylabel(r'$\Im[W]$', rotation=90)
-
-
+    # plt.xlim(-0.5, 0.0)
+    # plt.xlabel(r'$z$')
+    # plt.ylabel(r'$\Im[W]$', rotation=90)
 
 
-plt.suptitle('Eigenfunctions: ' + r'$\rm{Ra} = 4 \times 10^8$')
+
+
+plt.suptitle('Eigenfunctions: ' + r'$\rm{Ra} = 10^9$')
     
 plt.savefig(path + '/publication_materials/grid_vars.pdf')
 plt.legend()
