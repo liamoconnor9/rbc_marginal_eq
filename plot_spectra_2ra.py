@@ -62,6 +62,12 @@ def plot_EVs(evs_mat, labels):
         ax.set_xlabel(r'$k_x$')
         ax.set_ylabel(r'$\sigma$')
         ax.yaxis.set_major_formatter(FormatStrFormatter('%.4f'))
+        if (i == 0):
+            ax.annotate('(B)', xy=(-0.2, 1.1), xycoords='axes fraction', fontsize = plt.rcParams['font.size'] * 1.5)
+        elif (i == 1):
+            ax.annotate('(D)', xy=(-0.2, 1.1), xycoords='axes fraction', fontsize = plt.rcParams['font.size'] * 1.5)
+        else:
+            raise Exception("index out of range")
 
     plt.tight_layout()
     # plt.title(r'Growth Rates: $Ra = 2e9$')

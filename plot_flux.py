@@ -79,6 +79,7 @@ def plot_flux(Rayleigh, ax, path, iteration):
         # plt.title('Heat Flux')
         ax.set_xlabel(r'$z$')
         ax.set_ylabel('Flux')
+        ax.annotate('(C)', xy=(-0.2, 1.1), xycoords='axes fraction', fontsize = plt.rcParams['font.size'] * 1.5)
     
     elif ('kx' in data.keys()):
         b0z = domain.new_field()
@@ -104,6 +105,7 @@ def plot_flux(Rayleigh, ax, path, iteration):
         # plt.title('Heat Flux (Iteration ' + str(self.iteration) + ')')
         # plt.savefig(self.iteration_path + '/figures' + '/Iteration' + str(self.iteration) + '_flux.png')
         # plt.close()
+        ax.annotate('(A)', xy=(-0.2, 1.1), xycoords='axes fraction', fontsize = plt.rcParams['font.size'] * 1.5)
     try:
         flux_avg = np.mean(flux)
         flux_const_dev = np.mean(np.abs(flux - flux_avg))
