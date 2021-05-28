@@ -132,14 +132,15 @@ The quasilinear approximation starts with a decomposition of all variables into 
 This approximation neglects the nonlinear interactions between perturbations which would otherwise modify the perturbations themselves \cite{marston2016}.
 This renders the perturbation equations linear.
 Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
-In \citet{Beaume_2015}, researchers compute ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
+The simplest approach is to initialize the perturbations to low amplitude, and evolve them together with the background (this is, e.g., the approach of \cite{marston2016} and many others).
+A different approach was taken in \citet{Beaume_2015}, which computes ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
 They assume the background velocity evolves on a slow time scale, and, to determine the perturbation amplitudes, they require marginal stability at each timestep.
 % A similar strategy is employed by \citet{michel_chini_2019} to study acoustic streaming.
 % In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
 This quasilinear approach, which relies on multi-scale arguments in conjunction with a marginal stability constraint, is generalized by \citet{Chini_ql}.
 Studying two somewhat generic systems, researchers observe the interdependent evolution of a background state and its perturbations within a marginally-stable manifold.
 
-In this paper we employ the same strategy to the more complicated Rayleigh-B\'{e}nard convection problem.
+In this paper we employ this strategy for the Rayleigh-B\'{e}nard convection problem.
 In Section~\ref{sec:model} we recall the underlying equations, and in Section~\ref{sec:evolution} we outline how we evolve the background temperature profile while maintaining marginal stability.
 Section~\ref{sec:properties} pertains to the properties of the marginally-stable thermal equilibria, in particular how the Nusselt number and characteristic wavenumbers vary with the Rayleigh number.
 Finally, we analyze the results of simulations initialized with marginally-stable thermal equilibria in Section~\ref{sec:sims}, and conclude in Section~\ref{sec:Discussion}.
