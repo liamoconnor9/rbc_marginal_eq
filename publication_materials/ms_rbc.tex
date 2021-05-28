@@ -291,7 +291,7 @@ We will now illustrate our method of finding the appropriate $A$ through an exam
 
 Consider a marginally-stable temperature profile $\overline{T}(z, t_0)$.
 By definition, its maximum growth rate is 0.
-Diffusing $\overline{T}(z, t_0)$ tends to increase its growth rates while ignoring the diffusive term and evolving according to advection tends to decrease its growth rates.
+Diffusing $\overline{T}(z, t_0)$ tends to increase its growth rates while ignoring the diffusive term and evolving according to advection tends to decrease its growth rates (see Figure~\ref{fig:iteration_spectra}).
 The amplitude $A$ must be selected such that these two influences are equal and opposite.
 We can measure the effects of diffusion and advection on the maximum eigenvalue by solving two new initial value problems
 \begin{align}\label{eqn:diffusion_only}
@@ -299,41 +299,21 @@ We can measure the effects of diffusion and advection on the maximum eigenvalue 
     &\frac{\partial \overline{T}_{\rm{adv}}}{\partial t} + \frac{\partial}{\partial z} \Re\left[ W \theta^* \right] = 0 \label{eqn:advection_only}
 \end{align}
 where $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ denote the diffused and advected temperature profiles respectively. 
-The advective term must be defined in this way because we do not yet know its amplitude $A^2$. 
-In the original problem \eq{EQ:T0_IVP}, evolution due to advection is proportional to $A^2$.
-That is not the case in \eq{eqn:advection_only}.
+In equation~\ref{eqn:advection_only} we have set the amplitude of the eigenfunctions $A=1$ so we can determine how advection changes the temperature profiles.
 
-To approximate $A^2$, we assume the system is in a state of near-equilibrium, evolving on a slow time scale relative to diffusion or advection individually. 
-If we initialize both \eqs{eqn:diffusion_only}{eqn:advection_only} with a marginally-stable\footnote[3]{Note that marginal stability differs from equilibrium in this quasilinear context because a marginally-stable state need not satisfy $\frac{\partial \overline{T}}{\partial t} = 0$.} temperature profile $\overline{T}$, the evolution of the background state due to diffusion must be approximately opposite the evolution due to advection on the fast time scale, i.e.
-\begin{align}
-    \overline{T}_{\rm{diff}} - \overline{T} &\approx -A^2(\overline{T}_{\rm{adv}} - \overline{T})
-\end{align}
-where the $A^2$ factor is meant to reconcile the different advective terms in \eqs{EQ:T0_IVP}{eqn:advection_only}.
-
-This approximation is valid in equilibrium, but in general, we would obtain undesired $z$-dependence in $A^2$.
-Though we might be tempted to take a norm, the best way to account for this $z$-dependence, is to make an analogous argument with the growth rates
-\begin{align}
-    \sigma_{\rm{diff}} - \sigma &\approx -A^2(\sigma_{\rm{adv}} - \sigma).
-\end{align}
-where $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ are computed from $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ respectively.
-$\sigma$ vanishes due to marginal stability.
-Later we will see that this approach can be easily generalized to account for multiple simultaneously marginal modes.
-
-In practice, we initialize $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ at $t = t_0$, and evolve the equations to $t=t_0+\Delta t$.
+We solve equations \eqs{eqn:diffusion_only}{eqn:advection_only} from $t=t_0$ to $t=t_0+\Delta t$, initializing each temperature profile with $\overline{T}(z, t_0)$.
 Suppose $k_0$ is the wavenumber of the marginally-stable mode.
-Then we compute $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ at $k_x = k_0$ and $t=t_0+\Delta t$.
-A preliminary approximation $\Lambda^2_0$ of the appropriate amplitude $A^2$ is given by
+We then calculate the largest eigenvalues for the $\overline{T}_{\rm{diff}}$ and $\overline{T}_{\rm{adv}}$ profiles, $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$.
+A good guess for $A^2$ is
 \begin{equation}
-    A^2 \approx \Lambda^2_0 \equiv -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}} \label{EQ:amp_approx}
+    A^2 \approx \Lambda^2_0 \equiv -\frac{\sigma_{\rm{diff}}}{\sigma_{\rm{adv}}}. \label{EQ:amp_approx}
 \end{equation}
-where the square in $A^2$ and $\Lambda^2_0$ is due to the quadratic nonlinearity of the eigenfunctions in the advective term and the minus sign is due to the fact that $\sigma_{\rm{adv}} < 0$ and $\sigma_{\rm{diff}} > 0$ in general.
-We illustrate these trends in Figure~\ref{fig:iteration_spectra}. 
-The subscript 0 denotes a preliminary estimate which we later refine.
-In general, when $\Lambda^2_0 > 0$, the root-finding algorithm is stable.
-The alternative can occur when the timestep approaches machine precision, in which case $\sigma_{\rm{diff}}$ and $\sigma_{\rm{adv}}$ are subject to floating point errors of comparable order to themselves.
+This estimate follows from first-order perturbation theory.
+Note that $\sigma_{\rm{adv}} < 0$ and $\sigma_{\rm{diff}} > 0$, so $\Lambda_0^2>0$.
 
 Using the approximate amplitude $\Lambda_0^2$, the background temperature $\overline{T}(z, t_0)$ is then evolved to $t=t_0+\Delta t$ according to \eq{EQ:T0_IVP} and another eigenvalue solve is performed. 
 This background temperature is typically close to, but not exactly, marginally stable.
+In fact, in the limit $\Delta t \rightarrow 0$, the estimate $\Lambda_0^2$ approaches the amplitude $A^2$ necessary to keep the background temperature marginally stable \cite{Chini_ql}.
 We use Newton's method to find an amplitude $A^2$ such that the maximum growth rate is zero to within $10^{-9}$.
 Marginally-stable modes do not oscillate in time, i.e.~$\sigma = 0$ implies $\omega = 0$.
 This agrees with the conventional notion of exchange of stabilities \cite{drazin_reid_2004}.
