@@ -271,6 +271,7 @@ f457afc3193c32c16fdff94cdad962d07edea56b
 \url{https://github.com/jsoishi/eigentools}}
 
 To initialize our calculations, we construct a marginally-stable initial temperature profile $\overline{T}(z, t=0)$ whose equation is given in Appendix~\ref{sec:initial_profile}. 
+Although this background temperature is marginally-stable, it is not in thermal equilibrium, so it will evolve in time.
 We use \eq{EQ:T0_IVP} to evolve $\overline{T}(z, t_0)$ into a new marginally-stable profile $\overline{T}(z, t_0 + \Delta t)$.
 We use a second-order, two-stage IMEX Runge-Kutta method.
 The eigenfunctions and amplitudes are assumed to be constant with respect to $t$ over the timestep.
