@@ -1,4 +1,4 @@
-\documentclass[reprint,amsmath,amssymb,aps,nofootinbib]{revtex4-1}
+\documentclass[longbibliography,twocolumn,amsmath,amssymb,aps,nofootinbib]{revtex4-2}
 
 \usepackage{graphicx}
 \usepackage{natbib}
@@ -57,7 +57,6 @@
 \newcommand{\T}{{\cal T}}
 \newcommand{\Z}{{\cal Z}}
 
-\bibliographystyle{apsrev4-1}
 
 \makeatletter
 \let\Hy@backout\@gobble
@@ -596,7 +595,7 @@ MSTE absent velocity effectively achieve the same goal.
 MSTE are laminar, lacking the small-scale structures associated with moderate- to high-$\Ra$ experiments. 
 This is an apparent consequence of the quasilinear assumptions. 
 If we perceive MSTE as background states, DNS suggest that plumes, vortex sheets, and other unstable turbulent features inhibit total heat transfer. 
-This perspective agrees with conventional models of transitions to turbulent flows, such as Boussinesq's turbulent-viscosity hypothesis \cite{boussinesq_1877}. 
+This perspective agrees with conventional models of transitions to turbulent flows, such as Boussinesq's turbulent-viscosity hypothesis \cite{pope_2000}. 
 The emergence of small-scale velocity structures is indicative of nonlinear energy transfer to small scales where energy is lost due to viscosity. 
 Buoyancy driven flows are therefore impeded and the advection in the bulk of the domain decreases in magnitude \cite{drazin_reid_2004, pope_2000}. 
 We could also attribute the diffuse DNS temperature profile in Figure~\ref{fig:T0_profiles} with unsteady boundary-layer penetration and mixing that MSTE do not exhibit.
@@ -789,6 +788,8 @@ The left-most peaks of these temperature perturbation profiles approximately coi
 \twocolumngrid
 \clearpage
 % \bibliographystyle{plain}
-\bibliography{he}
+% \bibliographystyle{apsrev4-1}
+
+\bibliography{ms_rbc.bib}
 
 \end{document}
