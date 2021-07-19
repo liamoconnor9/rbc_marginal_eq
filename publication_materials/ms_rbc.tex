@@ -97,14 +97,19 @@ $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, North
 
 \begin{abstract}
     Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive.
-    To study convection in a novel context, we derive and solve a quasilinear form of the Rayleigh-Bénard problem by representing the perturbations in terms of marginally-stable eigenmodes.
-    The amplitude of each eigenmode is determined by requiring that the background state maintains marginal stability.
-    The background temperature profile evolves due to the advective flux of every marginally-stable eigenmode, as well as diffusion.
-    To ensure marginal stability and to obtain the eigenfunctions at every timestep, we perform a one-dimensional eigenvalue solve on each of the allowable wavenumbers.
-    The background temperature field evolves to an equilibrium state, where the advective flux from the marginally-stable eigenmodes and the diffusive flux sum to a constant.
-    These marginally-stable thermal equilibria (MSTE) are exact solutions of the quasilinear equations.
+    To study convection in a novel context, we solve Herring's quasilinear form of the Rayleigh-Bénard problem (\citet{herring63}) using a new approach: the perturbations are represented in terms of \textit{marginally-stable eigenmodes}.
+    The background temperature profile evolves due to the advective flux of every marginally-stable eigenmode, as well as diffusion. 
+    We find the system tends toward an equilibrium where advection and diffusion sum to a constant.
+    The eigenmode amplitudes must be chosen such that the background state maintains marginal stability. 
+    We accomplish this by applying Newton's method to the eigenvalues, which themselves are a function of the perturbation amplitudes.
+    In this way, marginal stability is maintained and several modes are allowed to simultaneously participate in the evolution of the background state.
+    We consider only the countable set of modes whose wavenumbers agree with the problem's periodic domain.
+    This approach is unique in that we traverse a marginally-stable manifold to equilibrium, rather than beginning with an unstable state and allowing it to saturate via the advection of a single unstable mode, thereby allowing us to extend Herring's findings to larger $\Ra$. 
+    In agreement with \citet{herring63}, we find that only a small subset of the allowable wavenumbers achieve marginal-stability, with a single ``dominant'' mode (whose spatial wavenumber $k_x = 1.5\pi$) participating when $\Ra < 10^6$.
+    For $\Ra \geq 10^6$, we find the dominant mode acts in cooperation with higher-wavenumber modes to accommodate the sharp change in diffusive flux which is commonly observed in high-$\Ra$ convection boundary layers.
+    We then compare our findings with direct numerical simulations.
     The mean temperature profile has thinner boundary layers and larger Nusselt numbers than thermally-equilibrated 2D and 3D simulations of the full nonlinear equations.
-    We find the Nusselt number scales like $\Nu \sim\Ra^{1/3}$.
+    We find the Nusselt number continues to scale like $\Nu \sim\Ra^{1/3}$ beyond $\Ra = 10^6$.
     When an MSTE is used as initial conditions for a 2D simulation, we find that Nu quickly equilibrates without the burst of turbulence often induced by purely conductive initial conditions, but we also find that the kinetic energy is too large and viscously attenuates on a long viscous time scale.
     This is due to the thin temperature boundary layers which diffuse heat very effectively, thereby requiring high-velocity advective flows to reach an equilibrium.
 \end{abstract}
