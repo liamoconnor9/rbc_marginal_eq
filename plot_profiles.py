@@ -8,6 +8,7 @@ import eigentools as eig
 import numpy as np
 from collections import OrderedDict
 from mpi4py import MPI
+import pandas as pd
 import os
 import pickle
 import h5py
@@ -28,6 +29,16 @@ ra = 1e8
 P = ra**(-1/2)
 root_path = os.path.dirname(os.path.abspath(__file__))
 e = h5py.File(root_path + '/profiles_nom/profiles_nom_s40.h5','r')
+
+path = os.path.dirname(os.path.abspath(__file__)) + '/'
+file_nm = path + 'ecs_profiles.xls'
+
+xl = pd.ExcelFile(file_nm)
+data = xl.parse("Sheet1")
+ra_ss = np.array(list(data.iloc[:, 0])[:9])
+nu_ss = np.array(list(data.iloc[:, 1])[:9])
+print(ra_ss)
+
 Tz_nom = np.mean((e['tasks']['diffusive_flux'][()]), axis=0).squeeze() / P
 z_nom = e['scales/z']['1.0'][:]
 # z_nom = e['scales']['z'][()].squeeze()

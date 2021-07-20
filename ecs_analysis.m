@@ -1,0 +1,1 @@
+plot(z, T_meanx)
