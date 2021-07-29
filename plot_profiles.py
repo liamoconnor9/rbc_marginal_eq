@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
 from matplotlib.patches import Rectangle
 import dedalus.public as de
-import eigentools as eig
 import numpy as np
 from collections import OrderedDict
 from mpi4py import MPI
@@ -35,9 +34,8 @@ file_nm = path + 'ecs_profiles.xls'
 
 xl = pd.ExcelFile(file_nm)
 data = xl.parse("Sheet1")
-ra_ss = np.array(list(data.iloc[:, 0])[:9])
-nu_ss = np.array(list(data.iloc[:, 1])[:9])
-print(ra_ss)
+z_ecs = np.array(list(data.iloc[:, 1])[:])
+T_ecs = np.array(list(data.iloc[:, 0])[:])
 
 Tz_nom = np.mean((e['tasks']['diffusive_flux'][()]), axis=0).squeeze() / P
 z_nom = e['scales/z']['1.0'][:]
@@ -82,21 +80,23 @@ colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 # ax1 = fig.add_axes([0.29, 0.315, 0.3, 0.18])
 ax1 = ax.inset_axes([0.1, 0.1, 0.35, 0.3])
 ax.plot(z0, T0, label='Initial', color='black')
-ax.plot(z1, T1, label='MSTE', color=colors[-1])
+ax.plot(z1, T1, label='MSTE', color=colors[1])
+ax.plot(z_ecs - 0.5, T_ecs - 0.5, label='ECS', color=colors[-1])
 ax.plot(z2, T2, label='DNS', color=colors[0])
 ax.set_xlim(-0.5, 0.5)
 ax.set_ylim(-0.5, 0.5)
 ax.set_xlabel(r'$\rm{z}$')
 ax.set_ylabel(r'$\bar{T}$')
 # plt.xticks([-0.5, -0.495, -0.49])
-ax.legend(frameon=False)
+ax.legend(frameon=False, ncol=2)
 ax.add_patch(Rectangle((-0.5, -0.02), 0.05, 0.12, alpha=0.5, fill=None, linewidth=0.5))
 ax.plot([-0.05, -0.45], [-0.1, 0.1], color='k', alpha=0.5, linewidth=0.5)
 ax.plot([-0.4, -0.5], [-0.4, -0.02], color='k', alpha=0.5, linewidth=0.5)
 # ax.indicate_inset_zoom(ax1)
 
 ax1.plot(z0, T0, label='Initial', color='black')
-ax1.plot(z1, T1, label='MSTE', color=colors[-1])
+ax1.plot(z1, T1, label='MSTE', color=colors[1])
+ax1.plot(z_ecs - 0.5, T_ecs - 0.5, label='ECS', color=colors[-1])
 ax1.plot(z2, T2, label='DNS', color=colors[0])
 ax1.set_xlim(-0.5, -0.45)
 ax1.set_ylim(-0.02, 0.1)

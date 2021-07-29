@@ -9,6 +9,8 @@
 \usepackage{varwidth}
 \usepackage{float}
 \usepackage{nonfloat}
+\usepackage{soul}
+\usepackage{ulem}
 % \usepackage{multicol}
 % \usepackage{afterpage}
 \usepackage[usenames, dvipsnames]{color}
@@ -26,6 +28,8 @@
 \renewcommand\L {\mathcal{L}}
 \renewcommand{\citet}[1]{ref.~\cite{#1}}
 \renewcommand{\Citet}[1]{Ref.~\cite{#1}}
+\newcommand{\citets}[1]{refs.~\cite{#1}}
+\newcommand{\Citets}[1]{Refs.~\cite{#1}}
 
 \newcommand{\n}{\\ \nonumber \\ }
 \newcommand{\nn}{\nonumber}
@@ -96,22 +100,12 @@ $^1$Department of Engineering Sciences and Applied Mathematics, Northwestern Uni
 $^2$Center for Interdisciplinary Exploration and Research in Astrophysics, Northwestern University, Evanston, IL, 60201 USA}
 
 \begin{abstract}
-    Natural convection is ubiquitous throughout the physical sciences and engineering, yet many of its important properties remain elusive.
-    To study convection in a novel context, we solve Herring's quasilinear form of the Rayleigh-Bénard problem (\citet{herring63}) using a new approach: the perturbations are represented in terms of \textit{marginally-stable eigenmodes}.
-    The background temperature profile evolves due to the advective flux of every marginally-stable eigenmode, as well as diffusion. 
-    We find the system tends toward an equilibrium where advection and diffusion sum to a constant.
-    The eigenmode amplitudes must be chosen such that the background state maintains marginal stability. 
-    We accomplish this by applying Newton's method to the eigenvalues, which themselves are a function of the perturbation amplitudes.
-    In this way, marginal stability is maintained and several modes are allowed to simultaneously participate in the evolution of the background state.
-    We consider only the countable set of modes whose wavenumbers agree with the problem's periodic domain.
-    This approach is unique in that we traverse a marginally-stable manifold to equilibrium, rather than beginning with an unstable state and allowing it to saturate via the advection of a single unstable mode, thereby allowing us to extend Herring's findings to larger $\Ra$. 
-    In agreement with \citet{herring63}, we find that only a small subset of the allowable wavenumbers achieve marginal-stability, with a single ``dominant'' mode (whose spatial wavenumber $k_x = 1.5\pi$) participating when $\Ra < 10^6$.
-    For $\Ra \geq 10^6$, we find the dominant mode acts in cooperation with higher-wavenumber modes to accommodate the sharp change in diffusive flux which is commonly observed in high-$\Ra$ convection boundary layers.
-    We then compare our findings with direct numerical simulations.
-    The mean temperature profile has thinner boundary layers and larger Nusselt numbers than thermally-equilibrated 2D and 3D simulations of the full nonlinear equations.
-    We find the Nusselt number continues to scale like $\Nu \sim\Ra^{1/3}$ beyond $\Ra = 10^6$.
+    \textcolor{blue}{Natural convection exhibits turbulent flows which are difficult or impossible to resolve in nonlinear direct numerical simulations. In this work, we investigate a quasilinear form of the Rayleigh-B\'enard problem which describes the bulk one-dimensional properties of convection without resolving the turbulent dynamics. We represent perturbations away from the mean as marginally-stable eigenmodes.  By constraining the perturbation amplitudes, the marginal-stability criterion allows us to evolve the background temperature profile under the influence of multiple eigenmodes representing bulk flows at different length scales.}
+    We find the quasilinear system evolves to an equilibrium state where advective and diffusive fluxes sum to a constant.
+    These marginally-stable thermal equilibria (MSTE) are exact solutions of the quasilinear equations.
+    The mean MSTE temperature profiles have thinner boundary layers and larger Nusselt numbers than thermally-equilibrated 2D and 3D simulations of the full nonlinear equations.  
+    \textcolor{blue}{MSTE solutions exhibit a classic boundary-layer scaling of the Nusselt number $\Nu$ with the Rayleigh number $\Ra$ of $\Nu \sim \Ra^{1/3}$.}
     When an MSTE is used as initial conditions for a 2D simulation, we find that Nu quickly equilibrates without the burst of turbulence often induced by purely conductive initial conditions, but we also find that the kinetic energy is too large and viscously attenuates on a long viscous time scale.
-    This is due to the thin temperature boundary layers which diffuse heat very effectively, thereby requiring high-velocity advective flows to reach an equilibrium.
 \end{abstract}
 
 \maketitle
@@ -136,16 +130,27 @@ The quasilinear approximation starts with a decomposition of all variables into 
 This approximation neglects the nonlinear interactions between perturbations which would otherwise modify the perturbations themselves \cite{marston2016}.
 This renders the perturbation equations linear.
 Although the quasilinear approximation greatly simplifies the problem, an additional condition must be imposed to determine the amplitude of the perturbations.
-The simplest approach is to initialize the perturbations to low amplitude, and evolve them together with the background (this is, e.g., the approach of \citet{marston2016} and many others).
-A different approach was taken in \citet{Beaume_2015}, which computes ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
+
+\textcolor{blue}{\Citets{herring63, marston2016} address this by} initializing the perturbations to low amplitude and evolving them together with the background.
+\textcolor{blue}{More recently,} a different approach was taken in \citet{Beaume_2015}, which computes ECS in parallel shear flows by deriving and solving a quasilinear formulation of the Navier-Stokes equations via multi-scale asymptotic arguments. 
 They assume the background velocity evolves on a slow time scale, and, to determine the perturbation amplitudes, they require marginal stability at each timestep.
 % A similar strategy is employed by \citet{michel_chini_2019} to study acoustic streaming.
 % In that work, an analytic expression for the first-order perturbation's amplitude is found by deriving a solvability condition.
 This quasilinear approach, which relies on multi-scale arguments in conjunction with a marginal stability constraint, is generalized by \citet{Chini_ql}.
 Studying two somewhat generic systems, researchers observe the interdependent evolution of a background state and its perturbations within a marginally-stable manifold.
 
-In this paper we employ this strategy for the Rayleigh-B\'{e}nard convection problem.
-In Section~\ref{sec:model} we recall the underlying equations, and in Section~\ref{sec:evolution} we outline how we evolve the background temperature profile while maintaining marginal stability.
+\textcolor{blue}{
+In \citet{herring63}, Herring derives a quasilinear model for Boussinesq convection and provides supporting arguments for the model's physical validity.
+He demonstrates that a single eigenmode is dominant only when $\Ra < 10^6$.
+Herring uses numerical integration along with Fourier decomposition to approximate the transient solution to his model, allowing the system to saturate in a state of marginal stability.
+Though efficient, this method is limited in its inability to model high-$\Ra$ convection due to the appearance of a second unstable mode at $\Ra \approx 10^6$.
+How these modes interact to form thermal equilibria is also of interest.
+In this paper we apply \citet{Chini_ql}'s generalized approach to \citet{herring63}'s reduced convection model by requiring marginal stability at the point of initialization.
+When evolving the background state, we select the perturbation amplitudes such that marginal stability is maintained with each successive timestep.
+This new method allows us to calculate marginal-stable thermal equilibria up to $\Ra = 10^9$, requiring as many as five eigenmodes each with a unique horizontal wavenumber.
+}
+
+\textcolor{blue}{The paper is organized as follows:} in Section~\ref{sec:model} we recall the underlying equations, and in Section~\ref{sec:evolution} we outline how we evolve the background temperature profile while maintaining marginal stability.
 Section~\ref{sec:properties} pertains to the properties of the marginally-stable thermal equilibria, in particular how the Nusselt number and characteristic wavenumbers vary with the Rayleigh number.
 Finally, we analyze the results of simulations initialized with marginally-stable thermal equilibria in Section~\ref{sec:sims}, and conclude in Section~\ref{sec:Discussion}.
  
@@ -322,8 +327,8 @@ Using the approximate amplitude $\Lambda_0^2$, the background temperature $\over
 This background temperature is typically close to, but not exactly, marginally-stable.
 In fact, in the limit $\Delta t \rightarrow 0$, the estimate $\Lambda_0^2$ approaches the amplitude $A^2$ necessary to keep the background temperature marginally-stable \cite{Chini_ql}.
 We use Newton's method to find an amplitude $A^2$ such that the maximum growth rate is zero to within $10^{-9}$.
-Marginally-stable modes do not oscillate in time, i.e.~$\sigma = 0$ implies $\omega = 0$.
-This agrees with the conventional notion of exchange of stabilities \cite{drazin_reid_2004}.
+We observe that marginally-stable modes do not oscillate in time, i.e.~$\sigma = 0$ implies $\omega = 0$.
+This \textcolor{blue}{finding} is consistent with the conventional notion of exchange of stabilities \cite{drazin_reid_2004}.
 Crucially, we do not assume the $k_x$ of the marginally-stable mode is fixed.
 In Section~\ref{sec:multiple_modes} we specify procedures for the treatment of multiple simultaneously marginal modes.
 
@@ -393,10 +398,13 @@ We compute symmetric MSTE for $\Ra$ in the range $10^5 - 10^9$.
     \caption{Mean temperature profiles $\overline{T}$ for $\Ra = 10^8$. 
     The initial profile is given by \eq{EQ:T0}. 
     We evolve this background temperature profile according to Section~\ref{sec:evolution} until we reach a marginally-stable thermal equilibrium (MSTE).
+    \textcolor{blue}{ECS refers to a steady nonlinear solution for Boussinesq convection, given by \citet{Wen}.}
     The DNS curve is obtained from a 2D nonlinear simulation of \eqss{EQ:motion1}{EQ:motion3} with \texttt{Dedalus}.
     DNS temperature data are horizontally- and time-averaged.
     The initial profile has the narrowest boundary layer, while the DNS profile has the widest boundary layer.
-    The MSTE profile exhibits prominent dips, nested alongside the boundary regions. }
+    \textcolor{blue}{The equilibrated MSTE and ECS curves lie between the initial and DNS curves, with the ECS having a more diffuse boundary layer than that of the MSTE.}
+    The MSTE profile exhibits prominent dips, nested alongside the boundary regions. 
+    }
 %    The source of this feature is not well understood, but similar temperature gradient reversal regions were found by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$.}
     \label{fig:T0_profiles}
 \end{figure}
@@ -404,8 +412,10 @@ We compute symmetric MSTE for $\Ra$ in the range $10^5 - 10^9$.
 Figure~\ref{fig:T0_profiles} gives temperature profiles for $\Ra = 10^8$, where the initial profile is outlined in Appendix~\ref{sec:initial_profile}. 
 We run a direct numerical simulation (DNS) of \eqss{EQ:motion1}{EQ:motion3} with \texttt{Dedalus} and plot the horizontal- and time- averaged temperature profile. 
 The temperature boundary layers in the DNS are wider than in the MSTE, which is in turn wider than the boundary layer of the initial temperature profile.
-Performing an eigenvalue solve by setting $\overline{T}$ equal to the DNS profile yields unstable eigenvalues. 
+\textcolor{blue}{By computing the maximum growth rates of the linearized system \eqss{EQ:linear1}{EQ:linear3}, we found that both the DNS and the ECS profiles are linearly unstable when used as background states.}
+\note{Need to perform EVP on ECS to confirm this!}
 Every marginally-stable initial profile we experiment with ($\tanh$, $\rm{erf}$) has thinner boundary layers than the DNS and MSTE profiles.
+\textcolor{blue}{When comparing our quasilinear equilibrium (MSTE) with \citet{Wen}'s nonlinear equilibrium (ECS), we find that the ECS profile is significantly more diffuse than that of the MSTE.}
 In conjunction, these two facts suggest that MSTE maximize boundary layer thickness while subject to the marginal stability constraint.
 
 \begin{figure*}
@@ -431,8 +441,10 @@ The most resilient and unexpected feature of MSTE temperature profiles are the p
 These dips appear in every solution, regardless of $\Ra$. 
 Physically, they correspond to thin layers in which the mean temperature gradient reverses, contradicting an important hypothesis of \cite{Malkus_1954}. 
 This counter-diffusion, which opposes overall heat transfer, is overcome by the coinciding advective flux, shown in Figure~\ref{fig:flux}. 
-We do not understand the source of these dips, but similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$.
-In that case, the reversals were due to nonlinear advection, which is not present in our quasilinear model. 
+\textcolor{blue}{\Citet{herring63} observed this when studying the same system.
+Similar temperature gradient reversals were reported by \cite{chini_cells} along the midlines of 2D convective cellular solutions at $\Ra \sim 10^6$. 
+In that case, the reversals are due to nonlinear advection, which is not present in our quasilinear model.
+Neither the present authors, nor Herring were able to provide a rigorous mathematical explanation for this behavior.}
 
 In Figure~\ref{fig:flux}, we give heat flux profiles and eigenvalue spectra for two cases: $\Ra = 2 \times 10^5$ (top) and $\Ra = 10^9$ (bottom). 
 Appendix~\ref{sec:eigenfunctions} shows representative vertical velocity and temperature perturbation eigenfunctions.
@@ -451,7 +463,8 @@ However, since we have fixed the horizontal size of our domain, we are left with
 \begin{figure}
     \centering
     \includegraphics[width=3.375in]{kx_m_ra1.pdf}
-    \caption{Wavenumbers of marginally-stable modes in thermally equilibrated states. 
+    \caption{Wavenumbers of marginally-stable modes in thermally equilibrated states.
+    \textcolor{blue}{Consistent with Herring's findings, we observe the appearance of a second characteristic eigenmode branch (shown in green) near $\Ra \approx 10^6$.}
     Marginal modes often appear in adjacent pairs, which we denote with a common color. 
     Within each of these pairs, the largest and smallest $k_x$ are denoted with an x and a + respectively.
     For example, the spectrum corresponding to $\Ra = 10^5$ has adjacent marginal wavenumbers $k_x = \pi, \, 1.5\pi$. 
@@ -519,8 +532,10 @@ This is consistent with Malkus' classical marginal stability theory, a scaling a
 
 The temperature boundary layers of MSTE exhibit self-similarity despite great variation in $\Ra$. 
 We illustrate this in Figure~\ref{fig:b0_delta} where the mean temperature $\overline{T}$ is plotted along a rescaled $z$-coordinate $\frac{z + 1/2}{\delta}$.
+\textcolor{blue}{It is also noteworthy that we do not encounter any appreciable variation in the boundary layer geometry as we extend Herring's findings beyond $\Ra = 10^6$.}
 The rescaled boundary layer geometry appears intrinsic to the MSTE, possibly minimizing diffusion as previously hypothesized.
 This again highlights the importance of the boundary layer height's dependence on $\Ra$.
+
 
 \begin{figure}
     \centering
@@ -537,6 +552,7 @@ This again highlights the importance of the boundary layer height's dependence o
     \includegraphics[width=6.75in]{nu_ra.pdf}
     \caption{Nusselt numbers are shown for MSTE, aspect-ratio-optimized ``steady rolls'' ECS \cite{Wen}, as well as statistically-steady 2D and 3D DNS \cite{Johnston, Scheel_2016}.
     All datasets obey power-law relationships, with the MSTE and ECS scaling like $\Nu \sim\Ra^{1/3}$. 
+    \textcolor{blue}{Herring demonstrates this in the low-$\Ra$ regime---we confirm his findings and demonstrate that this scaling law holds for high-$\Ra$ MSTE.}
     MSTE have greater $\Nu$ than the ECS, which in turn, have greater $\Nu$ than the DNS. 
     This can be explained by the contrasting boundary layer geometries shown in Figure~\ref{fig:T0_profiles}.}%
     \label{fig:nu_vs_ra}%
@@ -549,6 +565,8 @@ The Nusselt number, which measures convective performance is given by
 \end{equation}
 There is no general consensus surrounding the scaling behavior of $\Nu$ for high $\Ra$ systems, which are of particular importance in astrophysical and geophysical systems. In Figure~\ref{fig:nu_vs_ra} we report $\Nu$ for MSTE, ``steady rolls" ECS \cite{Wen}, and DNS \cite{Scheel_2016, Johnston}. 
 We find that MSTE satisfy $\Nu \sim\Ra^{1/3}$, consistent with our finding that the boundary layer height scales like $\delta \sim \Ra^{1/3}$.
+\textcolor{blue}{Herring was able to demonstrate this for $\Ra \leq 10^6$.
+Our results confirm this trend in MSTE up to $\Ra = 10^9$.}
 The Nusselt numbers of the ECS are somewhat lower and the DNS Nusselt numbers are yet lower still.
 In both cases, the $\Ra$ dependence appear slightly more shallow than for the MSTE.
 \Citet{Wen} hypothesized that the $\Nu$ of all ECS which admit classical Malkus scaling must always exceed the $\Nu$ of turbulent convection.
@@ -561,17 +579,15 @@ This investigation is partially motivated by the prospect of decreasing DNS runt
 One common choice of initial conditions for DNS of equations \eqss{EQ:motion1}{EQ:motion3} are
 \begin{align}
     T(x, z)\big|_{t=0} &= 0.5 - z + \mathcal{N} \nonumber \\
-    \vec{u}(x, z)\big|_{t=0} &= \vec{0} \nonumber \\
-    p(x, z)\big|_{t=0} &= 0 \label{EQ:linear_ic}
+    \vec{u}(x, z)\big|_{t=0} &= \vec{0} \label{EQ:linear_ic}
 \end{align}
 where $\mathcal{N}$ is low-amplitude random noise concentrated in the bulk of the domain.
 Here we instead initialize using the MSTE,
 \begin{align}
     T(x, z)\big|_{t=0} &= \overline{T}(z) + \sum_{n=1}^N  A_n \Re \Big[ \theta_n(z) e^{ik_{x_n}x} \Big] + \mathcal{N} \nonumber \\
-    \vec{u}(x, z)\big|_{t=0} &= \sum_{n=1}^N A_n \Re \Big[\Big( U_n (z) \hat{x} + W_n(z) \hat{z} \Big) e^{ik_{x_n}x} \Big] \nonumber\\
-    p(x, z)\big|_{t=0} &= \sum_{n=1}^N A_n \Re \Big[P_n (z) e^{ik_{x_n}x}\Big] \label{EQ:mste_ic}
+    \vec{u}(x, z)\big|_{t=0} &= \sum_{n=1}^N A_n \Re \Big[\Big( U_n (z) \hat{x} + W_n(z) \hat{z} \Big) e^{ik_{x_n}x} \Big] \label{EQ:mste_ic}
 \end{align}
-where $\theta_n(z), \, U_n(z), \, W_n(z), \, P_n(z); \; A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber of the $n$th marginal mode respectively. 
+where $\theta_n(z), \, U_n(z), \, W_n(z); \; A_n; $ and $k_{x_n}$ refer to the complex eigenfunctions, amplitude, and wavenumber of the $n$th marginal mode respectively. 
 Note that although the MSTE is an equilibrium of the quasilinear equations, it is not an equilibrium of the full nonlinear equations.
 Accordingly the simulation state would evolve on initialization absent a random noise term.
 Here we include noise as a source of asymmetries. 
@@ -770,7 +786,7 @@ In Figure~\ref{fig:eigenfunctions} we plot the velocity and temperature perturba
 Though the eigenfunctions are in general complex, the linear system \eqss{EQ:linear1}{EQ:linear3} obeys phase-shift symmetry.
 Any set of solutions can be phase-shifted by multiplying the perturbations by a complex quantity of unit modulus $e^{i\phi}$.
 In this particular case, we can eliminate the perturbations' imaginary components by selecting the proper $\phi$.
-This is due to the exchange of stabilities mentioned previously: $\omega = 0$ at marginal stability implies that the system admits a set of real solutions.
+This is due to the exchange of stabilities \textcolor{blue}{observed} previously: $\omega = 0$ at marginal stability implies that the system admits a set of real solutions.
 Adjacent modes, whose wavenumbers only differ by $0.5\pi$, are superimposed to illustrate their similarity.
 For the large-scale $k_x = 1.5\pi$ mode, we find the vertical velocity eigenfunction $W$ is maximized near the center of the domain.
 As $k_x$ increases, we observe two vertical velocity maxima, each tending towards their respective boundary.
