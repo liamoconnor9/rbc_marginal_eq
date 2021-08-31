@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,amsmath,amsfonts,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\subsection*{MSTE Paper Referee Response}
+
+
+We would like to take this opportunity to thank the referee for their time and consideration of our work.
+The comments we received were informative.
+The relevant changes are highlighted in blue in the updated manuscript.
+
+We address each remark below:
+
+\vspace{0.4cm}
+
+\noindent ``This study investigates a quasilinear model of two-dimensional convection. By neglecting
+several nonlinear terms and assuming that the dynamics of the horizontal mean and of the
+fluctuation fields involve separate timescales, a new way of timestepping is possible in which
+the two dimensional partial differential equations are turned into a one dimensional pde
+complemented with a 2D eigenvalue problem. Steady states are numerically computed for
+a large range of Rayleigh numbers and their properties are discussed.
+The paper is interesting and the numerical scheme is clearly introduced.''
+
+\vspace{0.4cm}
+We thank the referee for their praise of our new numerical scheme.
+\vspace{0.4cm}
+
+``However, it
+lacks a thorough discussion of the previous numerical studies of this QL model of convection.
+For instance, the two pioneer papers of Herring$^1$
+evidence similar features, e.g.:
+\begin{enumerate}
+    \item the “temperature dips” close to the walls
+    \item the transition from a single wave number $k_x$ to two wavenumbers at $\rm{Ra} \sim 10^6$
+    \item the scaling of the Nusselt number $\rm{Nu} \propto \rm{Ra}^{1/3}\;$ ''
+\end{enumerate}
+
+\vspace{0.4cm}
+
+\noindent We revised much of our discussion and analysis of results to include comparisons and references to Herring's work.
+Our equilibrated states agree with established results for $10^5 < \rm{Ra} < 10^6$.
+We discuss this and note those similar features listed above.
+In this way, we were able to (unintentionally) verify the validity of our results before extending Herring's work to $\rm{Ra} > 10^6$.
+
+\vspace{0.4cm}
+\noindent
+``The novelty of the present study should then be clearly stated. Does it consist of:
+\begin{enumerate}
+    \item the extension of these QL steady solutions to larger values of Ra ? Then values of Ra
+          at least as large as the ones obtained in Ref. [16] for the full Boussinesq convection
+          system should be reached.
+
+    \item the introduction of this new numerical method ? It would then benefit from a comparison with the ‘usual’ way of advancing in time the QL set of equations (timestep (12)-(14) with some noise as initial condition). In particular, is it actually faster to compute these steady states with this new method?
+
+    \item the comparison of these QL steady states to the ones of the full nonlinear system ? A quantitative comparison of the fields (and not only of Nu) would be interesting, see point 3. below $\;$ ''
+\end{enumerate}
+
+\vspace{0.4cm}
+
+\noindent We aim to address points 1 \& 2 above.
+The novelty of this work is now stated in Section I paragraph 5.
+After providing a brief review of Herring's methods and findings, we write:
+
+\vspace{0.4cm}
+``Though efficient, this method is limited in its inability to model high-$\rm{Ra}$ convection due to the appearance of a second marginally-stable mode at $\rm{Ra} \approx 10^6$. How these modes interact to form thermal equilibria is also of interest.
+In  this  paper  we  apply  ref.  [23]’s  generalized approach to ref. [21]’s reduced convection model by requiring  marginal  stability  at  the  point  of  initialization.  ''
+\vspace{0.4cm}
+
+Directly timestepping the QL equations would involve solving a 2D problem, so would probably require more computer time.
+We did attempt to find MSTE for $\rm{Ra} > 10^9$.
+As the mean temperature profiles' boundary layers wane, increasingly large resolutions are necessary.
+Eigenvalue solves must be performed over a wide range of horizontal wavenumbers to ensure marginal stability, particularly at high-$\rm{Ra}$ where the highest-wavenumber modes are widely dispersed over the eigenvalue spectrum (see Figure 3, lower right subfigure).
+
+\vspace{0.4cm}
+
+One difference between our approach to solving for equilibrium solutions and, e.g., Ref. [16], is that we initialized our search from a marginally-stable solution, whereas many others use continuation techniques to use lower-Ra states to guess solutions at higher Ra. We tried using continuation, but difficulty arises due to the discretization of allowed wavenumbers, i.e. $k_x \in \{\frac{n\pi}{2}\; | \; n \in \mathbb{N}\}$.
+Allowing the wavenumbers of marginal modes to take on continuous values might address this issue, but that is outside the scope of this paper.
+
+\vspace{0.4cm}
+
+We found that several marginally-stable modes act in cooperation to yield equilibria.
+We believe this is exciting and novel because similar reduced convection models often involve a single mode.
+By constraining the amplitudes to a state of marginal stability (an intrinsic property of certain QL equilibria), our work underscores the importance of a dominant low-wavenumber mode while highlighting the role of non-dominant high-wavenumber modes---particularly in the context of diffusive boundary layers.
+
+\vspace{0.4cm}
+
+We address the minor remarks below:
+
+\vspace{0.4cm}
+
+``1. The authors find with their procedure eigenvalues such that $s = \omega + i\sigma$ with $\omega= 0$.
+They refer to the principle of exchange of stability, but I think this theoretical result, derived in e.g. ref [27] of the manuscript, only holds when $\partial_z \overline{T} = -1$, i.e.  at the critical Rayleigh number $\rm{Ra}_c= 1708$. For $\rm{Ra} > \rm{Ra}_c$, the fact that $\omega$ remains zero is an output of their numerical study.''
+
+\vspace{0.4cm}
+It was not our intention to imply that this was anything other than an output of the numerical study. Thank you for bringing this to our attention, we updated the manuscript in two places:
+\vspace{0.4cm}
+\begin{enumerate}[label=\alph*)]
+    \item In Section III paragraph 6 we write:
+
+          ``This \textcolor{blue}{numerical result} is consistent with the conventional notion of exchange of stabilities [28].''
+
+    \item In Appendix D paragraph 1 we write:
+
+          ``This is due to the \textcolor{blue}{apparent} exchange of stabilities \textcolor{blue}{observed} previously: $\omega = 0$ at marginal stability implies that the system admits a set of real solutions.''
+
+\end{enumerate}
+
+``2. I am not confident in using the pressure field from MSTE as an initial condition (IC) for DNS, as proposed in equation (32) of the manuscript...''
+
+\vspace{0.4cm}
+You are correct. We removed the pressure equation from both sets of initial conditions (MSTE and linear diffusive) so as not to overconstrain the problem.
+\vspace{0.4cm}
+
+``3. The discussion of the MSTE in Figure 2 and/or Figure 7 would benefit from the additional plot of the mean temperature profiles from the ECS of Ref. [16]. To what extent are these two stationary solutions similar ?''
+
+\vspace{0.4cm}
+Thank you for recommending this! We included the relevant ECS mean temperature profile (along with discussion) in Figure 2 of the updated manuscript.
+
+\end{document}
