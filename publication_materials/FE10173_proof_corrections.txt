@@ -1,0 +1,48 @@
+Redline Edits; Please make the following changes before publication:
+
+1 Omit the words "We employ" from refs [26] and [27] as this text was intended for the footnotes.
+
+2 Please append the following sentence at the end of the acknowledgements section:
+
+L. O'Connor is supported by Northwestern University's Walter P. Murphy Fellowship.
+
+Specific Questions and Comments to Address for This Paper:
+
+1 Physical Review discourages claims of priority. For more information regarding the change
+to the following sentence and others like it, Please see http://publish.aps.org/authors/newnovel-policy-physical-review.
+
+Assuming no further action is required by the authors, the page proof edits are acceptable. 
+
+2 Please add a sentence or two explaining your table in Appendix C, as we prefer not to include Appendixes consisting of only tables or figures and no text.
+
+Append the following after line 442:
+
+Table 1 provides control parameters and dependent MSTE properties. High-Ra cases require increased resolutions and run times due to their decreased boundary layer thicknesses and the appearance high-kx marginal modes. 
+
+3 The citation of Table 1 is missing in the text. Please cite the same in running text in sequence to avoid the renumbering of floating elements.
+
+Replace line 140 with the following:
+
+The necessary number of basis functions increases with Ra as the eigenfunctions include increasingly small-scale features (see Appendix C Table 1 and Appendix D).
+
+4 Please verify page no. in Ref. [23].
+
+The number 475 refers to the Journal volume. Please omit any page numbers as they do not appear to be provided by the Journal. 
+
+FQ: This funding provider could not be uniquely identified during our search of the FundRef
+registry (or no Contract or Grant number was detected). Please check information and amend
+if incomplete or incorrect.
+
+GID refers to the group project ID. This may be of interest to other groups using the same supercomputer. Please publish as is.
+
+Q: This reference could not be uniquely identified due to incomplete information or improper
+format. Please check all information and amend if applicable.
+
+Here are DOIs for the following references:
+
+[3] https://doi.org/10.1007/s00159-003-0019-3
+
+[5] https://doi.org/10.1098/rspa.1954.0197
+
+Reference [27] does not yet have an associated publication. Please publish as is.
+

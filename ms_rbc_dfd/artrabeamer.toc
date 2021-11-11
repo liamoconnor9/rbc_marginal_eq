@@ -1,0 +1,15 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {2}{Method}{5}{0}{2}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {3}{Results}{8}{0}{3}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {4}{Conclusion}{9}{0}{4}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {5}{\translate {Appendix}}{12}{1}{5}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {5}{1}{Classic Beamer Style}{13}{1}{5}
+\defcounter {refsection}{0}\relax 
+\beamer@subsectionintoc {5}{2}{References}{14}{1}{5}
