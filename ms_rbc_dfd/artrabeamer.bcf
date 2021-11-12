@@ -2183,14 +2183,7 @@
     <bcf:datasource type="file" datatype="bibtex">Biblio/ref.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">reed2008transient</bcf:citekey>
-    <bcf:citekey order="2">zhang2009reaction</bcf:citekey>
-    <bcf:citekey order="3">zhang2010hybrid</bcf:citekey>
-    <bcf:citekey order="4">reed2008transient</bcf:citekey>
-    <bcf:citekey order="5">zhang2009reaction</bcf:citekey>
-    <bcf:citekey order="6">zhang2010hybrid</bcf:citekey>
-    <bcf:citekey order="7">mo2018immersed</bcf:citekey>
-    <bcf:citekey order="8">sod1978survey</bcf:citekey>
+    <bcf:citekey order="1">sod1978survey</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
