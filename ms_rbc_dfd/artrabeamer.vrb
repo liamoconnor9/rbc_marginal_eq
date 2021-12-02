@@ -1,28 +1,9 @@
-\frametitle{Sod's problem \parencite{sod1978survey}}
+\frametitle{Acknowledgments}
 
-    \begin{columns}
-        \begin{column}{.40\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{riemann_1d_sod_rho_x_n100}
+    \begin{description}
+        \item{\textbf{Co-Authors: }} Daniel Lecoanet (Northwestern ESAM), Evan Anders (Northwestern CIERA)\newline
 
-            {$n=100$}
-        \end{column}
+        \item{\textbf{Special Thanks: }} Charlie Doering, Baole Wen, Greg Chini, Kyle Augustson, Emma Kaufman, Mallory Drevline\newline
 
-        \begin{column}{.40\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{riemann_1d_sod_rho_x_n500}
-
-            {$n=500$}
-        \end{column}
-    \end{columns}
-
-    \bigskip\vfill
-
-    \[
-        \begin{gathered}
-            \begin{aligned}
-                \rho &= 1; & u &= 0; & p &= 1 & \ \text{if}\ & 0 \le x < 1 \\
-                \rho &= 0.125; & u &= 0; & p &= 0.1 & \ \text{if}\ & 1 < x \le 2
-            \end{aligned}
-        \end{gathered}
-    \]
+        \item{\textbf{Supported By:}} Northwestern's Walter P. Murphy Fellowship for early career graduate students\newline
+    \end{description}

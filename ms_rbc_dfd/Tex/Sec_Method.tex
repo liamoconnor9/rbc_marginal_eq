@@ -12,7 +12,7 @@
             T(x, z, t) &= \overline{T}(z, t) + T'(x, z, t) \label{EQ:reynolds_dc_T}\\
             p(x, z, t) &= \overline{p}(z, t) +  p'(x, z, t). \label{EQ:reynolds_dc_p}
         \end{align}
-        \item The Eigenvalue Problem (EVP) is given by
+        \item The linear Eigenvalue Problem (EVP) is given by
         \begin{align}
             \nabla \cdot \vec{u'} &= 0 \label{EQ:linear1}\\
             \frac{\partial\vec{u'}}{\partial t} &= - \nabla p' + T'\hat{z} + \mathcal{R} \nabla^2 \vec{u'} \label{EQ:linear2}\\
@@ -66,7 +66,7 @@
         \item We impose \textbf{Marginal Stability} at each timestep
         \begin{equation}
             \max_{k_x} \{ \sigma \} = 0.
-        \end{equation}\newline
+        \end{equation}
 
         \item The growth rate $\sigma$ is obtained by solving the EVP for some $\overline{T}(z,t)$\newline
         
@@ -80,7 +80,7 @@
     \begin{enumerate}
         \item Given some guess for the amplitude $A$ and a fixed timestep $\Delta t$\newline
         
-        \item We evolve the initial (marginally stable) temperature profile $\overline{T}(z,t) \; \longrightarrow \; \overline{T}(z,t+\Delta t)$\newline
+        \item We evolve the initial (marginally stable) temperature profile $\overline{T}(z,t) \; \xrightarrow{\text{IVP}} \; \overline{T}(z,t+\Delta t)$\newline
         
         \item Solve the EVP using $\overline{T}(z,t+\Delta t)$\newline
         
@@ -96,9 +96,9 @@
     \begin{itemize}
         \item Consider advection and diffusion separately on $t\;\to\; t+\Delta t$\newline
         
-        \item Solve $\frac{\partial\overline{T}}{\partial t} + \langle w'T' \rangle_x=0$, yielding $\overline{T}_{adv} \; \longrightarrow \; \sigma_{\rm{adv}}$\newline
+        \item Solve $\frac{\partial\overline{T}}{\partial t} + 2\frac{\partial}{\partial z} \Re\left[ W \theta^* \right] = 0$, yielding $\overline{T}_{adv} \; \xrightarrow{\text{EVP}} \; \sigma_{\rm{adv}}$\newline
         
-        \item Solve $\frac{\partial\overline{T}}{\partial t} = \mathcal{P}\frac{\partial^2 \overline{T}}{\partial z^2}$, yielding $\overline{T}_{adv} \; \longrightarrow \; \sigma_{\rm{diff}}$\newline
+        \item Solve $\frac{\partial\overline{T}}{\partial t} = \mathcal{P}\frac{\partial^2 \overline{T}}{\partial z^2}$, yielding $\overline{T}_{adv} \; \xrightarrow{\text{EVP}} \; \sigma_{\rm{diff}}$\newline
         
         \item For small timesteps, we assume diffusion and advection act independently, i.e.
         \begin{equation}
@@ -109,3 +109,73 @@
     
 \end{frame}
 %---------------------------------------------------------------------------%
+
+\begin{frame}[fragile]
+    \frametitle{Multiple Marginally Stable Modes}
+    \begin{itemize}
+        \item Generalize
+        \begin{equation}
+            \langle w' T' \rangle_x = \sum_{n = 1}^{N} 2 A_n^2  \Re\left[ W_n \theta_n^* \right] 
+        \end{equation}
+        to accommodate $N$ simultaneously marginally stable modes\newline
+        
+        \item $N$ amplitudes ($\vec{A}\in\mathbb{R}^N$) to maintain marginal stability in $N$ modes
+        \begin{equation}
+            \vec{\sigma}(\vec{A}) = \vec{0}
+        \end{equation} 
+        \item Modes with negative amplitudes are not included
+    \end{itemize}
+    
+\end{frame}
+%---------------------------------------------------------------------------%
+
+\begin{frame}[fragile]
+    \frametitle{Solving for the Amplitude Vector $\vec{A}$}
+    \begin{enumerate}
+        \item Given some guess for the amplitude vector $\vec{A}$ and a fixed timestep $\Delta t$\newline
+        
+        \item We construct a Jacobian matrix with finite differences
+        \begin{equation}
+            J = \begin{bmatrix}
+                \nabla \sigma_1 (A_1, A_2, ..., A_N) \\
+                \nabla \sigma_2 (A_1, A_2, ..., A_N) \\
+                \vdots \\
+                \nabla \sigma_N (A_1, A_2, ..., A_N) 
+            \end{bmatrix}.
+        \end{equation}\newline
+
+        \item Use Newton's method to solve $\vec{\sigma}(\vec{A}) = \vec{0}$
+    \end{enumerate}
+    
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{The Amplitude Guess for $N$ modes}
+    \begin{itemize}
+        \item The amplitude vector can be approximated by
+        \begin{equation}
+            \vec{A^2} \approx = -\Sigma_{\rm{adv}}^{-1} \vec{\sigma_{\rm{diff}}}.
+            \label{EQ:AN_approx}
+        \end{equation}
+        \item The advective growth rate matrix $\Sigma_{\rm{adv}}$ measures the effect of the $j$th mode's advection on the $i$th mode's growth rate\newline
+
+        \item The diffusive growth rate vector $\vec{\sigma_{\rm{diff}}}$ measures the effect of diffusion on the $i$th mode's growth rate
+    \end{itemize}
+    
+\end{frame}
+%---------------------------------------------------------------------------%
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+    \frametitle{Marginally Stable Thermal Equilibria}
+    \begin{itemize}
+        \item Evolve until the \textbf{advection} cancels \textbf{diffusion}
+        \begin{equation}
+            \frac{\partial}{\partial z} \langle w'T' \rangle_x = \mathcal{P} \frac{\partial^2 \overline{T}}{\partial z^2} \quad \longrightarrow \quad \frac{\partial \overline{T}}{\partial t} = 0
+        \end{equation}
+
+        \item Such states are referred to as Marginally Stable Thermal Equilibria (MSTE)\newline
+        
+        \item We compute symmetric MSTE for $10^6 \leq \rm{Ra}\leq 10^9$
+
+    \end{itemize}
+\end{frame}

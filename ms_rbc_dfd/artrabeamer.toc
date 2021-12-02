@@ -2,16 +2,12 @@
 \defcounter {refsection}{0}\relax 
 \beamer@sectionintoc {1}{Motivation}{2}{0}{1}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {2}{Model Setup}{4}{0}{2}
+\beamer@sectionintoc {2}{Model Setup}{5}{0}{2}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {3}{Methods}{6}{0}{3}
+\beamer@sectionintoc {3}{Methods}{7}{0}{3}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {4}{Results}{12}{0}{4}
+\beamer@sectionintoc {4}{Properties of Equilibria}{17}{0}{4}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {5}{Conclusion}{13}{0}{5}
+\beamer@sectionintoc {5}{Nonlinear Simulations}{21}{0}{5}
 \defcounter {refsection}{0}\relax 
-\beamer@sectionintoc {6}{\translate {Appendix}}{16}{1}{6}
-\defcounter {refsection}{0}\relax 
-\beamer@subsectionintoc {6}{1}{Classic Beamer Style}{17}{1}{6}
-\defcounter {refsection}{0}\relax 
-\beamer@subsectionintoc {6}{2}{References}{18}{1}{6}
+\beamer@sectionintoc {6}{Conclusion}{24}{0}{6}
